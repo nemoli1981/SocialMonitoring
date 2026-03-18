@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>关西机场舆情周报 - 2025-03-18</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px 10px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 24px 16px;
+            text-align: center;
+        }
+        .header h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .header .date { font-size: 13px; opacity: 0.9; margin-top: 8px; }
+        
+        .section { padding: 20px 16px; border-bottom: 1px solid #f0f0f0; }
+        .section-title {
+            font-size: 16px; font-weight: 600; color: #1a1a2e;
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-title::before {
+            content: ''; width: 4px; height: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 20px;
+            font-size: 14px; font-weight: 600; background: #fff3cd; color: #856404;
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px;
+        }
+        .stat-card {
+            background: #f8f9fa; padding: 14px 10px; border-radius: 10px; text-align: center;
+        }
+        .stat-card .num { font-size: 20px; font-weight: 700; color: #667eea; }
+        .stat-card .label { font-size: 11px; color: #666; margin-top: 3px; }
+        
+        .chart-container { background: #fff; border-radius: 10px; padding: 10px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .chart-box { width: 100%; height: 200px; }
+        
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .tag { display: inline-block; padding: 5px 10px; border-radius: 14px; font-size: 12px; }
+        .tag-guide { background: #d4edda; color: #155724; }
+        .tag-exp { background: #d1ecf1; color: #0c5460; }
+        .tag-neg { background: #f8d7da; color: #721c24; }
+        
+        .risk-box { padding: 14px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid; }
+        .risk-high { background: #f8d7da; border-color: #dc3545; }
+        .risk-medium { background: #fff3cd; border-color: #ffc107; }
+        .risk-low { background: #d1ecf1; border-color: #17a2b8; }
+        .risk-title { font-weight: 600; margin-bottom: 4px; font-size: 13px; }
+        .risk-desc { font-size: 12px; color: #555; line-height: 1.5; }
+        
+        .insight-box { background: #e8f5e9; padding: 14px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #4caf50; }
+        
+        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; min-width: 500px; border-collapse: collapse; font-size: 12px; }
+        th, td { padding: 8px 6px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; font-weight: 600; color: #666; }
+        
+        .footer { padding: 16px; background: #f8f9fa; text-align: center; font-size: 11px; color: #999; }
+        
+        @media (min-width: 768px) {
+            body { padding: 30px 20px; }
+            .header { padding: 36px 30px; }
+            .header h1 { font-size: 26px; }
+            .section { padding: 28px 30px; }
+            .section-title { font-size: 18px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+            .stat-card .num { font-size: 26px; }
+            .chart-box { height: 260px; }
+            .charts-row { display: flex; gap: 16px; }
+            .charts-row .chart-container { width: 50%; }
+            th, td { padding: 12px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 关西机场舆情监测周报</h1>
+            <div class="date">2025年3月11日 - 2025年3月18日</div>
+        </div>
+        
+        <div class="section">
+            <div class="status-badge">🟡 轻微波动</div>
+            <p style="margin-top: 14px; font-size: 14px; line-height: 1.7; color: #333;">本周关西机场舆情总体平稳，但受中日航线调整影响，出现部分负面讨论。主要关注点集中在航班取消、游客减少、以及机场购物体验等方面。</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card"><div class="num">37</div><div class="label">相关帖子</div></div>
+                <div class="stat-card"><div class="num">25,844</div><div class="label">总点赞</div></div>
+                <div class="stat-card"><div class="num">145</div><div class="label">总评论</div></div>
+                <div class="stat-card"><div class="num">3</div><div class="label">监测平台</div></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📊 数据可视化</div>
+            <div class="charts-row">
+                <div class="chart-container"><div id="sentimentChart" class="chart-box"></div></div>
+                <div class="chart-container"><div id="platformChart" class="chart-box"></div></div>
+            </div>
+            <div class="chart-container"><div id="keywordsChart" class="chart-box"></div></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">🔍 话题细分</div>
+            <div style="margin-bottom: 14px;">
+                <div style="font-size: 13px; font-weight: 600; color: #28a745; margin-bottom: 6px;">🛍️ 攻略类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-guide">购物攻略</span>
+                    <span class="tag tag-guide">免税必买</span>
+                    <span class="tag tag-guide">T2航站楼</span>
+                    <span class="tag tag-guide">入境指南</span>
+                    <span class="tag tag-guide">拍飞机</span>
+                </div>
+            </div>
+            <div style="margin-bottom: 14px;">
+                <div style="font-size: 13px; font-weight: 600; color: #17a2b8; margin-bottom: 6px;">✨ 体验类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-exp">机场现状</span>
+                    <span class="tag tag-exp">丝滑出关</span>
+                    <span class="tag tag-exp">温泉</span>
+                    <span class="tag tag-exp">观景台</span>
+                    <span class="tag tag-exp">海上机场</span>
+                </div>
+            </div>
+            <div>
+                <div style="font-size: 13px; font-weight: 600; color: #dc3545; margin-bottom: 6px;">⚠️ 负面类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-neg">航班取消</span>
+                    <span class="tag tag-neg">游客减少</span>
+                    <span class="tag tag-neg">沉海问题</span>
+                    <span class="tag tag-neg">值机排队</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">⚠️ 风险分级</div>
+            <div class="risk-box risk-high">
+                <div class="risk-title" style="color: #721c24;">🔴 高危 - 中日航线大规模取消</div>
+                <div class="risk-desc">52条中日航线2月取消，关西机场占近三分之一；1月中国旅客量同比暴跌58%，涉及政治敏感话题。</div>
+            </div>
+            <div class="risk-box risk-medium">
+                <div class="risk-title" style="color: #856404;">🟡 中度 - T2航站楼体验问题</div>
+                <div class="risk-desc">用户反馈"板房菜市场"既视感，需坐摆渡车20分钟，廉航仅允许起飞前2小时值机。</div>
+            </div>
+            <div class="risk-box risk-low">
+                <div class="risk-title" style="color: #0c5460;">🟢 低度 - 个别负面体验</div>
+                <div class="risk-desc">丢东西、跑错航站楼、值机排队等偶发个案，建议客服关注。</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">💡 正面洞察</div>
+            <div class="insight-box">
+                <div style="font-weight: 600; color: #155724; margin-bottom: 4px; font-size: 13px;">✅ 免税购物体验受好评</div>
+                <div style="font-size: 12px; color: #555;">香奈儿、Lelabo等品牌热门，"比市区便宜"成高频关键词。</div>
+            </div>
+            <div class="insight-box">
+                <div style="font-weight: 600; color: #155724; margin-bottom: 4px; font-size: 13px;">✅ "海上机场"网红属性突出</div>
+                <div style="font-size: 12px; color: #555;">世界首座填海造陆离岸机场，科普内容获赞数万。</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📋 热门内容 TOP 8</div>
+            <div class="table-wrapper">
+                <table>
+                    <tr><th>平台</th><th>标题</th><th>点赞</th></tr>
+                    <tr><td>🍠 小红书</td><td>90%的游客不知道的关西机场隐藏攻略</td><td>4,980</td></tr>
+                    <tr><td>🍠 小红书</td><td>关西机场最后悔的一件事</td><td>2,612</td></tr>
+                    <tr><td>🎵 抖音</td><td>KIX｜乘坐关空特急 穿过跨海大桥</td><td>8,040</td></tr>
+                    <tr><td>🎵 抖音</td><td>正在下沉的日本关西国际机场</td><td>4,123</td></tr>
+                    <tr><td>🍠 小红书</td><td>缓慢下沉的海上奇迹-日本关西机场</td><td>1,232</td></tr>
+                    <tr><td>📝 微博</td><td>关西机场出发</td><td>629</td></tr>
+                    <tr><td>🍠 小红书</td><td>大阪意外买到CHANEL 26C新款</td><td>479</td></tr>
+                    <tr><td>🍠 小红书</td><td>日本大阪关西机场攻略</td><td>1,963</td></tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>报告生成时间: 2025-03-18 07:55:00</p>
+            <p>数据来源: 小红书、微博、抖音 | 监测周期: 近7天</p>
+        </div>
+    </div>
+    
+    <script>
+        // 情感分布饼图
+        var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
+        sentimentChart.setOption({
+            title: { text: '情感分布', left: 'center', textStyle: { fontSize: 13, fontWeight: 'bold' } },
+            tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+            color: ['#91CC75', '#32C5E9', '#EE6666'],
+            series: [{
+                type: 'pie', radius: ['35%', '60%'], center: ['50%', '55%'],
+                itemStyle: { borderRadius: 4, borderColor: '#fff', borderWidth: 2 },
+                label: { fontSize: 11, formatter: '{b}\n{c}%' },
+                data: [{ value: 35, name: '正向' }, { value: 45, name: '中立' }, { value: 20, name: '负向' }]
+            }]
+        });
+        
+        // 平台声量柱状图
+        var platformChart = echarts.init(document.getElementById('platformChart'));
+        platformChart.setOption({
+            title: { text: '平台声量', left: 'center', textStyle: { fontSize: 13, fontWeight: 'bold' } },
+            tooltip: { trigger: 'axis' },
+            grid: { left: '3%', right: '4%', bottom: '3%', top: '22%', containLabel: true },
+            xAxis: { type: 'category', data: ['小红书', '微博', '抖音'], axisLabel: { fontSize: 11 } },
+            yAxis: { type: 'value', show: false },
+            series: [{
+                data: [{ value: 21, itemStyle: { color: '#FF2442' } }, { value: 8, itemStyle: { color: '#E6162D' } }, { value: 8, itemStyle: { color: '#000' } }],
+                type: 'bar', itemStyle: { borderRadius: [3, 3, 0, 0] }, barWidth: '35%',
+                label: { show: true, position: 'top', fontSize: 11 }
+            }]
+        });
+        
+        // 热词排行
+        var keywordsChart = echarts.init(document.getElementById('keywordsChart'));
+        var wordData = [{name:'免税购物',value:85},{name:'航班取消',value:72},{name:'T2航站楼',value:68},{name:'海上机场',value:65},{name:'游客减少',value:58},{name:'香奈儿',value:45},{name:'沉海',value:42},{name:'拍飞机',value:38}];
+        wordData.sort(function(a, b) { return a.value - b.value; });
+        
+        keywordsChart.setOption({
+            title: { text: '热门话题排行', left: 'center', textStyle: { fontSize: 13, fontWeight: 'bold' } },
+            tooltip: { trigger: 'axis' },
+            grid: { left: '3%', right: '12%', bottom: '3%', top: '15%', containLabel: true },
+            xAxis: { type: 'value', show: false },
+            yAxis: { type: 'category', data: wordData.map(function(i){return i.name;}), axisLabel: { fontSize: 11 } },
+            series: [{
+                type: 'bar', data: wordData.map(function(i){return i.value;}),
+                itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{offset:0,color:'#667eea'},{offset:1,color:'#764ba2'}]), borderRadius: [0, 3, 3, 0] },
+                barWidth: '55%', label: { show: true, position: 'right', fontSize: 10 }
+            }]
+        });
+        
+        window.addEventListener('resize', function() {
+            sentimentChart.resize(); platformChart.resize(); keywordsChart.resize();
+        });
+    </script>
+</body>
+</html>
