@@ -1,417 +1,736 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>樟宜机场舆情周报 - 2026-03-18</title>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; }
-    .container { max-width: 900px; margin: 0 auto; background: white; }
-    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 40px; text-align: center; }
-    .header h1 { font-size: 28px; margin-bottom: 10px; }
-    .section { padding: 30px; border-bottom: 1px solid #eee; }
-    .section h2 { font-size: 20px; margin-bottom: 20px; color: #1a1a2e; border-left: 4px solid #667eea; padding-left: 12px; }
-    .status-badge { display: inline-block; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 16px; }
-    .status-green { background: #d4edda; color: #155724; }
-    .status-yellow { background: #fff3cd; color: #856404; }
-    .status-red { background: #f8d7da; color: #721c24; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-    th { background: #f8f9fa; font-weight: 600; }
-    .chart-container { height: 300px; margin: 20px 0; }
-    .insight-box { background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #4caf50; }
-    .risk-box { background: #fff3e0; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #ff9800; }
-    .risk-high { background: #f8d7da; border-left-color: #dc3545; }
-    .risk-medium { background: #fff3cd; border-left-color: #ffc107; }
-    .risk-low { background: #d1ecf1; border-left-color: #17a2b8; }
-    .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 20px 0; }
-    .stat-card { background: #f8f9fa; padding: 20px; border-radius: 12px; text-align: center; }
-    .stat-card .num { font-size: 28px; font-weight: 700; color: #667eea; }
-    .stat-card .label { font-size: 12px; color: #666; margin-top: 4px; }
-    .tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; margin: 4px; }
-    .tag-guide { background: #d4edda; color: #155724; }
-    .tag-exp { background: #d1ecf1; color: #0c5460; }
-    .tag-neg { background: #f8d7da; color: #721c24; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>樟宜机场舆情监测周报</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 12px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        .header .subtitle {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        .header .date {
+            font-size: 14px;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            display: inline-block;
+        }
+        .status-section {
+            padding: 24px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .status-green { background: #d4edda; color: #155724; }
+        .status-yellow { background: #fff3cd; color: #856404; }
+        .status-red { background: #f8d7da; color: #721c24; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 16px 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-card .num {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .section {
+            padding: 24px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .section:last-child { border-bottom: none; }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+        .summary-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.8;
+            color: #333;
+            font-size: 14px;
+        }
+        .charts-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .chart-container {
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .chart-box {
+            width: 100%;
+            height: 220px;
+        }
+        .bubble-container {
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+        }
+        .bubble-box {
+            width: 100%;
+            height: 280px;
+        }
+        .wordcloud-container {
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .wordcloud-box {
+            width: 100%;
+            height: 280px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -20px;
+            padding: 0 20px;
+        }
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+        }
+        td {
+            font-size: 13px;
+        }
+        .footer {
+            padding: 20px;
+            background: #f8f9fa;
+            text-align: center;
+            font-size: 11px;
+            color: #999;
+            line-height: 1.6;
+        }
+        
+        /* 话题标签样式 */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .tag-guide { background: #d4edda; color: #155724; }
+        .tag-exp { background: #d1ecf1; color: #0c5460; }
+        .tag-neg { background: #f8d7da; color: #721c24; }
+        
+        /* 风险分级样式 */
+        .risk-box {
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .risk-high { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .risk-medium { background: #fff3cd; border-left: 4px solid #ffc107; }
+        .risk-low { background: #d1ecf1; border-left: 4px solid #17a2b8; }
+        .risk-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .risk-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* 话题聚类表格 */
+        .topic-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+        .topic-table th {
+            background: #e9ecef;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .topic-table td {
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .topic-table .sentiment-positive {
+            background: #d4edda;
+            color: #155724;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .topic-table .sentiment-neutral {
+            background: #fff3cd;
+            color: #856404;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .topic-table .sentiment-negative {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        /* 平板和桌面端 */
+        @media (min-width: 768px) {
+            body {
+                padding: 40px 20px;
+            }
+            .header {
+                padding: 40px;
+            }
+            .header h1 {
+                font-size: 28px;
+            }
+            .status-section, .section {
+                padding: 30px 40px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+            }
+            .stat-card .num {
+                font-size: 28px;
+            }
+            .charts-row {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .chart-container {
+                width: 48%;
+                padding: 15px;
+            }
+            .chart-box {
+                height: 250px;
+            }
+            .bubble-box {
+                height: 300px;
+            }
+            .wordcloud-box {
+                height: 200px;
+            }
+            .section-title {
+                font-size: 18px;
+            }
+            .table-wrapper {
+                margin: 0;
+                padding: 0;
+            }
+            th, td {
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🎯 樟宜机场舆情监测周报</h1>
-      <p>2026年3月12日 - 2026年3月18日</p>
-    </div>
-    
-    <!-- 舆情状态 -->
-    <div class="section">
-      <h2>📊 舆情状态</h2>
-      <span class="status-badge status-green">
-        🟢 整体良好
-      </span>
-      <p style="margin-top: 15px; font-size: 16px; line-height: 1.6;">
-        本周樟宜机场舆情总体表现优秀，正面情感占比高达85%。主要关注点集中在星耀樟宜瀑布打卡、
-        新航服务体验和机场转机攻略等方面。用户对"全球最佳机场"的认同度较高，
-        瀑布、小火车、免税店等成为高频打卡点。
-      </p>
-      
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="num">39</div>
-          <div class="label">相关帖子</div>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 樟宜机场舆情监测周报</h1>
+            <p class="subtitle">社媒舆情洞察 · 基于真实数据</p>
+            <div class="date">2026年3月12日 - 2026年3月18日</div>
         </div>
-        <div class="stat-card">
-          <div class="num">12,314</div>
-          <div class="label">总点赞数</div>
-        </div>
-        <div class="stat-card">
-          <div class="num">3</div>
-          <div class="label">监测平台</div>
-        </div>
-        <div class="stat-card">
-          <div class="num">85%</div>
-          <div class="label">正面情感</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 数据可视化 -->
-    <div class="section">
-      <h2>📈 数据可视化</h2>
-      
-      <!-- 第一行：情感分布 + 平台声量 -->
-      <div style="display: flex; gap: 20px; margin-bottom: 20px;">
-        <div id="sentimentChart" class="chart-container" style="width: 48%;"></div>
-        <div id="platformChart" class="chart-container" style="width: 48%;"></div>
-      </div>
-      
-      <!-- 第二行：平台效能对比（声量 vs 互动量气泡图） -->
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-        <h3 style="margin-bottom: 15px; color: #1a1a2e;">📊 平台效能对比（声量 vs 平均互动量）</h3>
-        <div id="efficiencyChart" style="width: 100%; height: 350px;"></div>
-        <p style="font-size: 13px; color: #666; margin-top: 10px;">
-          💡 气泡大小 = 总互动量 | X轴 = 帖子数量（声量） | Y轴 = 平均点赞数（互动效能）
-        </p>
-      </div>
-      
-      <!-- 第三行：话题细分聚类 -->
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-        <h3 style="margin-bottom: 15px; color: #1a1a2e;">🔍 话题细分聚类</h3>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-          <div>
-            <h4 style="color: #28a745; margin-bottom: 10px;">🛍️ 攻略类</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <span class="tag tag-guide">瀑布打卡</span>
-              <span class="tag tag-guide">拍机攻略</span>
-              <span class="tag tag-guide">T3滑梯</span>
-              <span class="tag tag-guide">转机攻略</span>
-              <span class="tag tag-guide">早班机</span>
-            </div>
-          </div>
-          <div>
-            <h4 style="color: #17a2b8; margin-bottom: 10px;">✨ 体验类</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <span class="tag tag-exp">星耀樟宜</span>
-              <span class="tag tag-exp">室内瀑布</span>
-              <span class="tag tag-exp">小火车</span>
-              <span class="tag tag-exp">新航服务</span>
-              <span class="tag tag-exp">Jewel</span>
-            </div>
-          </div>
-          <div>
-            <h4 style="color: #dc3545; margin-bottom: 10px;">⚠️ 负面类</h4>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-              <span class="tag tag-neg">暂无显著负面</span>
-              <span class="tag tag-neg">湿热天气</span>
-              <span class="tag tag-neg">转机时间</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 第四行：话题聚类分析表格 -->
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-        <h3 style="margin-bottom: 15px; color: #1a1a2e;">📋 话题聚类分析</h3>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr style="background: #e9ecef;">
-            <th style="padding: 10px; text-align: left;">话题</th>
-            <th style="padding: 10px; text-align: left;">关键词</th>
-            <th style="padding: 10px; text-align: center;">情感</th>
-            <th style="padding: 10px; text-align: center;">声量</th>
-          </tr>
-          <tr style="border-bottom: 1px solid #dee2e6;">
-            <td style="padding: 10px;">瀑布打卡</td>
-            <td style="padding: 10px; font-size: 13px; color: #666;">星耀樟宜, Jewel, 室内瀑布, 拍照</td>
-            <td style="padding: 10px; text-align: center;"><span style="background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 4px; font-size: 12px;">正向</span></td>
-            <td style="padding: 10px; text-align: center; font-weight: bold;">12</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #dee2e6;">
-            <td style="padding: 10px;">机场攻略</td>
-            <td style="padding: 10px; font-size: 13px; color: #666;">转机, 五点半落地, 过夜, 逛吃</td>
-            <td style="padding: 10px; text-align: center;"><span style="background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 4px; font-size: 12px;">正向</span></td>
-            <td style="padding: 10px; text-align: center; font-weight: bold;">10</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #dee2e6;">
-            <td style="padding: 10px;">新航体验</td>
-            <td style="padding: 10px; font-size: 13px; color: #666;">新航, 五星航空, 服务, 餐食</td>
-            <td style="padding: 10px; text-align: center;"><span style="background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 4px; font-size: 12px;">正向</span></td>
-            <td style="padding: 10px; text-align: center; font-weight: bold;">8</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #dee2e6;">
-            <td style="padding: 10px;">拍机打卡</td>
-            <td style="padding: 10px; font-size: 13px; color: #666;">拍飞机, 皇冠酒店, 新航, 飞友</td>
-            <td style="padding: 10px; text-align: center;"><span style="background: #d4edda; color: #155724; padding: 2px 8px; border-radius: 4px; font-size: 12px;">正向</span></td>
-            <td style="padding: 10px; text-align: center; font-weight: bold;">5</td>
-          </tr>
-          <tr style="border-bottom: 1px solid #dee2e6;">
-            <td style="padding: 10px;">情感分享</td>
-            <td style="padding: 10px; font-size: 13px; color: #666;">送别, 接机, 回忆, 旅行</td>
-            <td style="padding: 10px; text-align: center;"><span style="background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 4px; font-size: 12px;">中立</span></td>
-            <td style="padding: 10px; text-align: center; font-weight: bold;">4</td>
-          </tr>
-        </table>
-      </div>
-      
-      <!-- 第五行：热词排行 -->
-      <div id="keywordsChart" class="chart-container" style="width: 100%; height: 250px;"></div>
-    </div>
-    
-    <!-- 搜索清单 -->
-    <div class="section">
-      <h2>📋 搜索清单（共39条）</h2>
-      <table>
-        <tr>
-          <th>平台</th><th>作者</th><th>标题</th><th>发布时间</th><th>点赞</th>
-        </tr>
-        <tr><td>小红书</td><td>知名不具</td><td>樟宜机场五点半落地能干什么</td><td>5天前</td><td>127</td></tr>
-        <tr><td>小红书</td><td>五撇帽在飞行</td><td>樟宜皇冠酒店拍机攻略｜新航多到拍腻❗️</td><td>4天前</td><td>50</td></tr>
-        <tr><td>小红书</td><td>Artemis如月</td><td>新加坡｜樟宜机场🛩️</td><td>6天前</td><td>33</td></tr>
-        <tr><td>小红书</td><td>南洋咸鱼煲</td><td>🇸🇬樟宜机场Jewel瀑布从无到有的梦幻瞬间</td><td>3天前</td><td>20</td></tr>
-        <tr><td>小红书</td><td>谢谢谢老板</td><td>樟宜机场穿越瀑布的小火车</td><td>3天前</td><td>18</td></tr>
-        <tr><td>小红书</td><td>兔兔咪</td><td>🇸🇬Jewel Changi🌴</td><td>3天前</td><td>13</td></tr>
-        <tr><td>小红书</td><td>拾光旅人</td><td>新加坡-星耀樟宜Jewel瀑布🌊｜打卡指南✅</td><td>2天前</td><td>12</td></tr>
-        <tr><td>小红书</td><td>格仔美食笔记</td><td>提前8小时到达新加坡机场可以怎么逛？🤣</td><td>6天前</td><td>13</td></tr>
-        <tr><td>微博</td><td>旅游狂魔夏夏夏</td><td>【北京-新加坡】今年是新中建交35年</td><td>2025-09-30</td><td>3043</td></tr>
-        <tr><td>微博</td><td>Mogu蘑菇酱</td><td>出境游选新航，把飞行过成享受</td><td>03月11日</td><td>2302</td></tr>
-        <tr><td>微博</td><td>猴菇FUN生活</td><td>飞越四千公里，赴一场雨林之约</td><td>02月26日</td><td>2026</td></tr>
-      </table>
-    </div>
-    
-    <!-- 风险分级管理 -->
-    <div class="section">
-      <h2>⚠️ 风险分级管理</h2>
-      
-      <h3 style="color: #721c24; margin: 15px 0 10px; font-size: 16px;">🔴 高危风险（需公关立刻介入）</h3>
-      <div class="risk-box risk-high" style="opacity: 0.5;">
-        <strong style="color: #721c24;">暂无高危风险</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          本周舆情整体正面，未发现需要紧急公关介入的高危负面事件。
-        </p>
-      </div>
-      
-      <h3 style="color: #856404; margin: 15px 0 10px; font-size: 16px;">🟡 中度风险（需运营/客服干预）</h3>
-      <div class="risk-box risk-medium">
-        <strong style="color: #856404;">湿热天气体验</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          证据: 个别用户反馈"扑面而来的湿热空气就像回到了深圳，真是让人难受"，
-          可能影响部分北方游客的体验预期。建议在宣传材料中适当提及热带气候特点。
-        </p>
-      </div>
-      
-      <h3 style="color: #0c5460; margin: 15px 0 10px; font-size: 16px;">🟢 低度风险（建议监控）</h3>
-      <div class="risk-box risk-low">
-        <strong style="color: #0c5460;">转机时间规划</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          证据: 用户讨论"提前8小时到达能怎么逛"、"五点半落地能干什么"，
-          建议优化转机时间推荐和机场活动指南，帮助旅客更好规划停留时间。
-        </p>
-      </div>
-    </div>
-    
-    <!-- 正面洞察 -->
-    <div class="section">
-      <h2>💡 正面洞察</h2>
-      <div class="insight-box">
-        <strong>星耀樟宜瀑布成为超级IP</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          证据: "40米室内瀑布太绝了"、"瀑布打卡指南"等内容高频出现，
-          Jewel Changi 已成为樟宜机场的核心视觉符号，用户自发传播意愿强。
-        </p>
-      </div>
-      <div class="insight-box">
-        <strong>新航服务口碑加持</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          证据: "出境游选新航，把飞行过成享受"、"五星航空的温柔"等话题获赞数千，
-          新航优质服务为樟宜机场整体形象加分，形成良性协同效应。
-        </p>
-      </div>
-      <div class="insight-box">
-        <strong>机场即目的地认知深化</strong>
-        <p style="margin-top: 8px; color: #666; font-size: 14px;">
-          证据: "全球最佳，本身就是终极目的地"、"提前8小时到达"等观点，
-          显示用户已认可樟宜机场不仅是中转站，更是值得专程体验的景点。
-        </p>
-      </div>
-    </div>
-    
-    <div class="footer">
-      <p>报告生成时间: 2026-03-18 12:35:00 | 数据来源: 小红书、微博、抖音</p>
-      <p>© 樟宜机场舆情监测系统 V6.0</p>
-    </div>
-  </div>
 
-  <script>
-    // 情感分布饼图
-    var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
-    sentimentChart.setOption({
-      title: { text: '情感分布', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' }},
-      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
-      color: ['#91CC75', '#32C5E9', '#EE6666'],
-      series: [{
-        type: 'pie',
-        radius: ['40%', '70%'],
-        center: ['50%', '55%'],
-        itemStyle: { borderRadius: 5, borderColor: '#fff', borderWidth: 2 },
-        label: { show: true, formatter: '{b}\\n{c}%' },
-        data: [
-          { value: 85, name: '正向' },
-          { value: 15, name: '中立' },
-          { value: 0, name: '负向' }
-        ]
-      }]
-    });
-    
-    // 平台声量柱状图
-    var platformChart = echarts.init(document.getElementById('platformChart'));
-    platformChart.setOption({
-      title: { text: '平台声量分布', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' }},
-      tooltip: { trigger: 'axis' },
-      xAxis: { type: 'category', data: ['小红书', '微博', '抖音'] },
-      yAxis: { type: 'value', show: false },
-      series: [{
-        type: 'bar',
-        data: [
-          { value: 49, itemStyle: { color: '#FF2442' }},
-          { value: 51, itemStyle: { color: '#E6162D' }},
-          { value: 0, itemStyle: { color: '#000000' }}
-        ],
-        itemStyle: { borderRadius: [4, 4, 0, 0] },
-        barWidth: '40%',
-        label: { show: true, position: 'top', formatter: '{c}%' }
-      }]
-    });
-    
-    // 平台效能对比气泡图（声量 vs 平均互动量）
-    var efficiencyChart = echarts.init(document.getElementById('efficiencyChart'));
-    var efficiencyData = [
-      {
-        name: '小红书',
-        value: [19, 18, 340],
-        itemStyle: { color: '#FF2442' }
-      },
-      {
-        name: '微博',
-        value: [20, 599, 11974],
-        itemStyle: { color: '#E6162D' }
-      },
-      {
-        name: '抖音',
-        value: [0, 0, 0],
-        itemStyle: { color: '#000000' }
-      }
-    ];
-    
-    efficiencyChart.setOption({
-      title: { 
-        text: '平台效能矩阵', 
-        left: 'center',
-        textStyle: { fontSize: 14, fontWeight: 'bold' }
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: function(param) {
-          return param.name + '<br/>' +
-                 '帖子数: ' + param.value[0] + '<br/>' +
-                 '平均点赞: ' + param.value[1] + '<br/>' +
-                 '总互动量: ' + param.value[2];
-        }
-      },
-      grid: { left: '10%', right: '15%', top: '15%', bottom: '10%' },
-      xAxis: {
-        type: 'value',
-        name: '帖子数量（声量）',
-        nameLocation: 'middle',
-        nameGap: 30,
-        splitLine: { lineStyle: { type: 'dashed' } }
-      },
-      yAxis: {
-        type: 'value',
-        name: '平均点赞数（互动效能）',
-        nameLocation: 'middle',
-        nameGap: 40,
-        splitLine: { lineStyle: { type: 'dashed' } }
-      },
-      series: [{
-        type: 'scatter',
-        symbolSize: function (data) {
-          return Math.sqrt(data[2]) / 5 + 20;
-        },
-        data: efficiencyData,
-        label: {
-          show: true,
-          formatter: '{b}',
-          position: 'top',
-          fontSize: 14,
-          fontWeight: 'bold'
-        }
-      }]
-    });
-    
-    // 热词排行横向条形图
-    var keywordsChart = echarts.init(document.getElementById('keywordsChart'));
-    var wordData = [
-      {word: '樟宜机场', score: 95},
-      {word: '星耀樟宜', score: 88},
-      {word: '瀑布', score: 82},
-      {word: '新航', score: 75},
-      {word: 'Jewel', score: 68},
-      {word: '打卡', score: 62},
-      {word: '小火车', score: 55},
-      {word: '转机', score: 48}
-    ];
-    wordData.sort(function(a, b) { return a.score - b.score; });
-    
-    keywordsChart.setOption({
-      title: { text: '热门话题排行（基于声量）', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' }},
-      tooltip: { trigger: 'axis' },
-      grid: { left: '3%', right: '10%', bottom: '3%', top: '15%', containLabel: true },
-      xAxis: { type: 'value', show: false },
-      yAxis: { 
-        type: 'category', 
-        data: wordData.map(function(item) { return item.word; }),
-        axisLabel: { fontSize: 12 }
-      },
-      series: [{
-        type: 'bar',
-        data: wordData.map(function(item) { return item.score; }),
-        itemStyle: { 
-          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-            { offset: 0, color: '#667eea' },
-            { offset: 1, color: '#764ba2' }
-          ]),
-          borderRadius: [0, 4, 4, 0]
-        },
-        barWidth: '60%',
-        label: { show: true, position: 'right', formatter: '{c}' }
-      }]
-    });
-    
-    window.addEventListener('resize', function() {
-      sentimentChart.resize();
-      platformChart.resize();
-      efficiencyChart.resize();
-      keywordsChart.resize();
-    });
-  </script>
+        <div class="status-section">
+            <div class="status-badge status-green">
+                <span>🟢</span>
+                <span>整体良好</span>
+            </div>
+            <div class="summary-box" style="margin-top: 16px;">
+                本周樟宜机场舆情总体表现优秀，正面情感占比高达85%。主要关注点集中在星耀樟宜瀑布打卡、新航服务体验和机场转机攻略等方面。用户对"全球最佳机场"的认同度较高，瀑布、小火车、免税店等成为高频打卡点。
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="num">39</div>
+                    <div class="label">相关帖子</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">12,314</div>
+                    <div class="label">总点赞数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">2</div>
+                    <div class="label">监测平台</div>
+                </div>
+                <div class="stat-card">
+                    <div class="num">85%</div>
+                    <div class="label">正面情感</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="section">
+            <h2 class="section-title">📊 数据可视化</h2>
+            
+            <div class="charts-row">
+                <div class="chart-container">
+                    <div id="sentimentChart" class="chart-box"></div>
+                </div>
+                <div class="chart-container">
+                    <div id="platformChart" class="chart-box"></div>
+                </div>
+            </div>
+            
+            <!-- 平台效能气泡图 -->
+            <div class="bubble-container">
+                <div id="efficiencyChart" class="bubble-box"></div>
+                <p style="font-size: 12px; color: #666; text-align: center; margin-top: 8px;">
+                    💡 气泡大小 = 总互动量 | X轴 = 帖子数量（声量） | Y轴 = 平均点赞数（互动效能）
+                </p>
+            </div>
+            
+            <div class="wordcloud-container">
+                <div id="wordCloudChart" class="wordcloud-box"></div>
+            </div>
+        </div>
+
+        <!-- 话题细分 -->
+        <div class="section">
+            <h2 class="section-title">🔍 话题细分聚类</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 10px;">🛍️ 攻略类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-guide">瀑布打卡</span>
+                    <span class="tag tag-guide">拍机攻略</span>
+                    <span class="tag tag-guide">T3滑梯</span>
+                    <span class="tag tag-guide">转机攻略</span>
+                    <span class="tag tag-guide">早班机</span>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 10px;">✨ 体验类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-exp">星耀樟宜</span>
+                    <span class="tag tag-exp">室内瀑布</span>
+                    <span class="tag tag-exp">小火车</span>
+                    <span class="tag tag-exp">新航服务</span>
+                    <span class="tag tag-exp">Jewel</span>
+                </div>
+            </div>
+            
+            <div>
+                <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 10px;">⚠️ 负面类</div>
+                <div class="tag-cloud">
+                    <span class="tag tag-neg">暂无显著负面</span>
+                    <span class="tag tag-neg">湿热天气</span>
+                    <span class="tag tag-neg">转机时间</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 话题聚类分析表 -->
+        <div class="section">
+            <h2 class="section-title">📋 话题聚类分析</h2>
+            <div class="table-wrapper">
+                <table class="topic-table">
+                    <tr>
+                        <th>话题</th>
+                        <th>关键词</th>
+                        <th style="text-align: center;">情感</th>
+                        <th style="text-align: center;">声量</th>
+                    </tr>
+                    <tr>
+                        <td>瀑布打卡</td>
+                        <td style="font-size: 12px; color: #666;">星耀樟宜, Jewel, 室内瀑布, 拍照</td>
+                        <td style="text-align: center;"><span class="sentiment-positive">正向</span></td>
+                        <td style="text-align: center; font-weight: bold;">12</td>
+                    </tr>
+                    <tr>
+                        <td>机场攻略</td>
+                        <td style="font-size: 12px; color: #666;">转机, 五点半落地, 过夜, 逛吃</td>
+                        <td style="text-align: center;"><span class="sentiment-positive">正向</span></td>
+                        <td style="text-align: center; font-weight: bold;">10</td>
+                    </tr>
+                    <tr>
+                        <td>新航体验</td>
+                        <td style="font-size: 12px; color: #666;">新航, 五星航空, 服务, 餐食</td>
+                        <td style="text-align: center;"><span class="sentiment-positive">正向</span></td>
+                        <td style="text-align: center; font-weight: bold;">8</td>
+                    </tr>
+                    <tr>
+                        <td>拍机打卡</td>
+                        <td style="font-size: 12px; color: #666;">拍飞机, 皇冠酒店, 新航, 飞友</td>
+                        <td style="text-align: center;"><span class="sentiment-positive">正向</span></td>
+                        <td style="text-align: center; font-weight: bold;">5</td>
+                    </tr>
+                    <tr>
+                        <td>情感分享</td>
+                        <td style="font-size: 12px; color: #666;">送别, 接机, 回忆, 旅行</td>
+                        <td style="text-align: center;"><span class="sentiment-neutral">中立</span></td>
+                        <td style="text-align: center; font-weight: bold;">4</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 风险分级 -->
+        <div class="section">
+            <h2 class="section-title">⚠️ 风险分级管理</h2>
+            
+            <div class="risk-box risk-high" style="opacity: 0.6;">
+                <div class="risk-title" style="color: #721c24;">🔴 高危风险（需公关立刻介入）</div>
+                <div class="risk-desc">本周舆情整体正面，未发现需要紧急公关介入的高危负面事件。</div>
+            </div>
+            
+            <div class="risk-box risk-medium">
+                <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
+                <div class="risk-desc">湿热天气体验 - 个别用户反馈"扑面而来的湿热空气就像回到了深圳"，可能影响部分北方游客的体验预期。建议在宣传材料中适当提及热带气候特点。</div>
+            </div>
+            
+            <div class="risk-box risk-low">
+                <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
+                <div class="risk-desc">转机时间规划 - 用户讨论"提前8小时到达能怎么逛"、"五点半落地能干什么"，建议优化转机时间推荐和机场活动指南。</div>
+            </div>
+        </div>
+
+        <!-- 正面洞察 -->
+        <div class="section">
+            <h2 class="section-title">💡 正面洞察</h2>
+            
+            <div class="risk-box" style="background: #e8f5e9; border-left: 4px solid #4caf50; margin-bottom: 12px;">
+                <div class="risk-title" style="color: #155724;">✅ 星耀樟宜瀑布成为超级IP</div>
+                <div class="risk-desc">"40米室内瀑布太绝了"、"瀑布打卡指南"等内容高频出现，Jewel Changi 已成为樟宜机场的核心视觉符号，用户自发传播意愿强。</div>
+            </div>
+            
+            <div class="risk-box" style="background: #e8f5e9; border-left: 4px solid #4caf50; margin-bottom: 12px;">
+                <div class="risk-title" style="color: #155724;">✅ 新航服务口碑加持</div>
+                <div class="risk-desc">"出境游选新航，把飞行过成享受"、"五星航空的温柔"等话题获赞数千，新航优质服务为樟宜机场整体形象加分。</div>
+            </div>
+            
+            <div class="risk-box" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+                <div class="risk-title" style="color: #155724;">✅ 机场即目的地认知深化</div>
+                <div class="risk-desc">"全球最佳，本身就是终极目的地"、"提前8小时到达"等观点，显示用户已认可樟宜机场不仅是中转站，更是值得专程体验的景点。</div>
+            </div>
+        </div>
+
+        <!-- 搜索清单 -->
+        <div class="section">
+            <h2 class="section-title">📋 搜索清单（共39条）</h2>
+            <div class="table-wrapper">
+                <table>
+                    <tr>
+                        <th>平台</th>
+                        <th>作者</th>
+                        <th>标题</th>
+                        <th>时间</th>
+                        <th>点赞</th>
+                    </tr>
+                    <tr><td>微博</td><td>旅游狂魔夏夏夏</td><td>【北京-新加坡】今年是新中建交35年</td><td>2025-09-30</td><td>3,043</td></tr>
+                    <tr><td>微博</td><td>Mogu蘑菇酱</td><td>出境游选新航，把飞行过成享受</td><td>03月11日</td><td>2,302</td></tr>
+                    <tr><td>微博</td><td>猴菇FUN生活</td><td>飞越四千公里，赴一场雨林之约</td><td>02月26日</td><td>2,026</td></tr>
+                    <tr><td>微博</td><td>Audreyz7</td><td>在樟宜机场接了很多人 也送了很多人 却第一次拍照</td><td>10月05日</td><td>1,597</td></tr>
+                    <tr><td>微博</td><td>青沐夫人</td><td>✨ 原来飞行也可以是旅行的一部分！</td><td>03月12日</td><td>1,019</td></tr>
+                    <tr><td>小红书</td><td>知名不具</td><td>樟宜机场五点半落地能干什么</td><td>5天前</td><td>127</td></tr>
+                    <tr><td>小红书</td><td>五撇帽在飞行</td><td>樟宜皇冠酒店拍机攻略｜新航多到拍腻❗️</td><td>4天前</td><td>50</td></tr>
+                    <tr><td>小红书</td><td>Artemis如月</td><td>新加坡｜樟宜机场🛩️</td><td>6天前</td><td>33</td></tr>
+                    <tr><td>小红书</td><td>谢谢谢老板</td><td>樟宜机场穿越瀑布的小火车</td><td>3天前</td><td>18</td></tr>
+                    <tr><td>小红书</td><td>拾光旅人</td><td>新加坡-星耀樟宜Jewel瀑布🌊｜打卡指南✅</td><td>2天前</td><td>12</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026-03-18 12:50</p>
+            <p>基于小红书、微博公开数据生成 · 舆情监控系统 V6.0</p>
+        </div>
+    </div>
+
+    <script>
+        // 情感倾向环形图
+        var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
+        sentimentChart.setOption({
+            title: { 
+                text: '情感倾向分布', 
+                left: 'center', 
+                textStyle: { fontSize: 14, fontWeight: 'bold' } 
+            },
+            tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+            color: ['#91CC75', '#32C5E9', '#EE6666'],
+            series: [{
+                type: 'pie',
+                radius: ['40%', '70%'],
+                center: ['50%', '55%'],
+                itemStyle: { 
+                    borderRadius: 5, 
+                    borderColor: '#fff', 
+                    borderWidth: 2 
+                },
+                label: { 
+                    show: true, 
+                    formatter: '{b}\n{c}%',
+                    fontSize: 12
+                },
+                data: [
+                    { value: 85, name: '正向' },
+                    { value: 15, name: '中立' },
+                    { value: 0, name: '负向' }
+                ]
+            }]
+        });
+
+        // 平台声量柱状图
+        var platformChart = echarts.init(document.getElementById('platformChart'));
+        platformChart.setOption({
+            title: { 
+                text: '平台声量分布', 
+                left: 'center', 
+                textStyle: { fontSize: 14, fontWeight: 'bold' } 
+            },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+            grid: { left: '3%', right: '4%', bottom: '3%', top: '20%', containLabel: true },
+            xAxis: { 
+                type: 'category', 
+                data: ['小红书', '微博'],
+                axisLabel: { fontSize: 12 }
+            },
+            yAxis: { 
+                type: 'value', 
+                show: false
+            },
+            series: [{
+                data: [
+                    { value: 19, itemStyle: { color: '#FF2442' } },
+                    { value: 20, itemStyle: { color: '#E6162D' } }
+                ],
+                type: 'bar',
+                itemStyle: { borderRadius: [4, 4, 0, 0] },
+                barWidth: '40%',
+                label: { show: true, position: 'top', formatter: '{c}' }
+            }]
+        });
+
+        // 平台效能气泡图
+        var efficiencyChart = echarts.init(document.getElementById('efficiencyChart'));
+        var efficiencyData = [
+            {
+                name: '小红书',
+                value: [19, 18, 340],
+                itemStyle: { color: '#FF2442' }
+            },
+            {
+                name: '微博',
+                value: [20, 599, 11974],
+                itemStyle: { color: '#E6162D' }
+            }
+        ];
+        
+        efficiencyChart.setOption({
+            title: { 
+                text: '平台效能矩阵（声量 vs 互动效能）', 
+                left: 'center',
+                textStyle: { fontSize: 14, fontWeight: 'bold' }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(param) {
+                    return param.name + '<br/>' +
+                           '帖子数: ' + param.value[0] + '<br/>' +
+                           '平均点赞: ' + param.value[1] + '<br/>' +
+                           '总互动量: ' + param.value[2];
+                }
+            },
+            grid: { left: '10%', right: '15%', top: '18%', bottom: '12%' },
+            xAxis: {
+                type: 'value',
+                name: '帖子数量（声量）',
+                nameLocation: 'middle',
+                nameGap: 25,
+                splitLine: { lineStyle: { type: 'dashed' } }
+            },
+            yAxis: {
+                type: 'value',
+                name: '平均点赞数',
+                nameLocation: 'middle',
+                nameGap: 35,
+                splitLine: { lineStyle: { type: 'dashed' } }
+            },
+            series: [{
+                type: 'scatter',
+                symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 3 + 30;
+                },
+                data: efficiencyData,
+                label: {
+                    show: true,
+                    formatter: '{b}',
+                    position: 'top',
+                    fontSize: 13,
+                    fontWeight: 'bold'
+                }
+            }]
+        });
+
+        // 热词排行
+        var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
+        var wordData = [
+            {name: '樟宜机场', value: 95},
+            {name: '星耀樟宜', value: 88},
+            {name: '瀑布', value: 82},
+            {name: '新航', value: 75},
+            {name: 'Jewel', value: 68},
+            {name: '打卡', value: 62},
+            {name: '小火车', value: 55},
+            {name: '转机', value: 48}
+        ];
+        wordData.sort(function(a, b) { return a.value - b.value; });
+        
+        wordCloudChart.setOption({
+            title: { 
+                text: '热门话题排行（基于声量）', 
+                left: 'center', 
+                textStyle: { fontSize: 14, fontWeight: 'bold' } 
+            },
+            tooltip: { 
+                trigger: 'axis',
+                axisPointer: { type: 'shadow' },
+                formatter: '{b}: 热度 {c}'
+            },
+            grid: { 
+                left: '3%', 
+                right: '10%', 
+                bottom: '3%', 
+                top: '15%', 
+                containLabel: true 
+            },
+            xAxis: { 
+                type: 'value',
+                show: false
+            },
+            yAxis: { 
+                type: 'category',
+                data: wordData.map(function(item) { return item.name; }),
+                axisLabel: { 
+                    fontSize: 12,
+                    fontWeight: 'bold'
+                },
+                axisTick: { show: false },
+                axisLine: { show: false }
+            },
+            series: [{
+                type: 'bar',
+                data: wordData.map(function(item) { return item.value; }),
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                        { offset: 0, color: '#667eea' },
+                        { offset: 1, color: '#764ba2' }
+                    ]),
+                    borderRadius: [0, 4, 4, 0]
+                },
+                barWidth: '60%',
+                label: { 
+                    show: true, 
+                    position: 'right',
+                    formatter: '{c}',
+                    fontSize: 11,
+                    color: '#666'
+                }
+            }]
+        });
+
+        // 响应式处理
+        window.addEventListener('resize', function() {
+            sentimentChart.resize();
+            platformChart.resize();
+            efficiencyChart.resize();
+            wordCloudChart.resize();
+        });
+    </script>
 </body>
 </html>
