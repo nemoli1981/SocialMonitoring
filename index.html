@@ -120,6 +120,10 @@
                 <div class="chart-container"><div id="sentimentChart" class="chart-box"></div></div>
                 <div class="chart-container"><div id="platformChart" class="chart-box"></div></div>
             </div>
+            <div class="chart-container" style="margin-bottom: 12px;">
+                <div id="efficiencyChart" class="chart-box" style="height: 280px;"></div>
+                <p style="font-size: 11px; color: #999; text-align: center; margin-top: 4px;">💡 气泡大小=总互动量 | X轴=帖子数 | Y轴=平均点赞</p>
+            </div>
             <div class="chart-container"><div id="keywordsChart" class="chart-box"></div></div>
         </div>
         
@@ -255,8 +259,66 @@
             }]
         });
         
+        // 平台效能对比气泡图（声量 vs 平均互动量）
+        var efficiencyChart = echarts.init(document.getElementById('efficiencyChart'));
+        var efficiencyData = [
+            { name: '小红书', value: [21, 1034, 14626], itemStyle: { color: '#FF2442' } },
+            { name: '微博', value: [8, 225, 1803], itemStyle: { color: '#E6162D' } },
+            { name: '抖音', value: [8, 1177, 9415], itemStyle: { color: '#000000' } }
+        ];
+        
+        efficiencyChart.setOption({
+            title: { 
+                text: '平台效能对比（声量 vs 互动效能）', 
+                left: 'center', 
+                textStyle: { fontSize: 13, fontWeight: 'bold' }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: function(param) {
+                    return param.name + '<br/>' +
+                           '帖子数: ' + param.value[0] + '<br/>' +
+                           '平均点赞: ' + param.value[1] + '<br/>' +
+                           '总互动: ' + param.value[2];
+                }
+            },
+            grid: { left: '12%', right: '15%', top: '18%', bottom: '15%' },
+            xAxis: {
+                type: 'value',
+                name: '帖子数量（声量）',
+                nameLocation: 'middle',
+                nameGap: 25,
+                nameTextStyle: { fontSize: 10 },
+                axisLabel: { fontSize: 10 },
+                splitLine: { lineStyle: { type: 'dashed', color: '#eee' } }
+            },
+            yAxis: {
+                type: 'value',
+                name: '平均点赞（效能）',
+                nameLocation: 'middle',
+                nameGap: 30,
+                nameTextStyle: { fontSize: 10 },
+                axisLabel: { fontSize: 10 },
+                splitLine: { lineStyle: { type: 'dashed', color: '#eee' } }
+            },
+            series: [{
+                type: 'scatter',
+                symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 3 + 15;
+                },
+                data: efficiencyData,
+                label: {
+                    show: true,
+                    formatter: '{b}',
+                    position: 'top',
+                    fontSize: 11,
+                    fontWeight: 'bold'
+                }
+            }]
+        });
+        
         window.addEventListener('resize', function() {
-            sentimentChart.resize(); platformChart.resize(); keywordsChart.resize();
+            sentimentChart.resize(); platformChart.resize(); keywordsChart.resize(); efficiencyChart.resize();
         });
     </script>
 </body>
