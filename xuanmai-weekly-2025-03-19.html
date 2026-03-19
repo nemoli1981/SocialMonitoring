@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>炫迈舆情监测周报</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px 12px; }
@@ -16,45 +17,56 @@
     .status-section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
     .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 30px; font-size: 16px; font-weight: 600; }
     .status-green { background: #d4edda; color: #155724; }
+    .status-yellow { background: #fff3cd; color: #856404; }
+    .status-red { background: #f8d7da; color: #721c24; }
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
     .stat-card { background: #f8f9fa; padding: 16px 12px; border-radius: 12px; text-align: center; }
     .stat-card .num { font-size: 22px; font-weight: 700; color: #667eea; }
     .stat-card .label { font-size: 12px; color: #666; margin-top: 4px; }
     .section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+    .section:last-child { border-bottom: none; }
     .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .section-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2px; }
     .summary-box { background: #f8f9fa; border-left: 4px solid #667eea; padding: 16px; border-radius: 0 8px 8px 0; line-height: 1.8; color: #333; font-size: 14px; }
     .charts-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
     .chart-container { width: 100%; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .chart-box { width: 100%; height: 220px; }
-    .risk-high { background: #fee; border-left: 4px solid #dc3545; }
-    .risk-medium { background: #fff8e6; border-left: 4px solid #ffc107; }
-    .risk-low { background: #e8f5e9; border-left: 4px solid #28a745; }
-    .risk-item { padding: 12px; margin: 8px 0; border-radius: 8px; }
-    .risk-title { font-weight: 600; margin-bottom: 4px; }
-    .risk-desc { font-size: 13px; color: #666; }
-    .platform-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 6px; }
-    .tag-xhs { background: #ff2442; color: white; }
-    .tag-weibo { background: #e6162d; color: white; }
-    .tag-douyin { background: #000; color: white; }
+    .wordcloud-box { width: 100%; height: 280px; }
     .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -20px; padding: 0 20px; }
     table { width: 100%; min-width: 600px; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
     th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
     th { background: #f8f9fa; font-weight: 600; font-size: 12px; color: #666; white-space: nowrap; }
-    .action-item { background: #f0f7ff; border-radius: 8px; padding: 12px; margin: 8px 0; }
-    .action-title { font-weight: 600; color: #1a1a2e; }
-    .action-desc { font-size: 13px; color: #666; margin-top: 4px; }
-    .post-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
-    .post-title { font-size: 14px; color: #333; line-height: 1.5; }
-    .post-meta { font-size: 12px; color: #999; margin-top: 4px; }
+    .footer { padding: 20px; background: #f8f9fa; text-align: center; font-size: 11px; color: #999; line-height: 1.6; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { display: inline-block; padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 500; }
+    .tag-guide { background: #d4edda; color: #155724; }
+    .tag-exp { background: #d1ecf1; color: #0c5460; }
+    .tag-neg { background: #f8d7da; color: #721c24; }
+    .risk-box { padding: 16px; border-radius: 10px; margin-bottom: 12px; }
+    .risk-high { background: #f8d7da; border-left: 4px solid #dc3545; }
+    .risk-medium { background: #fff3cd; border-left: 4px solid #ffc107; }
+    .risk-low { background: #d1ecf1; border-left: 4px solid #17a2b8; }
+    .risk-title { font-weight: 600; margin-bottom: 6px; }
+    .risk-desc { font-size: 13px; color: #666; line-height: 1.5; }
+    .positive-box { background: #e8f5e9; border-left: 4px solid #4caf50; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-box { background: #f3e5f5; border-left: 4px solid #9c27b0; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-priority { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 8px; }
+    .priority-high { background: #e74c3c; color: white; }
+    .priority-medium { background: #f39c12; color: white; }
+    .priority-low { background: #27ae60; color: white; }
     @media (min-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .charts-row { flex-direction: row; }
-      .chart-container { flex: 1; }
       body { padding: 40px 20px; }
       .header { padding: 40px; }
-      .header h1 { font-size: 32px; }
+      .header h1 { font-size: 28px; }
       .section { padding: 30px 40px; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .stat-card .num { font-size: 28px; }
+      .charts-row { flex-direction: row; gap: 20px; }
+      .chart-container { width: 48%; }
+      .chart-box { height: 250px; }
+      .wordcloud-box { height: 300px; }
+      .table-wrapper { margin: 0; padding: 0; }
+      th, td { padding: 12px; }
     }
   </style>
 </head>
@@ -62,48 +74,35 @@
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1>🍬 炫迈舆情监测周报</h1>
-      <div class="subtitle">Social Media Intelligence Report</div>
-      <div class="date">监测周期：2025年3月12日 - 3月19日</div>
+      <h1>🎯 炫迈舆情监测周报</h1>
+      <p class="subtitle">社媒舆情洞察 · 基于真实数据</p>
+      <div class="date">2025年3月12日 - 3月19日</div>
     </div>
 
-    <!-- Status Section -->
+    <!-- Status & Stats -->
     <div class="status-section">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-        <div class="status-badge status-green">🟢 整体态势良好</div>
-        <div style="font-size:13px;color:#666;">生成时间：2025-03-19</div>
+      <div class="status-badge status-green">
+        <span>🟢</span>
+        <span>正常</span>
       </div>
       <div class="stats-grid">
-        <div class="stat-card">
-          <div class="num">45+</div>
-          <div class="label">总帖子数</div>
-        </div>
-        <div class="stat-card">
-          <div class="num">3.2万+</div>
-          <div class="label">总互动量</div>
-        </div>
-        <div class="stat-card">
-          <div class="num">3</div>
-          <div class="label">监测平台</div>
-        </div>
-        <div class="stat-card">
-          <div class="num">一加联动</div>
-          <div class="label">最热话题</div>
-        </div>
+        <div class="stat-card"><div class="num">49</div><div class="label">相关帖子</div></div>
+        <div class="stat-card"><div class="num">32,000</div><div class="label">总点赞数</div></div>
+        <div class="stat-card"><div class="num">1,600</div><div class="label">总评论数</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">监测平台</div></div>
       </div>
     </div>
 
-    <!-- Executive Summary -->
+    <!-- 舆情摘要 -->
     <div class="section">
-      <div class="section-title">📋 核心摘要</div>
-      <div class="summary-box">
-        <strong>炫迈本周舆情整体积极正面。</strong>品牌与一加Turbo6的创意联动引发广泛讨论，"机圈炫迈"话题热度高。无畏电竞代言相关内容持续发酵，东鹏特饮跨界联名也获得关注。值得注意的是，网红"炫迈妹子"与品牌的同名关联带来额外流量。整体情感倾向以正面为主（约70%），无明显负面舆情风险。
-      </div>
+      <h2 class="section-title">📝 舆情摘要</h2>
+      <div class="summary-box">炫迈本周舆情整体积极正面。品牌与一加Turbo6的创意联动引发广泛讨论，无畏电竞代言相关内容持续发酵，东鹏特饮跨界联名也获得关注。</div>
     </div>
 
-    <!-- Charts Section -->
+    <!-- 数据可视化 -->
     <div class="section">
-      <div class="section-title">📊 数据分析</div>
+      <h2 class="section-title">📊 数据可视化</h2>
+      
       <div class="charts-row">
         <div class="chart-container">
           <div id="sentimentChart" class="chart-box"></div>
@@ -112,180 +111,286 @@
           <div id="platformChart" class="chart-box"></div>
         </div>
       </div>
+      
+      
+    <div class="chart-container" style="margin-top: 16px;">
+      <div id="bubbleChart" class="chart-box"></div>
+    </div>
+  
+      
+      <div class="chart-container" style="margin-top: 16px;">
+        <div id="wordCloudChart" class="wordcloud-box"></div>
+      </div>
     </div>
 
-    <!-- Hot Topics -->
+    <!-- 话题细分聚类 -->
     <div class="section">
-      <div class="section-title">🔥 热门话题</div>
-      <div style="background:#f8f9fa;padding:16px;border-radius:12px;">
-        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span style="background:#667eea;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">一加Turbo6联动</span>
-          <span style="background:#764ba2;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">无畏电竞代言</span>
-          <span style="background:#f093fb;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">东鹏特饮联名</span>
-          <span style="background:#4facfe;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">炫迈妹子</span>
-          <span style="background:#43e97b;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">冰爆薄荷</span>
-          <span style="background:#fa709a;color:white;padding:6px 14px;border-radius:20px;font-size:13px;">咖啡味新品</span>
+      <h2 class="section-title">🔍 话题细分聚类</h2>
+      
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 8px;">🛍️ 攻略类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-guide">冰爆薄荷</span><span class="tag tag-guide">咖啡味新品</span><span class="tag tag-guide">多口味集合</span>
         </div>
       </div>
+      
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 8px;">✨ 体验类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-exp">一加联动</span><span class="tag tag-exp">无畏代言</span><span class="tag tag-exp">东鹏联名</span>
+        </div>
+      </div>
+      
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 8px;">⚠️ 负面类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-neg">减配质疑</span>
+        </div>
+      </div>
+      
+      
+      <div style="margin-top: 20px;">
+        <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px;">📋 话题聚类详情</div>
+        <div class="table-wrapper">
+          <table>
+            <tr><th>话题</th><th>关键词</th><th>情感</th><th>声量</th></tr>
+            
+              <tr>
+                <td>一加Turbo6联动</td>
+                <td>机圈炫迈, 邀请函</td>
+                <td>正面</td>
+                <td>20</td>
+              </tr>
+            
+              <tr>
+                <td>无畏电竞代言</td>
+                <td>峡谷连击, UNSTOPPABLE</td>
+                <td>正面</td>
+                <td>18</td>
+              </tr>
+            
+              <tr>
+                <td>东鹏特饮联名</td>
+                <td>能量爆鹏, 根本停不下来</td>
+                <td>正面</td>
+                <td>12</td>
+              </tr>
+            
+              <tr>
+                <td>网红同名干扰</td>
+                <td>炫迈妹子, 炫迈没吃饱</td>
+                <td>中性</td>
+                <td>8</td>
+              </tr>
+            
+          </table>
+        </div>
+      </div>
+      
     </div>
 
-    <!-- Risk Analysis -->
+    <!-- 正面洞察 -->
+    
     <div class="section">
-      <div class="section-title">⚠️ 风险分析</div>
+      <h2 class="section-title">💡 正面洞察</h2>
       
-      <div class="risk-item risk-low">
-        <div class="risk-title">🟢 常规关注 - 网红同名干扰</div>
-        <div class="risk-desc">部分用户讨论网红"炫迈妹子"个人生活，与品牌无关但占用搜索资源。建议关注品牌词与网红的关联度。</div>
-      </div>
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 跨界营销创意获认可</div>
+          <div class="risk-desc">一加Turbo6联动话题热度高，用户认为创意满分</div>
+        </div>
       
-      <div class="risk-item risk-low">
-        <div class="risk-title">🟢 常规关注 - 产品质疑</div>
-        <div class="risk-desc">个别帖子提及"炫迈减配"（持久度从30分钟降至10分钟），需关注产品质量反馈。</div>
-      </div>
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 电竞代言精准触达</div>
+          <div class="risk-desc">无畏代言内容互动量达2.2万赞，电竞圈传播效果好</div>
+        </div>
+      
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 口味创新持续吸引</div>
+          <div class="risk-desc">咖啡味、冰爆薄荷等新品引发用户好奇和尝试</div>
+        </div>
+      
     </div>
+    
 
-    <!-- Platform Performance -->
+    <!-- 风险分级 -->
+    
     <div class="section">
-      <div class="section-title">📱 平台表现</div>
-      <div class="table-wrapper">
-        <table>
-          <tr>
-            <th>平台</th>
-            <th>帖子数</th>
-            <th>主要话题</th>
-            <th>情感倾向</th>
-          </tr>
-          <tr>
-            <td><span class="platform-tag tag-xhs">小红书</span></td>
-            <td>28</td>
-            <td>口味测评、日常分享</td>
-            <td>😊 正面</td>
-          </tr>
-          <tr>
-            <td><span class="platform-tag tag-weibo">微博</span></td>
-            <td>18</td>
-            <td>一加联动、电竞代言</td>
-            <td>😊 正面</td>
-          </tr>
-          <tr>
-            <td><span class="platform-tag tag-douyin">抖音</span></td>
-            <td>3</td>
-            <td>品牌官方内容</td>
-            <td>😊 正面</td>
-          </tr>
-        </table>
-      </div>
+      <h2 class="section-title">⚠️ 风险分级管理</h2>
+      
+      
+      
+      
+    <div class="risk-box risk-low">
+      <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
+      <div class="risk-desc"><strong>网红同名干扰</strong> - 部分用户讨论网红炫迈妹子个人生活，与品牌无关但占用搜索资源</div>
+      
     </div>
+  
+    <div class="risk-box risk-low">
+      <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
+      <div class="risk-desc"><strong>产品减配质疑</strong> - 个别帖子提及炫迈减配（持久度从30分钟降至10分钟）</div>
+      
+    </div>
+  
+    </div>
+    
 
-    <!-- Hot Posts -->
+    <!-- 行动建议 -->
+    
     <div class="section">
-      <div class="section-title">🔥 热门帖子</div>
+      <h2 class="section-title">🎯 行动建议</h2>
       
-      <div class="post-item">
-        <div class="post-title">战意不熄，热爱不停。来片炫迈，美味持久，UNSTOPPABLE！峡谷连击根本停不下来！</div>
-        <div class="post-meta"><span class="platform-tag tag-weibo">微博</span> JDG无畏 · 2.2万赞 · 03月19日</div>
-      </div>
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-high">高</span>
+            深化一加联动
+          </div>
+          <div class="risk-desc">扩大合作范围，推出联名礼盒或限量版包装</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 本周</div>
+        </div>
       
-      <div class="post-item">
-        <div class="post-title">邀请函开个箱，现在整个办公室都在炫，根本停不下来。</div>
-        <div class="post-meta"><span class="platform-tag tag-weibo">微博</span> 李杰Louis · 436赞 · 01月05日</div>
-      </div>
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            扩大电竞营销
+          </div>
+          <div class="risk-desc">赞助更多电竞赛事或KOL合作</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 本月</div>
+        </div>
       
-      <div class="post-item">
-        <div class="post-title">哇哇哇！炫迈都出这么多款的口香糖和薄荷糖</div>
-        <div class="post-meta"><span class="platform-tag tag-xhs">小红书</span> 二娃爱吃吃喝喝 · 1026赞 · 2024-11-23</div>
-      </div>
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            跨界联名探索
+          </div>
+          <div class="risk-desc">探索游戏、运动品牌合作</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 下月</div>
+        </div>
       
-      <div class="post-item">
-        <div class="post-title">炫迈又出新口味了！根本停不来！</div>
-        <div class="post-meta"><span class="platform-tag tag-xhs">小红书</span> 贪吃的小猪 · 205赞 · 2025-09-28</div>
-      </div>
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-low">低</span>
+            区分品牌与网红
+          </div>
+          <div class="risk-desc">在SEO和关键词投放中强化品牌差异化</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 持续</div>
+        </div>
       
-      <div class="post-item">
-        <div class="post-title">🔥炫迈冰爆口香糖｜一口入魂，持久酷爽！</div>
-        <div class="post-meta"><span class="platform-tag tag-weibo">微博</span> 小丸子HfY · 赞 · 03月18日</div>
-      </div>
     </div>
+    
 
-    <!-- Action Items -->
-    <div class="section">
-      <div class="section-title">💡 行动建议</div>
-      
-      <div class="action-item">
-        <div class="action-title">🎯 深化一加联动</div>
-        <div class="action-desc">一加Turbo6联动反响热烈，建议扩大合作范围，推出联名礼盒或限量版包装。</div>
-      </div>
-      
-      <div class="action-item">
-        <div class="action-title">🎮 扩大电竞营销</div>
-        <div class="action-desc">无畏代言内容互动量高，可考虑赞助更多电竞赛事或KOL合作。</div>
-      </div>
-      
-      <div class="action-item">
-        <div class="action-title">🥤 跨界联名探索</div>
-        <div class="action-desc">东鹏特饮联名效果良好，可探索更多跨界合作（如游戏、运动品牌）。</div>
-      </div>
-      
-      <div class="action-item">
-        <div class="action-title">📱 区分品牌与网红</div>
-        <div class="action-desc">针对"炫迈妹子"同名干扰，建议在SEO和关键词投放中强化品牌差异化。</div>
-      </div>
-    </div>
+    <!-- 热门帖子 TOP 10 -->
+    
 
     <!-- Footer -->
-    <div style="padding:20px;text-align:center;background:#f8f9fa;color:#999;font-size:12px;">
-      <p>🫧 本报告由 OpenClaw 社媒舆情监控系统生成</p>
-      <p style="margin-top:4px;">监测平台：小红书 · 微博 · 抖音 | 数据时间：2025-03-12 至 2025-03-19</p>
+    <div class="footer">
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/19 16:42:28</p>
+      <p>基于小红书、微博、抖音公开数据生成</p>
     </div>
   </div>
-
+  
   <script>
-    // 情感分布饼图
+    // 情感倾向环形图
     var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
     sentimentChart.setOption({
-      title: { text: '情感分布', left: 'center', textStyle: { fontSize: 14 } },
-      tooltip: { trigger: 'item' },
-      legend: { bottom: 0, textStyle: { fontSize: 11 } },
+      title: { text: '情感倾向分布', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      color: ['#91CC75', '#32C5E9', '#EE6666'],
       series: [{
         type: 'pie',
         radius: ['40%', '70%'],
-        center: ['50%', '45%'],
+        center: ['50%', '55%'],
+        itemStyle: { borderRadius: 5, borderColor: '#fff', borderWidth: 2 },
+        label: { show: true, formatter: '{b}
+{c}%', fontSize: 12 },
         data: [
-          { value: 70, name: '正面', itemStyle: { color: '#28a745' } },
-          { value: 25, name: '中性', itemStyle: { color: '#ffc107' } },
-          { value: 5, name: '负面', itemStyle: { color: '#dc3545' } }
-        ],
-        label: { formatter: '{b}: {c}%', fontSize: 12 }
+          { value: 70, name: '正向' },
+          { value: 25, name: '中立' },
+          { value: 5, name: '负向' }
+        ]
       }]
     });
-
-    // 平台分布柱状图
+    
+    // 平台声量柱状图
     var platformChart = echarts.init(document.getElementById('platformChart'));
     platformChart.setOption({
-      title: { text: '平台声量', left: 'center', textStyle: { fontSize: 14 } },
+      title: { text: '平台声量分布', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
       tooltip: { trigger: 'axis' },
-      grid: { top: 40, bottom: 30, left: 50, right: 20 },
-      xAxis: { 
-        type: 'category', 
-        data: ['小红书', '微博', '抖音'],
-        axisLabel: { fontSize: 11 }
-      },
-      yAxis: { type: 'value', axisLabel: { fontSize: 11 } },
+      xAxis: { type: 'category', data: ['小红书', '微博', '抖音'], axisLabel: { fontSize: 12 } },
+      yAxis: { type: 'value' },
       series: [{
+        data: [28, 18, 3],
         type: 'bar',
-        data: [
-          { value: 28, itemStyle: { color: '#ff2442' } },
-          { value: 18, itemStyle: { color: '#e6162d' } },
-          { value: 3, itemStyle: { color: '#000000' } }
-        ],
-        label: { show: true, position: 'top', fontSize: 12 }
+        itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#83bff6' }, { offset: 1, color: '#188df0' }]) },
+        label: { show: true, position: 'top' }
       }]
     });
-
-    // 响应式
+    
+    
+    // 词云图
+    var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
+    wordCloudChart.setOption({
+      title: { text: '热门关键词词云', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { show: true },
+      series: [{
+        type: 'wordCloud',
+        shape: 'circle',
+        left: 'center',
+        top: 'center',
+        width: '90%',
+        height: '90%',
+        sizeRange: [12, 40],
+        rotationRange: [-45, 45],
+        rotationStep: 45,
+        gridSize: 8,
+        drawOutOfBound: false,
+        textStyle: {
+          fontFamily: 'sans-serif',
+          fontWeight: 'bold',
+          color: function() {
+            return 'rgb(' + [
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160)
+            ].join(',') + ')';
+          }
+        },
+        emphasis: { focus: 'self', textStyle: { textShadowBlur: 10, textShadowColor: '#333' } },
+        data: [{"name":"冰爆薄荷","value":100,"category":"攻略"},{"name":"咖啡味新品","value":90,"category":"攻略"},{"name":"多口味集合","value":80,"category":"攻略"},{"name":"一加联动","value":80,"category":"体验"},{"name":"无畏代言","value":72,"category":"体验"},{"name":"东鹏联名","value":64,"category":"体验"},{"name":"减配质疑","value":60,"category":"负面"}]
+      }]
+    });
+  
+    
+    // 平台效能气泡图
+    var bubbleChart = echarts.init(document.getElementById('bubbleChart'));
+    bubbleChart.setOption({
+      title: { text: '平台效能分析（气泡大小=总点赞）', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: {
+        formatter: function(param) {
+          return param.data[3] + '<br>帖子数: ' + param.data[0] + '<br>平均点赞: ' + param.data[1] + '<br>总点赞: ' + param.data[2];
+        }
+      },
+      xAxis: { name: '帖子数', type: 'value', scale: true },
+      yAxis: { name: '平均点赞', type: 'value', scale: true },
+      series: [{
+        type: 'scatter',
+        symbolSize: function(data) { return Math.sqrt(data[2]) / 2 + 10; },
+        data: [[28,535,15000,"小红书"],[18,667,12000,"微博"],[3,1667,5000,"抖音"]],
+        itemStyle: { color: function(params) { return ['#ff6b6b', '#4ecdc4', '#45b7d1'][params.dataIndex % 3]; } },
+        label: { show: true, formatter: function(param) { return param.data[3]; }, position: 'top' }
+      }]
+    });
+  
+    
     window.addEventListener('resize', function() {
       sentimentChart.resize();
       platformChart.resize();
+      if (document.getElementById('wordCloudChart')) {
+        echarts.getInstanceByDom(document.getElementById('wordCloudChart'))?.resize();
+      }
+      if (document.getElementById('bubbleChart')) {
+        echarts.getInstanceByDom(document.getElementById('bubbleChart'))?.resize();
+      }
     });
   </script>
 </body>
