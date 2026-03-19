@@ -96,13 +96,13 @@
     <!-- 舆情摘要 -->
     <div class="section">
       <h2 class="section-title">📝 舆情摘要</h2>
-      <div class="summary-box">康师傅冰红茶本周舆情整体积极正面。品牌推出的低糖高纤系列新品引发广泛讨论，王一博、余宇涵等明星代言持续发酵。</div>
+      <div class="summary-box">康师傅冰红茶本周舆情整体积极正面。</div>
     </div>
 
     <!-- 数据可视化 -->
     <div class="section">
       <h2 class="section-title">📊 数据可视化</h2>
-      
+
       <div class="charts-row">
         <div class="chart-container">
           <div id="sentimentChart" class="chart-box"></div>
@@ -111,43 +111,47 @@
           <div id="platformChart" class="chart-box"></div>
         </div>
       </div>
+
       
-      
-    <div class="chart-container" style="margin-top: 16px;">
-      <div id="bubbleChart" class="chart-box"></div>
-    </div>
+    <div class="charts-row">
+      <div class="chart-container">
+        <div id="bubbleChart" class="chart-box"></div>
+      </div>
   
+
       
-      <div class="chart-container" style="margin-top: 16px;">
+      <div class="chart-container">
         <div id="wordCloudChart" class="wordcloud-box"></div>
       </div>
+    </div>
+  
     </div>
 
     <!-- 话题细分聚类 -->
     <div class="section">
       <h2 class="section-title">🔍 话题细分聚类</h2>
-      
+
       <div style="margin-bottom: 16px;">
         <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 8px;">🛍️ 攻略类</div>
         <div class="tag-cloud">
           <span class="tag tag-guide">低糖高纤</span><span class="tag tag-guide">新品上市</span><span class="tag tag-guide">口味测评</span>
         </div>
       </div>
-      
+
       <div style="margin-bottom: 16px;">
         <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 8px;">✨ 体验类</div>
         <div class="tag-cloud">
           <span class="tag tag-exp">王一博代言</span><span class="tag tag-exp">余宇涵代言</span><span class="tag tag-exp">冰爽痛快</span>
         </div>
       </div>
-      
+
       <div>
         <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 8px;">⚠️ 负面类</div>
         <div class="tag-cloud">
           <span class="tag tag-neg">涨价</span><span class="tag tag-neg">价格变动</span>
         </div>
       </div>
-      
+
       
       <div style="margin-top: 20px;">
         <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px;">📋 话题聚类详情</div>
@@ -185,11 +189,6 @@
           <div class="risk-desc">低糖高纤系列用户反馈积极</div>
         </div>
       
-        <div class="positive-box">
-          <div class="risk-title" style="color: #155724;">✅ 明星代言效应显著</div>
-          <div class="risk-desc">王一博、余宇涵等代言人带动粉丝购买力</div>
-        </div>
-      
     </div>
     
 
@@ -200,7 +199,7 @@
       
         <div class="risk-box risk-medium">
           <div class="risk-title">价格敏感话题</div>
-          <div class="risk-desc">部分用户关注1L装价格变动，需关注消费者价格敏感度</div>
+          <div class="risk-desc">部分用户关注价格变动</div>
         </div>
       
     </div>
@@ -210,19 +209,19 @@
     
     <div class="section">
       <h2 class="section-title">🛡️ 风险分级管理</h2>
-      
+
       
       
     <div class="risk-box risk-medium">
       <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
-      <div class="risk-desc"><strong>价格敏感话题</strong> - 部分用户关注1L装价格变动，需关注消费者价格敏感度</div>
+      <div class="risk-desc"><strong>价格敏感话题</strong> - 部分用户关注价格变动</div>
       
     </div>
   
       
     <div class="risk-box risk-low">
       <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
-      <div class="risk-desc"><strong>竞品对比</strong> - 用户常将康师傅与统一冰红茶对比，需强化品牌差异化</div>
+      <div class="risk-desc"><strong>竞品对比</strong> - 需强化品牌差异化</div>
       
     </div>
   
@@ -237,7 +236,7 @@
         <div class="action-box">
           <div class="risk-title">
             <span class="action-priority priority-high">高</span>
-            推⼴新品健康卖点
+            推广新品
           </div>
           <div class="risk-desc">加大宣传力度</div>
           <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 本周</div>
@@ -251,11 +250,11 @@
 
     <!-- Footer -->
     <div class="footer">
-      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/19 17:30:47</p>
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/19 17:40:06</p>
       <p>基于小红书、微博、抖音公开数据生成</p>
     </div>
   </div>
-  
+
   <script>
     // 情感倾向环形图
     var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
@@ -276,7 +275,7 @@
         ]
       }]
     });
-    
+
     // 平台声量柱状图 - 各平台不同颜色
     var platformChart = echarts.init(document.getElementById('platformChart'));
     platformChart.setOption({
@@ -295,7 +294,7 @@
         label: { show: true, position: 'top', fontSize: 14, fontWeight: 'bold' }
       }]
     });
-    
+
     
     // 词云图
     var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
@@ -334,13 +333,13 @@
     // 平台效能气泡图
     var bubbleChart = echarts.init(document.getElementById('bubbleChart'));
     bubbleChart.setOption({
-      title: { text: '平台效能分析（气泡大小=总点赞）', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      title: { text: '平台效能分析（气泡大小=总点赞）', left: 'center', top: 10, textStyle: { fontSize: 14, fontWeight: 'bold' } },
       tooltip: {
         formatter: function(param) {
           return param.data[3] + '<br>帖子数: ' + param.data[0] + '<br>平均点赞: ' + param.data[1] + '<br>总点赞: ' + param.data[2];
         }
       },
-      grid: { left: '15%', right: '15%', top: '20%', bottom: '15%' },
+      grid: { left: '12%', right: '12%', top: '18%', bottom: '12%' },
       xAxis: { name: '帖子数', type: 'value', scale: true, min: 0 },
       yAxis: { name: '平均点赞', type: 'value', scale: true, min: 0 },
       series: [{
@@ -348,7 +347,7 @@
         symbolSize: function(data) { 
           // 限制气泡大小，防止撑出边界
           var size = Math.sqrt(data[2]) / 5;
-          return Math.min(Math.max(size, 20), 80);
+          return Math.min(Math.max(size, 20), 70);
         },
         data: [[28,304,8500,"小红书"],[35,800,28000,"微博"],[18,6667,120000,"抖音"]],
         itemStyle: { 
@@ -357,11 +356,18 @@
           },
           opacity: 0.7
         },
-        label: { show: true, formatter: function(param) { return param.data[3]; }, position: 'top', fontSize: 12, fontWeight: 'bold' }
+        label: { 
+          show: true, 
+          formatter: function(param) { return param.data[3]; }, 
+          position: 'top', 
+          fontSize: 12, 
+          fontWeight: 'bold',
+          distance: 5
+        }
       }]
     });
   
-    
+
     window.addEventListener('resize', function() {
       sentimentChart.resize();
       platformChart.resize();
