@@ -28,8 +28,8 @@
     .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
     .section-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2px; }
     .summary-box { background: #f8f9fa; border-left: 4px solid #667eea; padding: 16px; border-radius: 0 8px 8px 0; line-height: 1.8; color: #333; font-size: 14px; }
-    .charts-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; }
-    .chart-container { width: 100%; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .charts-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .chart-container { width: 100%; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing: border-box; }
     .chart-box { width: 100%; height: 220px; }
     .wordcloud-box { width: 100%; height: 280px; }
     .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -20px; padding: 0 20px; }
@@ -61,10 +61,10 @@
       .section { padding: 30px 40px; }
       .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
       .stat-card .num { font-size: 28px; }
-      .charts-row { flex-direction: row; gap: 20px; }
-      .chart-container { width: 48%; }
-      .chart-box { height: 250px; }
-      .wordcloud-box { height: 300px; }
+      .charts-row { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+      .chart-container { width: calc(50% - 10px); flex: 0 0 calc(50% - 10px); }
+      .chart-box { height: 280px; }
+      .wordcloud-box { height: 320px; }
       .table-wrapper { margin: 0; padding: 0; }
       th, td { padding: 12px; }
     }
@@ -96,7 +96,7 @@
     <!-- 舆情摘要 -->
     <div class="section">
       <h2 class="section-title">📝 舆情摘要</h2>
-      <div class="summary-box">康师傅冰红茶本周舆情整体积极正面。</div>
+      <div class="summary-box">康师傅冰红茶本周舆情整体积极正面。品牌推出的低糖高纤系列新品引发广泛讨论，王一博、余宇涵等明星代言持续发酵。</div>
     </div>
 
     <!-- 数据可视化 -->
@@ -185,10 +185,48 @@
           <div class="risk-desc">低糖高纤系列用户反馈积极</div>
         </div>
       
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 明星代言效应显著</div>
+          <div class="risk-desc">王一博、余宇涵等代言人带动粉丝购买力</div>
+        </div>
+      
     </div>
     
 
-    <!-- 风险分级 -->
+    <!-- 负面洞察 -->
+    
+    <div class="section">
+      <h2 class="section-title">⚠️ 负面洞察</h2>
+      
+        <div class="risk-box risk-medium">
+          <div class="risk-title">价格敏感话题</div>
+          <div class="risk-desc">部分用户关注1L装价格变动，需关注消费者价格敏感度</div>
+        </div>
+      
+    </div>
+    
+
+    <!-- 风险分级管理 -->
+    
+    <div class="section">
+      <h2 class="section-title">🛡️ 风险分级管理</h2>
+      
+      
+      
+    <div class="risk-box risk-medium">
+      <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
+      <div class="risk-desc"><strong>价格敏感话题</strong> - 部分用户关注1L装价格变动，需关注消费者价格敏感度</div>
+      
+    </div>
+  
+      
+    <div class="risk-box risk-low">
+      <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
+      <div class="risk-desc"><strong>竞品对比</strong> - 用户常将康师傅与统一冰红茶对比，需强化品牌差异化</div>
+      
+    </div>
+  
+    </div>
     
 
     <!-- 行动建议 -->
@@ -199,7 +237,7 @@
         <div class="action-box">
           <div class="risk-title">
             <span class="action-priority priority-high">高</span>
-            推广新品健康卖点
+            推⼴新品健康卖点
           </div>
           <div class="risk-desc">加大宣传力度</div>
           <div style="margin-top: 8px; font-size: 12px; color: #9c27b0;">⏱️ 本周</div>
@@ -213,7 +251,7 @@
 
     <!-- Footer -->
     <div class="footer">
-      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/19 17:19:32</p>
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/19 17:30:47</p>
       <p>基于小红书、微博、抖音公开数据生成</p>
     </div>
   </div>
@@ -239,18 +277,22 @@
       }]
     });
     
-    // 平台声量柱状图
+    // 平台声量柱状图 - 各平台不同颜色
     var platformChart = echarts.init(document.getElementById('platformChart'));
     platformChart.setOption({
       title: { text: '平台声量分布', left: 'center', textStyle: { fontSize: 14, fontWeight: 'bold' } },
-      tooltip: { trigger: 'axis' },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
       xAxis: { type: 'category', data: ['小红书', '微博', '抖音'], axisLabel: { fontSize: 12 } },
       yAxis: { type: 'value' },
       series: [{
-        data: [28, 35, 18],
+        data: [
+          { value: 28, itemStyle: { color: '#ff2442' } },
+          { value: 35, itemStyle: { color: '#e6162d' } },
+          { value: 18, itemStyle: { color: '#000000' } }
+        ],
         type: 'bar',
-        itemStyle: { color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: '#83bff6' }, { offset: 1, color: '#188df0' }]) },
-        label: { show: true, position: 'top' }
+        barWidth: '50%',
+        label: { show: true, position: 'top', fontSize: 14, fontWeight: 'bold' }
       }]
     });
     
@@ -298,14 +340,24 @@
           return param.data[3] + '<br>帖子数: ' + param.data[0] + '<br>平均点赞: ' + param.data[1] + '<br>总点赞: ' + param.data[2];
         }
       },
-      xAxis: { name: '帖子数', type: 'value', scale: true },
-      yAxis: { name: '平均点赞', type: 'value', scale: true },
+      grid: { left: '15%', right: '15%', top: '20%', bottom: '15%' },
+      xAxis: { name: '帖子数', type: 'value', scale: true, min: 0 },
+      yAxis: { name: '平均点赞', type: 'value', scale: true, min: 0 },
       series: [{
         type: 'scatter',
-        symbolSize: function(data) { return Math.sqrt(data[2]) / 2 + 10; },
+        symbolSize: function(data) { 
+          // 限制气泡大小，防止撑出边界
+          var size = Math.sqrt(data[2]) / 5;
+          return Math.min(Math.max(size, 20), 80);
+        },
         data: [[28,304,8500,"小红书"],[35,800,28000,"微博"],[18,6667,120000,"抖音"]],
-        itemStyle: { color: function(params) { return ['#ff6b6b', '#4ecdc4', '#45b7d1'][params.dataIndex % 3]; } },
-        label: { show: true, formatter: function(param) { return param.data[3]; }, position: 'top' }
+        itemStyle: { 
+          color: function(params) { 
+            return ['#ff2442', '#e6162d', '#000000'][params.dataIndex % 3]; 
+          },
+          opacity: 0.7
+        },
+        label: { show: true, formatter: function(param) { return param.data[3]; }, position: 'top', fontSize: 12, fontWeight: 'bold' }
       }]
     });
   
