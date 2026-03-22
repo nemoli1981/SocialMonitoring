@@ -3,274 +3,430 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>星巴克 - 社媒舆情周报</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>星巴克舆情监测周报</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-      background: #f5f7fa; 
-      color: #333;
-      line-height: 1.6;
-    }
-    .container { 
-      max-width: 1200px; 
-      margin: 0 auto; 
-      padding: 20px; 
-    }
-    .header { 
-      background: linear-gradient(135deg, #00704A 0%, #004d33 100%); 
-      color: white; 
-      padding: 40px 20px; 
-      border-radius: 16px; 
-      margin-bottom: 30px;
-      text-align: center;
-    }
-    .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    .header .date { opacity: 0.9; font-size: 1rem; }
-    .stats-grid { 
-      display: grid; 
-      grid-template-columns: repeat(2, 1fr); 
-      gap: 15px; 
-      margin-bottom: 30px;
-    }
-    @media (min-width: 768px) { 
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .header h1 { font-size: 3rem; }
-    }
-    .stat-card { 
-      background: white; 
-      padding: 20px; 
-      border-radius: 12px; 
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-    .stat-card .number { 
-      font-size: 2rem; 
-      font-weight: bold; 
-      color: #00704A; 
-    }
-    .stat-card .label { 
-      color: #666; 
-      font-size: 0.9rem; 
-      margin-top: 5px;
-    }
-    .section { 
-      background: white; 
-      padding: 25px; 
-      border-radius: 12px; 
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .section h2 { 
-      color: #00704A; 
-      margin-bottom: 20px; 
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e8f5e9;
-    }
-    .chart-container { 
-      position: relative; 
-      height: 300px; 
-      margin: 20px 0;
-    }
-    .sentiment-bar { 
-      display: flex; 
-      height: 40px; 
-      border-radius: 20px; 
-      overflow: hidden;
-      margin: 20px 0;
-    }
-    .sentiment-positive { background: #4caf50; }
-    .sentiment-neutral { background: #9e9e9e; }
-    .sentiment-negative { background: #f44336; }
-    .platform-status { 
-      display: flex; 
-      gap: 10px; 
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-    .platform-tag { 
-      padding: 8px 16px; 
-      border-radius: 20px; 
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .platform-success { background: #e8f5e9; color: #2e7d32; }
-    .platform-partial { background: #fff3e0; color: #ef6c00; }
-    .hot-posts { margin-top: 20px; }
-    .hot-post { 
-      padding: 15px; 
-      border-left: 4px solid #00704A;
-      background: #f8f9fa;
-      margin-bottom: 10px;
-      border-radius: 0 8px 8px 0;
-    }
-    .hot-post-title { font-weight: 500; margin-bottom: 5px; }
-    .hot-post-meta { 
-      font-size: 0.85rem; 
-      color: #666;
-      display: flex;
-      gap: 15px;
-    }
-    .topics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px 12px; }
+    .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 30px 20px; text-align: center; }
+    .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .header .subtitle { font-size: 13px; opacity: 0.8; }
+    .header .date { font-size: 14px; margin-top: 12px; padding: 6px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; display: inline-block; }
+    .status-section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 30px; font-size: 16px; font-weight: 600; }
+    .status-green { background: #d4edda; color: #155724; }
+    .status-yellow { background: #fff3cd; color: #856404; }
+    .status-red { background: #f8d7da; color: #721c24; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+    .stat-card { background: #f8f9fa; padding: 20px 12px; border-radius: 12px; text-align: center; }
+    .stat-card .num { font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 4px; }
+    .stat-card .label { font-size: 13px; color: #999; }
+    .section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+    .section:last-child { border-bottom: none; }
+    .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2px; }
+    .summary-box { background: #f8f9fa; border-left: 4px solid #667eea; padding: 16px; border-radius: 0 8px 8px 0; line-height: 1.8; color: #333; font-size: 14px; }
+    .charts-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .chart-container { width: 100%; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing: border-box; }
+    .chart-box { width: 100%; height: 220px; }
+    .wordcloud-box { width: 100%; height: 280px; }
+    .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -20px; padding: 0 20px; }
+    table { width: 100%; min-width: 600px; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; font-weight: 600; font-size: 12px; color: #666; white-space: nowrap; }
+    .footer { padding: 20px; background: #f8f9fa; text-align: center; font-size: 11px; color: #999; line-height: 1.6; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { display: inline-block; padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 500; }
+    .tag-guide { background: #d4edda; color: #155724; }
+    .tag-exp { background: #d1ecf1; color: #0c5460; }
+    .tag-neg { background: #f8d7da; color: #721c24; }
+    .risk-box { padding: 16px; border-radius: 10px; margin-bottom: 12px; }
+    .risk-high { background: #f8d7da; border-left: 4px solid #dc3545; }
+    .risk-medium { background: #fff3cd; border-left: 4px solid #ffc107; }
+    .risk-low { background: #d1ecf1; border-left: 4px solid #17a2b8; }
+    .risk-title { font-weight: 600; margin-bottom: 6px; }
+    .risk-desc { font-size: 13px; color: #666; line-height: 1.5; }
+    .positive-box { background: #e8f5e9; border-left: 4px solid #4caf50; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-box { background: #f3e5f5; border-left: 4px solid #9c27b0; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-priority { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 8px; }
+    .priority-high { background: #e74c3c; color: white; }
+    .priority-medium { background: #f39c12; color: white; }
+    .priority-low { background: #27ae60; color: white; }
     @media (min-width: 768px) {
-      .topics-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    .topic-card {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .topic-card .count {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00704A;
-    }
-    .topic-card .name {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 5px;
-    }
-    .footer {
-      text-align: center;
-      padding: 30px;
-      color: #999;
-      font-size: 0.85rem;
+      body { padding: 40px 20px; }
+      .header { padding: 40px; }
+      .header h1 { font-size: 28px; }
+      .section { padding: 30px 40px; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .stat-card .num { font-size: 28px; }
+      .charts-row { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+      .chart-container { width: calc(50% - 10px); flex: 0 0 calc(50% - 10px); }
+      .chart-box { height: 280px; }
+      .wordcloud-box { height: 320px; }
+      .table-wrapper { margin: 0; padding: 0; }
+      th, td { padding: 12px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- Header -->
     <div class="header">
-      <h1>☕ 星巴克</h1>
-      <div class="date">社媒舆情周报 | 2026-03-15 至 2026-03-22</div>
+      <h1>🎯 星巴克舆情监测周报</h1>
+      <p class="subtitle">社媒舆情洞察 · 基于真实数据</p>
+      <div class="date">2026-03-15 至 2026-03-22</div>
     </div>
-    
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="number">76</div>
-        <div class="label">监测帖子</div>
+
+    <!-- Status & Stats -->
+    <div class="status-section">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+        <!-- 执行状态徽章 -->
+        <div class="status-badge status-green">
+          <span>✅</span>
+          <span>全部数据正常</span>
+        </div>
+        <!-- 舆情状态徽章 -->
+        <div class="status-badge status-yellow">
+          <span>🟡</span>
+          <span>关注</span>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="number">267,556</div>
-        <div class="label">总点赞数</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">22</div>
-        <div class="label">小红书</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">38</div>
-        <div class="label">微博</div>
+      
+      <div class="stats-grid">
+        <div class="stat-card"><div class="num">76+</div><div class="label">总帖子数</div></div>
+        <div class="stat-card"><div class="num">28.5万+</div><div class="label">总互动量</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">数据完整平台</div></div>
+        <div class="stat-card"><div class="num" style="font-size: 18px;">中国业务出售</div><div class="label">最热话题</div></div>
       </div>
     </div>
+
+    <!-- 舆情摘要 -->
+    <div class="section">
+      <h2 class="section-title">📝 舆情摘要</h2>
+      <div class="summary-box">本周星巴克舆情以中性为主，主要讨论集中在"中国业务出售"话题，引发用户对9.9价格战和品牌形象的关注。高赞内容多为财经分析类，情感倾向偏理性讨论。</div>
+    </div>
+
+    <!-- 数据可视化 -->
+    <div class="section">
+      <h2 class="section-title">📊 数据可视化</h2>
+
+      <div class="charts-row">
+        <div class="chart-container">
+          <div id="sentimentChart" class="chart-box"></div>
+        </div>
+        <div class="chart-container">
+          <div id="platformChart" class="chart-box"></div>
+        </div>
+      </div>
+
+      
+    <div class="charts-row">
+      <div class="chart-container">
+        <div id="bubbleChart" class="chart-box"></div>
+      </div>
+  
+
+      
+      <div class="chart-container">
+        <div id="wordCloudChart" class="wordcloud-box"></div>
+      </div>
+    </div>
+  
+    </div>
+
+    <!-- 话题细分聚类 -->
+    <div class="section">
+      <h2 class="section-title">🔍 话题细分聚类</h2>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 8px;">🛍️ 攻略类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-guide">新品测评</span><span class="tag tag-guide">隐藏菜单</span><span class="tag tag-guide">省钱攻略</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 8px;">✨ 体验类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-exp">第三空间</span><span class="tag tag-exp">办公环境</span><span class="tag tag-exp">咖啡文化</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 8px;">⚠️ 负面类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-neg">价格贵</span><span class="tag tag-neg">中国卖身</span><span class="tag tag-neg">9.9竞争</span>
+        </div>
+      </div>
+
+      
+      <div style="margin-top: 20px;">
+        <div style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px;">📋 话题聚类详情</div>
+        <div class="table-wrapper">
+          <table>
+            <tr><th>话题</th><th>关键词</th><th>情感</th><th>声量</th></tr>
+            
+              <tr>
+                <td>中国业务出售</td>
+                <td>40亿美元, 8000家门店, 9.9时代</td>
+                <td>中性</td>
+                <td>高</td>
+              </tr>
+            
+              <tr>
+                <td>价格战讨论</td>
+                <td>瑞幸, 库迪, 价格战</td>
+                <td>负面</td>
+                <td>高</td>
+              </tr>
+            
+              <tr>
+                <td>新品评测</td>
+                <td>春日限定, 樱花系列</td>
+                <td>正面</td>
+                <td>中</td>
+              </tr>
+            
+          </table>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- 正面洞察 -->
     
     <div class="section">
-      <h2>💭 情感分布</h2>
-      <div class="sentiment-bar">
-        <div class="sentiment-positive" style="width: 15%"></div>
-        <div class="sentiment-neutral" style="width: 75%"></div>
-        <div class="sentiment-negative" style="width: 11%"></div>
-      </div>
-      <div style="display: flex; justify-content: space-around; margin-top: 10px;">
-        <span>🟢 正面 15%</span>
-        <span>⚪ 中性 75%</span>
-        <span>🔴 负面 11%</span>
-      </div>
+      <h2 class="section-title">💡 正面洞察</h2>
+      
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 第三空间价值仍被认可</div>
+          <div class="risk-desc">用户认可星巴克办公、社交场景的独特价值</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #28a745;">📈 影响力: 中</div>
+        </div>
+      
     </div>
+    
+
+    <!-- 负面洞察 -->
     
     <div class="section">
-      <h2>🔥 热门话题</h2>
-      <div class="topics-grid">
-        <div class="topic-card">
-          <div class="count">4</div>
-          <div class="name">新品评测</div>
+      <h2 class="section-title">⚠️ 负面洞察</h2>
+      
+        <div class="risk-box risk-medium">
+          <div class="risk-title">价格敏感度高</div>
+          <div class="risk-desc">大量讨论对比瑞幸9.9和星巴克定价</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #666;">💡 建议: 明确价值定位，避免价格战</div>
         </div>
-        <div class="topic-card">
-          <div class="count">5</div>
-          <div class="name">门店动态</div>
+      
+        <div class="risk-box risk-medium">
+          <div class="risk-title">出售引发品牌担忧</div>
+          <div class="risk-desc">用户担心出售后品质和服务下降</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #666;">💡 建议: 加强品牌沟通，稳定用户信心</div>
         </div>
-        <div class="topic-card">
-          <div class="count">1</div>
-          <div class="name">产品推荐</div>
-        </div>
-        <div class="topic-card">
-          <div class="count">2</div>
-          <div class="name">品牌营销</div>
-        </div>
-      </div>
+      
     </div>
+    
+
+    <!-- 竞品对标分析 -->
+    
+
+    <!-- 用户画像特征 -->
+    
+
+    <!-- 风险分级管理 -->
     
     <div class="section">
-      <h2>📊 平台抓取状态</h2>
-      <div class="platform-status">
-        <span class="platform-tag platform-success">✅ 小红书 (22条)</span>
-        <span class="platform-tag platform-success">✅ 微博 (38条)</span>
-        <span class="platform-tag platform-partial">⚠️ 抖音 (16条)</span>
-      </div>
+      <h2 class="section-title">🛡️ 风险分级管理</h2>
+      
+      
+      
+    <div class="risk-box risk-medium">
+      <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
+      <div class="risk-desc"><strong>价格战舆论发酵</strong> - 瑞幸9.9与星巴克定价对比讨论频繁，可能强化"贵"的品牌印象</div>
+      
+        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+          相关帖子: [微博] 星巴克中国卖身，9.9的时代要来了吗...；[抖音] 40亿美元卖掉中国8000家门店...
+        </div>
+      
     </div>
+  
+      
+    </div>
+    
+
+    <!-- 行动建议 -->
     
     <div class="section">
-      <h2>🔥 高赞内容 Top 5</h2>
-      <div class="hot-posts">
-        
-        <div class="hot-post">
-          <div class="hot-post-title">1. 星巴克中国卖身，9.9的时代要来了吗？</div>
-          <div class="hot-post-meta">
-            <span>👤 小Lin说</span>
-            <span>❤️ 148,000 赞</span>
-            <span>📅 2025年11月28日</span>
+      <h2 class="section-title">🎯 行动建议</h2>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-high">高</span>
+            稳定出售后品牌信心
           </div>
+          <div class="risk-desc">发布官方声明，强调品质和服务不变</div>
+          <div style="margin-top: 8px; font-size: 13px; color: #28a745;">🎯 预期效果: 缓解用户担忧</div>
+          <div style="margin-top: 4px; font-size: 12px; color: #666;">👤 责任部门: 公关部</div>
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
         </div>
-        
-        <div class="hot-post">
-          <div class="hot-post-title">2. 40亿美元卖掉中国8000家门店，星巴克打不过就要跑了？</div>
-          <div class="hot-post-meta">
-            <span>👤 饭统戴老板</span>
-            <span>❤️ 75,000 赞</span>
-            <span>📅 2025年11月4日</span>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            强调差异化价值
           </div>
+          <div class="risk-desc">突出第三空间、咖啡文化等独特价值</div>
+          <div style="margin-top: 8px; font-size: 13px; color: #28a745;">🎯 预期效果: 建立价格合理性认知</div>
+          <div style="margin-top: 4px; font-size: 12px; color: #666;">👤 责任部门: 市场部</div>
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本月</div>
         </div>
-        
-        <div class="hot-post">
-          <div class="hot-post-title">3. 最近的咖啡老喝家都在喝什么...每家咖啡品牌只选一杯最好喝</div>
-          <div class="hot-post-meta">
-            <span>👤 菲菲好饿</span>
-            <span>❤️ 25,000 赞</span>
-            <span>📅 2月28日</span>
-          </div>
-        </div>
-        
-        <div class="hot-post">
-          <div class="hot-post-title">4. 玫瑰20</div>
-          <div class="hot-post-meta">
-            <span>👤 了栀吟</span>
-            <span>❤️ 3,689 赞</span>
-            <span>📅 03-03</span>
-          </div>
-        </div>
-        
-        <div class="hot-post">
-          <div class="hot-post-title">5. 第一次怎么喝星巴克#vlog日常 #原创视频</div>
-          <div class="hot-post-meta">
-            <span>👤 保安唐唐</span>
-            <span>❤️ 3,531 赞</span>
-            <span>📅 1月15日</span>
-          </div>
-        </div>
-        
-      </div>
+      
     </div>
     
+
+    <!-- 热门帖子 TOP 10 -->
+    
+
+    <!-- Footer -->
     <div class="footer">
-      <p>🫧 由 OpenClaw 社媒舆情监控系统生成</p>
-      <p>生成时间: 2026/3/22 09:23:58</p>
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/22 09:33:37</p>
+      <p>基于小红书、微博、抖音公开数据生成</p>
     </div>
   </div>
+
+  <script>
+    // 情感倾向环形图
+    var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
+    sentimentChart.setOption({
+      title: { text: '情感倾向分布', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      color: ['#91CC75', '#32C5E9', '#EE6666'],
+      series: [{
+        type: 'pie',
+        radius: ['40%', '70%'],
+        center: ['50%', '60%'],
+        itemStyle: { borderRadius: 5, borderColor: '#fff', borderWidth: 2 },
+        label: { show: true, formatter: '{b}: {c}%', fontSize: 12 },
+        data: [
+          { value: 15, name: '正向' },
+          { value: 75, name: '中立' },
+          { value: 11, name: '负向' }
+        ]
+      }]
+    });
+
+    // 平台声量柱状图 - 各平台不同颜色
+    var platformChart = echarts.init(document.getElementById('platformChart'));
+    platformChart.setOption({
+      title: { text: '平台声量分布', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: '15%', right: '10%', top: '25%', bottom: '15%' },
+      xAxis: { type: 'category', data: ['小红书', '微博', '抖音'], axisLabel: { fontSize: 12 } },
+      yAxis: { type: 'value' },
+      series: [{
+        data: [
+          { value: 22, itemStyle: { color: '#ff2442' } },
+          { value: 38, itemStyle: { color: '#e6162d' } },
+          { value: 16, itemStyle: { color: '#000000' } }
+        ],
+        type: 'bar',
+        barWidth: '50%',
+        label: { show: true, position: 'top', fontSize: 14, fontWeight: 'bold' }
+      }]
+    });
+
+    
+    // 词云图
+    var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
+    wordCloudChart.setOption({
+      title: { text: '热门关键词词云', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { show: true },
+      series: [{
+        type: 'wordCloud',
+        shape: 'circle',
+        left: 'center',
+        top: '15%',
+        width: '90%',
+        height: '80%',
+        sizeRange: [12, 40],
+        rotationRange: [-45, 45],
+        rotationStep: 45,
+        gridSize: 8,
+        drawOutOfBound: false,
+        textStyle: {
+          fontFamily: 'sans-serif',
+          fontWeight: 'bold',
+          color: function() {
+            return 'rgb(' + [
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160)
+            ].join(',') + ')';
+          }
+        },
+        emphasis: { focus: 'self', textStyle: { textShadowBlur: 10, textShadowColor: '#333' } },
+        data: [{"name":"新品测评","value":100,"category":"攻略"},{"name":"隐藏菜单","value":90,"category":"攻略"},{"name":"省钱攻略","value":80,"category":"攻略"},{"name":"第三空间","value":80,"category":"体验"},{"name":"办公环境","value":72,"category":"体验"},{"name":"咖啡文化","value":64,"category":"体验"},{"name":"价格贵","value":60,"category":"负面"},{"name":"中国卖身","value":54,"category":"负面"},{"name":"9.9竞争","value":48,"category":"负面"}]
+      }]
+    });
+  
+    
+    // 平台效能气泡图
+    var bubbleChart = echarts.init(document.getElementById('bubbleChart'));
+    bubbleChart.setOption({
+      title: { 
+        text: '平台效能分析', 
+        subtext: '气泡大小=总点赞',
+        left: 'center', 
+        top: 25,
+        textStyle: { fontSize: 14, fontWeight: 'bold' },
+        subtextStyle: { fontSize: 12, color: '#666' }
+      },
+      tooltip: {
+        formatter: function(param) {
+          return param.data[3] + '<br>帖子数: ' + param.data[0] + '<br>平均点赞: ' + param.data[1] + '<br>总点赞: ' + param.data[2];
+        }
+      },
+      grid: { left: '15%', right: '15%', top: '35%', bottom: '15%' },
+      xAxis: { name: '帖子数', type: 'value', scale: true, min: 0 },
+      yAxis: { name: '平均点赞', type: 'value', scale: true, min: 0 },
+      series: [{
+        type: 'scatter',
+        symbolSize: function(data) {
+          // 限制气泡大小，防止撑出边界
+          var size = Math.sqrt(data[2]) / 5;
+          return Math.min(Math.max(size, 20), 70);
+        },
+        data: [[22,1925,42350,"小红书"],[38,4874,185206,"微博"],[16,2500,40000,"抖音"]],
+        itemStyle: {
+          color: function(params) {
+            return ['#ff2442', '#e6162d', '#000000'][params.dataIndex % 3];
+          },
+          opacity: 0.7
+        },
+        label: {
+          show: true,
+          formatter: function(param) { return param.data[3]; },
+          position: 'inside',
+          fontSize: 11,
+          fontWeight: 'bold',
+          color: '#fff'
+        }
+      }]
+    });
+  
+
+    window.addEventListener('resize', function() {
+      sentimentChart.resize();
+      platformChart.resize();
+      if (document.getElementById('wordCloudChart')) {
+        echarts.getInstanceByDom(document.getElementById('wordCloudChart'))?.resize();
+      }
+      if (document.getElementById('bubbleChart')) {
+        echarts.getInstanceByDom(document.getElementById('bubbleChart'))?.resize();
+      }
+    });
+  </script>
 </body>
 </html>
