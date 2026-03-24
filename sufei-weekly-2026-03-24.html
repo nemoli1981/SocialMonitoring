@@ -1,557 +1,542 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>苏菲卫生巾舆情监测周报</title>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px 12px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-        .header .subtitle {
-            font-size: 13px;
-            opacity: 0.8;
-        }
-        .header .date {
-            font-size: 14px;
-            margin-top: 12px;
-            padding: 6px 16px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 20px;
-            display: inline-block;
-        }
-        .status-section {
-            padding: 24px 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 10px 18px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .status-green { background: #d4edda; color: #155724; }
-        .status-yellow { background: #fff3cd; color: #856404; }
-        .status-red { background: #f8d7da; color: #721c24; }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .stat-card {
-            background: #f8f9fa;
-            padding: 16px 12px;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .stat-card .num {
-            font-size: 22px;
-            font-weight: 700;
-            color: #667eea;
-        }
-        .stat-card .label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-        }
-        .section {
-            padding: 24px 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .section:last-child { border-bottom: none; }
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
-        }
-        .summary-box {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-            line-height: 1.8;
-            color: #333;
-            font-size: 14px;
-        }
-        .charts-row {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        .chart-container {
-            width: 100%;
-            background: #fff;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .chart-box {
-            width: 100%;
-            height: 220px;
-        }
-        .wordcloud-container {
-            background: #fff;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .wordcloud-box {
-            width: 100%;
-            height: 280px;
-        }
-        .table-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 0 -20px;
-            padding: 0 20px;
-        }
-        table {
-            width: 100%;
-            min-width: 600px;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 13px;
-        }
-        th, td {
-            padding: 10px 8px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
-        th {
-            background: #f8f9fa;
-            font-weight: 600;
-            font-size: 12px;
-            color: #666;
-            white-space: nowrap;
-        }
-        td {
-            font-size: 13px;
-        }
-        .footer {
-            padding: 20px;
-            background: #f8f9fa;
-            text-align: center;
-            font-size: 11px;
-            color: #999;
-            line-height: 1.6;
-        }
-        
-        /* 话题标签样式 */
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-        .tag {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 16px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-        .tag-guide { background: #d4edda; color: #155724; }
-        .tag-exp { background: #d1ecf1; color: #0c5460; }
-        .tag-neg { background: #f8d7da; color: #721c24; }
-        
-        /* 风险分级样式 */
-        .risk-box {
-            padding: 16px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-        }
-        .risk-high { background: #f8d7da; border-left: 4px solid #dc3545; }
-        .risk-medium { background: #fff3cd; border-left: 4px solid #ffc107; }
-        .risk-low { background: #d1ecf1; border-left: 4px solid #17a2b8; }
-        .risk-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .risk-desc {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        /* 平板和桌面端 */
-        @media (min-width: 768px) {
-            body {
-                padding: 40px 20px;
-            }
-            .header {
-                padding: 40px;
-            }
-            .header h1 {
-                font-size: 28px;
-            }
-            .status-section, .section {
-                padding: 30px 40px;
-            }
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 16px;
-            }
-            .stat-card .num {
-                font-size: 28px;
-            }
-            .charts-row {
-                flex-direction: row;
-                gap: 20px;
-            }
-            .chart-container {
-                width: 48%;
-                padding: 15px;
-            }
-            .chart-box {
-                height: 250px;
-            }
-            .wordcloud-box {
-                height: 200px;
-            }
-            .section-title {
-                font-size: 18px;
-            }
-            .table-wrapper {
-                margin: 0;
-                padding: 0;
-            }
-            th, td {
-                padding: 12px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>苏菲卫生巾舆情监测周报</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2.1.0/dist/echarts-wordcloud.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px 12px; }
+    .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+    .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 30px 20px; text-align: center; }
+    .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    .header .subtitle { font-size: 13px; opacity: 0.8; }
+    .header .date { font-size: 14px; margin-top: 12px; padding: 6px 16px; background: rgba(255,255,255,0.1); border-radius: 20px; display: inline-block; }
+    .status-section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+    .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 30px; font-size: 16px; font-weight: 600; }
+    .status-green { background: #d4edda; color: #155724; }
+    .status-yellow { background: #fff3cd; color: #856404; }
+    .status-red { background: #f8d7da; color: #721c24; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+    .stat-card { background: #f8f9fa; padding: 20px 12px; border-radius: 12px; text-align: center; }
+    .stat-card .num { font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 4px; }
+    .stat-card .label { font-size: 13px; color: #999; }
+    .section { padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+    .section:last-child { border-bottom: none; }
+    .section-title { font-size: 16px; font-weight: 600; color: #1a1a2e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-title::before { content: ''; width: 4px; height: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 2px; }
+    .summary-box { background: #f8f9fa; border-left: 4px solid #667eea; padding: 16px; border-radius: 0 8px 8px 0; line-height: 1.8; color: #333; font-size: 14px; }
+    .charts-row { display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+    .chart-container { width: 100%; background: #fff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); box-sizing: border-box; }
+    .chart-box { width: 100%; height: 220px; }
+    .wordcloud-box { width: 100%; height: 280px; }
+    .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -20px; padding: 0 20px; }
+    table { width: 100%; min-width: 600px; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+    th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
+    th { background: #f8f9fa; font-weight: 600; font-size: 12px; color: #666; white-space: nowrap; }
+    .footer { padding: 20px; background: #f8f9fa; text-align: center; font-size: 11px; color: #999; line-height: 1.6; }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { display: inline-block; padding: 6px 12px; border-radius: 16px; font-size: 13px; font-weight: 500; }
+    .tag-guide { background: #d4edda; color: #155724; }
+    .tag-exp { background: #d1ecf1; color: #0c5460; }
+    .tag-neg { background: #f8d7da; color: #721c24; }
+    .risk-box { padding: 16px; border-radius: 10px; margin-bottom: 12px; }
+    .risk-high { background: #f8d7da; border-left: 4px solid #dc3545; }
+    .risk-medium { background: #fff3cd; border-left: 4px solid #ffc107; }
+    .risk-low { background: #d1ecf1; border-left: 4px solid #17a2b8; }
+    .risk-title { font-weight: 600; margin-bottom: 6px; }
+    .risk-desc { font-size: 13px; color: #666; line-height: 1.5; }
+    .positive-box { background: #e8f5e9; border-left: 4px solid #4caf50; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-box { background: #f3e5f5; border-left: 4px solid #9c27b0; margin-bottom: 12px; padding: 16px; border-radius: 10px; }
+    .action-priority { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 8px; }
+    .priority-high { background: #e74c3c; color: white; }
+    .priority-medium { background: #f39c12; color: white; }
+    .priority-low { background: #27ae60; color: white; }
+    @media (min-width: 768px) {
+      body { padding: 40px 20px; }
+      .header { padding: 40px; }
+      .header h1 { font-size: 28px; }
+      .section { padding: 30px 40px; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .stat-card .num { font-size: 28px; }
+      .charts-row { flex-direction: row; flex-wrap: wrap; gap: 20px; }
+      .chart-container { width: calc(50% - 10px); flex: 0 0 calc(50% - 10px); }
+      .chart-box { height: 280px; }
+      .wordcloud-box { height: 320px; }
+      .table-wrapper { margin: 0; padding: 0; }
+      th, td { padding: 12px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎯 苏菲卫生巾舆情监测周报</h1>
-            <p class="subtitle">社媒舆情洞察 · 基于真实数据</p>
-            <div class="date">2026.03.17 - 2026.03.24</div>
-        </div>
-
-        <div class="status-section">
-            <div class="status-badge status-yellow">
-                <span>🟡</span>
-                <span>需关注</span>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="num">42</div>
-                    <div class="label">相关帖子</div>
-                </div>
-                <div class="stat-card">
-                    <div class="num">8.4万</div>
-                    <div class="label">总点赞数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="num">86</div>
-                    <div class="label">总评论数</div>
-                </div>
-                <div class="stat-card">
-                    <div class="num">3</div>
-                    <div class="label">监测平台</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 图表区域 -->
-        <div class="section">
-            <h2 class="section-title">📊 数据可视化</h2>
-            
-            <div class="charts-row">
-                <div class="chart-container">
-                    <div id="sentimentChart" class="chart-box"></div>
-                </div>
-                <div class="chart-container">
-                    <div id="platformChart" class="chart-box"></div>
-                </div>
-            </div>
-            
-            <div class="wordcloud-container">
-                <div id="wordCloudChart" class="wordcloud-box"></div>
-            </div>
-        </div>
-
-        <!-- 话题细分 -->
-        <div class="section">
-            <h2 class="section-title">🔍 话题细分聚类</h2>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 8px;">🛍️ 攻略类</div>
-                <div class="tag-cloud">
-                    <span class="tag tag-guide">购物攻略</span>
-                    <span class="tag tag-guide">免税必买</span>
-                    <span class="tag tag-guide">T2航站楼</span>
-                    <span class="tag tag-guide">入境指南</span>
-                    <span class="tag tag-guide">拍飞机</span>
-                </div>
-            </div>
-            
-            <div style="margin-bottom: 16px;">
-                <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 8px;">✨ 体验类</div>
-                <div class="tag-cloud">
-                    <span class="tag tag-exp">机场现状</span>
-                    <span class="tag tag-exp">丝滑出关</span>
-                    <span class="tag tag-exp">温泉</span>
-                    <span class="tag tag-exp">观景台</span>
-                    <span class="tag tag-exp">海上机场</span>
-                </div>
-            </div>
-            
-            <div>
-                <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 8px;">⚠️ 负面类</div>
-                <div class="tag-cloud">
-                    <span class="tag tag-neg">航班取消</span>
-                    <span class="tag tag-neg">游客减少</span>
-                    <span class="tag tag-neg">沉海问题</span>
-                    <span class="tag tag-neg">值机排队</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 风险分级 -->
-        <div class="section">
-            <h2 class="section-title">⚠️ 风险分级管理</h2>
-            
-            <div class="risk-box risk-high">
-                <div class="risk-title" style="color: #721c24;">🔴 高危风险（需公关立刻介入）</div>
-                <div class="risk-desc">中日航线大规模取消 - 52条中日航线2月取消全部航班，关西机场占近三分之一；1月中国旅客量同比暴跌58%，涉及政治敏感话题，舆情风险较高。</div>
-            </div>
-            
-            <div class="risk-box risk-medium">
-                <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
-                <div class="risk-desc">T2航站楼服务体验问题 - 用户反馈"板房菜市场"既视感，需坐摆渡车20分钟，廉航仅允许起飞前2小时值机，影响用户体验。</div>
-            </div>
-            
-            <div class="risk-box risk-medium">
-                <div class="risk-title" style="color: #856404;">🟡 中度风险</div>
-                <div class="risk-desc">沉海问题持续发酵 - 多平台出现"关西机场正在下沉"科普内容，最高获赞5万+，可能引发对机场安全性的担忧。</div>
-            </div>
-            
-            <div class="risk-box risk-low">
-                <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
-                <div class="risk-desc">个别用户负面体验 - 丢东西、跑错航站楼、值机排队等偶发个案，建议客服团队关注并优化引导流程。</div>
-            </div>
-        </div>
-
-        <!-- 正面洞察 -->
-        <div class="section">
-            <h2 class="section-title">💡 正面洞察</h2>
-            
-            <div class="risk-box" style="background: #e8f5e9; border-left-color: #4caf50; margin-bottom: 12px;">
-                <div class="risk-title" style="color: #155724;">✅ 免税购物体验受好评</div>
-                <div class="risk-desc">大量用户分享关西机场免税购物攻略，香奈儿、Lelabo等品牌热门，"比市区便宜"成为高频关键词，购物类内容获赞数较高。</div>
-            </div>
-            
-            <div class="risk-box" style="background: #e8f5e9; border-left-color: #4caf50;">
-                <div class="risk-title" style="color: #155724;">✅ "海上机场"网红属性突出</div>
-                <div class="risk-desc">世界首座完全填海造陆的离岸机场，具有独特的科普和旅游吸引力，相关内容在抖音获赞数万，具备内容营销价值。</div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">📋 舆情摘要</h2>
-            <div class="summary-box">
-                本周苏菲卫生巾舆情整体正面（68%），抖音315质检背书内容获得超高传播（7万+点赞）。但需高度关注小红书虫子投诉等品控问题，以及竞品避雷帖引发的品类安全焦虑。建议借势315热度强化品质信任，同时启动快速客诉响应。
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">📋 热门帖子 TOP 10</h2>
-            <div class="table-wrapper">
-                <table>
-                    <tr>
-                        <th>平台</th>
-                        <th>作者</th>
-                        <th>标题</th>
-                        <th>时间</th>
-                        <th>互动</th>
-                    </tr>
-                    <tr><td>抖音</td><td>海尔姐妹👭</td><td>能被官媒认可的卫生巾</td><td>2天前</td><td>2.6万赞</td></tr>
-                    <tr><td>抖音</td><td>幺幺琳</td><td>卫生巾超权威检测报告来了</td><td>2天前</td><td>1.8万赞</td></tr>
-                    <tr><td>小红书</td><td>匿名</td><td>再用垃圾口袋装我卫生巾试试看呢？</td><td>4天前</td><td>5874赞</td></tr>
-                    <tr><td>小红书</td><td>小猪</td><td>发展中国家的卫生巾价格</td><td>6天前</td><td>4359赞</td></tr>
-                    <tr><td>微博</td><td>苏菲品牌官方微博</td><td>好眠搭子小队</td><td>03月22日</td><td>132赞/80评/95转</td></tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026-03-24</p>
-            <p>基于小红书、微博、抖音公开数据生成</p>
-        </div>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎯 苏菲卫生巾舆情监测周报</h1>
+      <p class="subtitle">社媒舆情洞察 · 基于真实数据</p>
+      <div class="date">2026.03.17 - 2026.03.24</div>
     </div>
 
-    <script>
-        // 情感倾向环形图
-        var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
-        sentimentChart.setOption({
-            title: { 
-                text: '情感倾向分布', 
-                left: 'center', 
-                textStyle: { fontSize: 14, fontWeight: 'bold' } 
-            },
-            tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
-            color: ['#91CC75', '#32C5E9', '#EE6666'],
-            series: [{
-                type: 'pie',
-                radius: ['40%', '70%'],
-                center: ['50%', '55%'],
-                itemStyle: { 
-                    borderRadius: 5, 
-                    borderColor: '#fff', 
-                    borderWidth: 2 
-                },
-                label: { 
-                    show: true, 
-                    formatter: '{b}\n{c}%',
-                    fontSize: 12
-                },
-                data: [
-                    { value: 68, name: '正向' },
-                    { value: 27, name: '中立' },
-                    { value: 5, name: '负向' }
-                ]
-            }]
-        });
+    <!-- Status & Stats -->
+    <div class="status-section">
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+        <!-- 执行状态徽章 -->
+        <div class="status-badge status-green">
+          <span>✅</span>
+          <span>全部数据正常</span>
+        </div>
+        <!-- 舆情状态徽章 -->
+        <div class="status-badge status-yellow">
+          <span>🟡</span>
+          <span>关注</span>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card"><div class="num">42+</div><div class="label">总帖子数</div></div>
+        <div class="stat-card"><div class="num">8.4万+</div><div class="label">总互动量</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">数据完整平台</div></div>
+        <div class="stat-card"><div class="num" style="font-size: 18px;">暂无</div><div class="label">最热话题</div></div>
+      </div>
+    </div>
 
-        // 平台声量柱状图
-        var platformChart = echarts.init(document.getElementById('platformChart'));
-        platformChart.setOption({
-            title: { 
-                text: '平台声量分布', 
-                left: 'center', 
-                textStyle: { fontSize: 14, fontWeight: 'bold' } 
-            },
-            tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-            grid: { left: '3%', right: '4%', bottom: '3%', top: '20%', containLabel: true },
-            xAxis: { 
-                type: 'category', 
-                data: ['小红书', '微博', '抖音'],
-                axisLabel: { fontSize: 12 }
-            },
-            yAxis: { 
-                type: 'value', 
-                show: false
-            },
-            series: [{
-                data: [
-                    { value: 27, itemStyle: { color: '#FF2442' } },
-                    { value: 9, itemStyle: { color: '#E6162D' } },
-                    { value: 6, itemStyle: { color: '#000000' } }
-                ],
-                type: 'bar',
-                itemStyle: { borderRadius: [4, 4, 0, 0] },
-                barWidth: '40%',
-                label: { show: true, position: 'top', formatter: '{c}' }
-            }]
-        });
+    <!-- 舆情摘要 -->
+    <div class="section">
+      <h2 class="section-title">📝 舆情摘要</h2>
+      <div class="summary-box">本周苏菲卫生巾舆情整体正面（68%），抖音315质检背书内容获得超高传播（7万+点赞）。但需高度关注小红书虫子投诉等品控问题。</div>
+    </div>
 
-        // 热词排行
-        var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
-        var wordData = [{name: '315', value: 5}, {name: '新国标', value: 4}, {name: '质检', value: 4}, {name: '苏菲', value: 8}, {name: '卫生巾', value: 12}, {name: '囤货', value: 3}, {name: '夜用', value: 2}, {name: '口袋魔法', value: 2}, {name: '英区', value: 2}, {name: '虫子', value: 1}];
-        wordData.sort(function(a, b) { return a.value - b.value; });
-        
-        wordCloudChart.setOption({
-            title: { 
-                text: '热门关键词 TOP 10', 
-                left: 'center', 
-                textStyle: { fontSize: 14, fontWeight: 'bold' } 
-            },
-            tooltip: { 
-                trigger: 'axis',
-                axisPointer: { type: 'shadow' },
-                formatter: '{b}: 热度 {c}'
-            },
-            grid: { 
-                left: '3%', 
-                right: '10%', 
-                bottom: '3%', 
-                top: '15%', 
-                containLabel: true 
-            },
-            xAxis: { 
-                type: 'value',
-                show: false
-            },
-            yAxis: { 
-                type: 'category',
-                data: wordData.map(function(item) { return item.name; }),
-                axisLabel: { 
-                    fontSize: 12,
-                    fontWeight: 'bold'
-                },
-                axisTick: { show: false },
-                axisLine: { show: false }
-            },
-            series: [{
-                type: 'bar',
-                data: wordData.map(function(item) { return item.value; }),
-                itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                        { offset: 0, color: '#667eea' },
-                        { offset: 1, color: '#764ba2' }
-                    ]),
-                    borderRadius: [0, 4, 4, 0]
-                },
-                barWidth: '60%',
-                label: { 
-                    show: true, 
-                    position: 'right',
-                    formatter: '{c}',
-                    fontSize: 11,
-                    color: '#666'
-                }
-            }]
-        });
+    <!-- 数据可视化 -->
+    <div class="section">
+      <h2 class="section-title">📊 数据可视化</h2>
 
-        // 响应式处理
-        window.addEventListener('resize', function() {
-            sentimentChart.resize();
-            platformChart.resize();
-            wordCloudChart.resize();
-        });
-    </script>
+      <div class="charts-row">
+        <div class="chart-container">
+          <div id="sentimentChart" class="chart-box"></div>
+        </div>
+        <div class="chart-container">
+          <div id="platformChart" class="chart-box"></div>
+        </div>
+      </div>
+
+      
+    <div class="charts-row">
+      <div class="chart-container">
+        <div id="bubbleChart" class="chart-box"></div>
+      </div>
+  
+
+      
+      <div class="chart-container">
+        <div id="wordCloudChart" class="wordcloud-box"></div>
+      </div>
+    </div>
+  
+    </div>
+
+    <!-- 话题细分聚类 -->
+    <div class="section">
+      <h2 class="section-title">🔍 话题细分聚类</h2>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #28a745; margin-bottom: 8px;">🛍️ 攻略类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-guide">315</span><span class="tag tag-guide">新国标</span><span class="tag tag-guide">质检</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 14px; font-weight: 600; color: #17a2b8; margin-bottom: 8px;">✨ 体验类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-exp">英区</span><span class="tag tag-exp">囤货</span><span class="tag tag-exp">夜用</span><span class="tag tag-exp">口袋魔法</span>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 14px; font-weight: 600; color: #dc3545; margin-bottom: 8px;">⚠️ 负面类</div>
+        <div class="tag-cloud">
+          <span class="tag tag-neg">虫子</span><span class="tag tag-neg">价格</span><span class="tag tag-neg">垃圾袋</span>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <!-- 正面洞察 -->
+    
+    <div class="section">
+      <h2 class="section-title">💡 正面洞察</h2>
+      
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 315质检背书传播</div>
+          <div class="risk-desc">抖音平台315质检背书内容获得超高传播（7万+点赞），官媒认可为新国标首批合格品牌带来强信任背书</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #28a745;">📈 影响力: high</div>
+        </div>
+      
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 英区口碑传播</div>
+          <div class="risk-desc">小红书英区用户自发种草，'裸感S夜用'和'口袋魔法'在海外市场形成口碑传播</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #28a745;">📈 影响力: medium</div>
+        </div>
+      
+        <div class="positive-box">
+          <div class="risk-title" style="color: #155724;">✅ 微博互动活跃</div>
+          <div class="risk-desc">微博官方账号运营活跃，好眠搭子小队互动活动带动用户参与（95转发/80评论）</div>
+          <div style="margin-top: 8px; font-size: 12px; color: #28a745;">📈 影响力: medium</div>
+        </div>
+      
+    </div>
+    
+
+    <!-- 负面洞察 -->
+    
+    <div class="section">
+      <h2 class="section-title">⚠️ 负面洞察</h2>
+      
+        <div class="risk-box risk-low">
+          <div class="risk-title">产品质量投诉</div>
+          <div class="risk-desc">小红书出现产品质量投诉（虫子），虽单条但属于严重品控问题，需高度关注</div>
+          
+        </div>
+      
+        <div class="risk-box risk-low">
+          <div class="risk-title">竞品避雷影响</div>
+          <div class="risk-desc">竞品避雷帖（七度空间、安妮佳）带动卫生巾品类安全讨论，行业负面情绪可能外溢</div>
+          
+        </div>
+      
+    </div>
+    
+
+    <!-- 竞品对标分析 -->
+    
+
+    <!-- 用户画像特征 -->
+    
+
+    <!-- 风险分级管理 -->
+    
+    <div class="section">
+      <h2 class="section-title">🛡️ 风险分级管理</h2>
+      
+      
+    <div class="risk-box risk-high">
+      <div class="risk-title" style="color: #721c24;">🔴 高危风险（需公关立刻介入）</div>
+      <div class="risk-desc"><strong>产品质量投诉（虫子）</strong> - 严重品控问题，需高度关注</div>
+      
+        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+          相关帖子: [小红书] 虫子...
+        </div>
+      
+    </div>
+  
+      
+    <div class="risk-box risk-medium">
+      <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
+      <div class="risk-desc"><strong>竞品避雷帖波及</strong> - 品类安全焦虑可能波及苏菲</div>
+      
+        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+          相关帖子: [小红书] 女生们七度空间避雷！！！！...
+        </div>
+      
+    </div>
+  
+    <div class="risk-box risk-medium">
+      <div class="risk-title" style="color: #856404;">🟡 中度风险（需运营/客服干预）</div>
+      <div class="risk-desc"><strong>价格敏感话题</strong> - 卫生巾价格敏感话题高赞传播（4359赞）</div>
+      
+        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+          相关帖子: [小红书] 发展中国家的卫生巾价格...
+        </div>
+      
+    </div>
+  
+      
+    <div class="risk-box risk-low">
+      <div class="risk-title" style="color: #0c5460;">🟢 低度风险（建议监控）</div>
+      <div class="risk-desc"><strong>包装吐槽</strong> - 包装相关吐槽（垃圾袋装卫生巾）- 物流服务体验问题</div>
+      
+        <div style="margin-top: 8px; font-size: 12px; color: #666;">
+          相关帖子: [小红书] 再用垃圾口袋装我卫生巾试试看呢？...
+        </div>
+      
+    </div>
+  
+    </div>
+    
+
+    <!-- 行动建议 -->
+    
+    <div class="section">
+      <h2 class="section-title">🎯 行动建议</h2>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            建议1
+          </div>
+          <div class="risk-desc">[object Object]</div>
+          
+          
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
+        </div>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            建议2
+          </div>
+          <div class="risk-desc">[object Object]</div>
+          
+          
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
+        </div>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            建议3
+          </div>
+          <div class="risk-desc">[object Object]</div>
+          
+          
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
+        </div>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            建议4
+          </div>
+          <div class="risk-desc">[object Object]</div>
+          
+          
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
+        </div>
+      
+        <div class="action-box">
+          <div class="risk-title">
+            <span class="action-priority priority-medium">中</span>
+            建议5
+          </div>
+          <div class="risk-desc">[object Object]</div>
+          
+          
+          <div style="margin-top: 4px; font-size: 12px; color: #9c27b0;">⏱️ 时间线: 本周</div>
+        </div>
+      
+    </div>
+    
+
+    <!-- 热门帖子 TOP 10 -->
+    
+    <div class="section">
+      <h2 class="section-title">🔥 热门帖子 TOP 10</h2>
+      <div class="table-wrapper">
+        <table>
+          <tr><th>平台</th><th>作者</th><th>标题</th><th>时间</th><th>互动</th></tr>
+          
+            <tr>
+              <td>抖音</td>
+              <td>官媒</td>
+              <td>315质检/新国标检测</td>
+              <td>03-18</td>
+              <td>👍 70,000</td>
+            </tr>
+          
+            <tr>
+              <td>小红书</td>
+              <td>用户A</td>
+              <td>再用垃圾口袋装我卫生巾试试看呢？</td>
+              <td>03-22</td>
+              <td>👍 5,874</td>
+            </tr>
+          
+            <tr>
+              <td>小红书</td>
+              <td>用户C</td>
+              <td>发展中国家的卫生巾价格</td>
+              <td>03-20</td>
+              <td>👍 4,359</td>
+            </tr>
+          
+            <tr>
+              <td>微博</td>
+              <td>苏菲官方</td>
+              <td>好眠搭子小队互动活动</td>
+              <td>03-22</td>
+              <td>👍 152</td>
+            </tr>
+          
+            <tr>
+              <td>抖音</td>
+              <td>用户E</td>
+              <td>英区囤货/海外使用体验</td>
+              <td>03-19</td>
+              <td>👍 82</td>
+            </tr>
+          
+            <tr>
+              <td>小红书</td>
+              <td>用户B</td>
+              <td>女生们七度空间避雷！！！！</td>
+              <td>03-21</td>
+              <td>👍 0</td>
+            </tr>
+          
+            <tr>
+              <td>小红书</td>
+              <td>用户D</td>
+              <td>虫子</td>
+              <td>03-19</td>
+              <td>👍 0</td>
+            </tr>
+          
+        </table>
+      </div>
+    </div>
+    
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/24 17:27:19</p>
+      <p>基于小红书、微博、抖音公开数据生成</p>
+    </div>
+  </div>
+
+  <script>
+    // 情感倾向环形图
+    var sentimentChart = echarts.init(document.getElementById('sentimentChart'));
+    sentimentChart.setOption({
+      title: { text: '情感倾向分布', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      color: ['#91CC75', '#32C5E9', '#EE6666'],
+      series: [{
+        type: 'pie',
+        radius: ['40%', '70%'],
+        center: ['50%', '60%'],
+        itemStyle: { borderRadius: 5, borderColor: '#fff', borderWidth: 2 },
+        label: { show: true, formatter: '{b}: {c}%', fontSize: 12 },
+        data: [
+          { value: 68, name: '正向' },
+          { value: 27, name: '中立' },
+          { value: 5, name: '负向' }
+        ]
+      }]
+    });
+
+    // 平台声量柱状图 - 各平台不同颜色
+    var platformChart = echarts.init(document.getElementById('platformChart'));
+    platformChart.setOption({
+      title: { text: '平台声量分布', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: '15%', right: '10%', top: '25%', bottom: '15%' },
+      xAxis: { type: 'category', data: ['小红书', '微博', '抖音'], axisLabel: { fontSize: 12 } },
+      yAxis: { type: 'value' },
+      series: [{
+        data: [
+          { value: 27, itemStyle: { color: '#ff2442' } },
+          { value: 9, itemStyle: { color: '#e6162d' } },
+          { value: 6, itemStyle: { color: '#000000' } }
+        ],
+        type: 'bar',
+        barWidth: '50%',
+        label: { show: true, position: 'top', fontSize: 14, fontWeight: 'bold' }
+      }]
+    });
+
+    
+    // 词云图
+    var wordCloudChart = echarts.init(document.getElementById('wordCloudChart'));
+    wordCloudChart.setOption({
+      title: { text: '热门关键词词云', left: 'center', top: 20, textStyle: { fontSize: 14, fontWeight: 'bold' } },
+      tooltip: { show: true },
+      series: [{
+        type: 'wordCloud',
+        shape: 'circle',
+        left: 'center',
+        top: '15%',
+        width: '90%',
+        height: '80%',
+        sizeRange: [12, 40],
+        rotationRange: [-45, 45],
+        rotationStep: 45,
+        gridSize: 8,
+        drawOutOfBound: false,
+        textStyle: {
+          fontFamily: 'sans-serif',
+          fontWeight: 'bold',
+          color: function() {
+            return 'rgb(' + [
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160),
+              Math.round(Math.random() * 160)
+            ].join(',') + ')';
+          }
+        },
+        emphasis: { focus: 'self', textStyle: { textShadowBlur: 10, textShadowColor: '#333' } },
+        data: [{"name":"315","value":100,"category":"攻略"},{"name":"新国标","value":90,"category":"攻略"},{"name":"质检","value":80,"category":"攻略"},{"name":"英区","value":80,"category":"体验"},{"name":"囤货","value":72,"category":"体验"},{"name":"夜用","value":64,"category":"体验"},{"name":"口袋魔法","value":56,"category":"体验"},{"name":"虫子","value":60,"category":"负面"},{"name":"价格","value":54,"category":"负面"},{"name":"垃圾袋","value":48,"category":"负面"}]
+      }]
+    });
+  
+    
+    // 平台效能气泡图
+    var bubbleChart = echarts.init(document.getElementById('bubbleChart'));
+    bubbleChart.setOption({
+      title: { 
+        text: '平台效能分析', 
+        subtext: '气泡大小=总点赞',
+        left: 'center', 
+        top: 25,
+        textStyle: { fontSize: 14, fontWeight: 'bold' },
+        subtextStyle: { fontSize: 12, color: '#666' }
+      },
+      tooltip: {
+        formatter: function(param) {
+          return param.data[3] + '<br>帖子数: ' + param.data[0] + '<br>平均点赞: ' + param.data[1] + '<br>总点赞: ' + param.data[2];
+        }
+      },
+      grid: { left: '15%', right: '15%', top: '35%', bottom: '15%' },
+      xAxis: { name: '帖子数', type: 'value', scale: true, min: 0 },
+      yAxis: { name: '平均点赞', type: 'value', scale: true, min: 0 },
+      series: [{
+        type: 'scatter',
+        symbolSize: function(data) {
+          // 限制气泡大小，防止撑出边界
+          var size = Math.sqrt(data[2]) / 5;
+          return Math.min(Math.max(size, 20), 70);
+        },
+        data: [[27,506,13680,"小红书"],[9,17,152,"微博"],[6,11680,70082,"抖音"]],
+        itemStyle: {
+          color: function(params) {
+            return ['#ff2442', '#e6162d', '#000000'][params.dataIndex % 3];
+          },
+          opacity: 0.7
+        },
+        label: {
+          show: true,
+          formatter: function(param) { return param.data[3]; },
+          position: 'inside',
+          fontSize: 11,
+          fontWeight: 'bold',
+          color: '#fff'
+        }
+      }]
+    });
+  
+
+    window.addEventListener('resize', function() {
+      sentimentChart.resize();
+      platformChart.resize();
+      if (document.getElementById('wordCloudChart')) {
+        echarts.getInstanceByDom(document.getElementById('wordCloudChart'))?.resize();
+      }
+      if (document.getElementById('bubbleChart')) {
+        echarts.getInstanceByDom(document.getElementById('bubbleChart'))?.resize();
+      }
+    });
+  </script>
 </body>
 </html>
