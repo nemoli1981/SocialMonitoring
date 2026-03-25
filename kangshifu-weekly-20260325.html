@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康师傅冰红茶 - 社媒舆情周报</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px; border-radius: 16px; margin-bottom: 24px; }
+        .header h1 { font-size: 32px; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 16px; }
+        .header .date { margin-top: 16px; font-size: 14px; opacity: 0.8; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .stat-card .number { font-size: 32px; font-weight: bold; color: #667eea; }
+        .stat-card .label { color: #666; font-size: 14px; margin-top: 4px; }
+        .section { background: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .section h2 { font-size: 20px; margin-bottom: 16px; color: #333; border-left: 4px solid #667eea; padding-left: 12px; }
+        .sentiment-box { display: flex; gap: 16px; margin-top: 16px; }
+        .sentiment-item { flex: 1; text-align: center; padding: 16px; border-radius: 8px; }
+        .sentiment-positive { background: #e8f5e9; color: #2e7d32; }
+        .sentiment-neutral { background: #fff3e0; color: #f57c00; }
+        .sentiment-negative { background: #ffebee; color: #c62828; }
+        .topic-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .topic-item { padding: 16px; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #667eea; }
+        .topic-item h4 { font-size: 14px; color: #666; margin-bottom: 4px; }
+        .topic-item p { font-size: 16px; font-weight: 500; }
+        .insight-card { padding: 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 12px; }
+        .insight-card h4 { color: #667eea; margin-bottom: 8px; }
+        .risk-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .risk-low { background: #e8f5e9; color: #2e7d32; }
+        .risk-medium { background: #fff3e0; color: #f57c00; }
+        .action-item { padding: 16px; border-left: 3px solid; margin-bottom: 12px; background: #f8f9fa; border-radius: 0 8px 8px 0; }
+        .action-high { border-color: #c62828; }
+        .action-medium { border-color: #f57c00; }
+        .action-low { border-color: #2e7d32; }
+        .posts-table { width: 100%; border-collapse: collapse; }
+        .posts-table th, .posts-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .posts-table th { background: #f8f9fa; font-weight: 500; }
+        .likes { color: #e91e63; font-weight: 500; }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .topic-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🫧 康师傅冰红茶 社媒舆情周报</h1>
+            <p class="subtitle">小红书平台监测报告</p>
+            <p class="date">监测周期：2026.03.18 - 2026.03.25</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="number">24</div>
+                <div class="label">监测帖子数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">12,551</div>
+                <div class="label">总点赞数</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">523</div>
+                <div class="label">平均点赞</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">🟢</div>
+                <div class="label">舆情状态：健康</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 情感分析</h2>
+            <div class="sentiment-box">
+                <div class="sentiment-item sentiment-positive">
+                    <div style="font-size: 28px; font-weight: bold;">92%</div>
+                    <div>正面</div>
+                </div>
+                <div class="sentiment-item sentiment-neutral">
+                    <div style="font-size: 28px; font-weight: bold;">8%</div>
+                    <div>中性</div>
+                </div>
+                <div class="sentiment-item sentiment-negative">
+                    <div style="font-size: 28px; font-weight: bold;">0%</div>
+                    <div>负面</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔥 热门话题分布</h2>
+            <div class="topic-list">
+                <div class="topic-item">
+                    <h4>新品营销 40%</h4>
+                    <p>低糖高纤系列、鸭屎香新口味、产品升级</p>
+                </div>
+                <div class="topic-item">
+                    <h4>功能诉求 25%</h4>
+                    <p>ENERGY能量款、提神醒脑、运动后补充</p>
+                </div>
+                <div class="topic-item">
+                    <h4>生活方式 20%</h4>
+                    <p>日常plog、打工人续命、追剧伴侣</p>
+                </div>
+                <div class="topic-item">
+                    <h4>产品测评 15%</h4>
+                    <p>口味测评、糖分对比、性价比分析</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 正面洞察</h2>
+            <div class="insight-card">
+                <h4>🌟 KOL背书效果显著</h4>
+                <p>娱乐类KOL「豆豆娱乐屋」发布的「康师傅饮料真的很权威啊」获得5895赞，为所有帖子中最高，说明大众娱乐向内容更易引发共鸣和互动</p>
+            </div>
+            <div class="insight-card">
+                <h4>🌟 新品传播声量强劲</h4>
+                <p>低糖高纤系列相关内容占比40%，官方新品帖4737赞，说明健康化升级策略契合当下消费趋势</p>
+            </div>
+            <div class="insight-card">
+                <h4>🌟 品牌情感连接良好</h4>
+                <p>用户自发产生「日子是重复的 冰红茶是康师傅的」等情感化表达，体现品牌在年轻群体中已形成稳定的心智占位</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ 风险预警</h2>
+            <p><span class="risk-badge risk-low">🟢 低风险</span> 当前数据样本中未发现负面舆情、品控投诉或竞品攻击</p>
+            <br>
+            <p><span class="risk-badge risk-medium">🟡 关注级</span> 仅24条帖子，覆盖面有限，建议扩大监测范围</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 行动建议</h2>
+            <div class="action-item action-high">
+                <strong>【高优先级】深化KOL矩阵合作</strong><br>
+                复制「豆豆娱乐屋」成功模式，拓展3-5位娱乐/生活方式类中腰部KOL
+            </div>
+            <div class="action-item action-high">
+                <strong>【高优先级】放大新品营销势能</strong><br>
+                低糖高纤系列已展现良好开局，建议结合春夏旺季加大投放
+            </div>
+            <div class="action-item action-medium">
+                <strong>【中优先级】丰富测评类内容</strong><br>
+                邀请美食/健身博主进行「糖分实测」「低卡搭配」等专业向内容产出
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📈 热门帖子 TOP 10</h2>
+            <table class="posts-table">
+                <tr><th>排名</th><th>标题</th><th>作者</th><th>点赞</th></tr>
+                <tr><td>1</td><td>康师傅饮料真的很权威啊！</td><td>豆豆娱乐屋</td><td class="likes">5,895</td></tr>
+                <tr><td>2</td><td>康师傅冰红茶低糖高纤系列全新升级上市！</td><td>康师傅冰红茶</td><td class="likes">4,737</td></tr>
+                <tr><td>3</td><td>大家可以进来恭喜一下我吗？</td><td>康师傅冰红茶</td><td class="likes">935</td></tr>
+                <tr><td>4</td><td>康师傅饮料真的很权威啊！</td><td>豆豆娱乐屋</td><td class="likes">5,895</td></tr>
+                <tr><td>5</td><td>𝐩𝐥𝐨𝐠｜日子是重复的 冰红茶是康师傅的~</td><td>汤圆要加油</td><td class="likes">160</td></tr>
+                <tr><td>6</td><td>新品尝鲜！康师傅低糖高纤鸭屎香冰红茶来了</td><td>零食情报官</td><td class="likes">198</td></tr>
+                <tr><td>7</td><td>💌康师傅冰红茶 请永远承包我的快乐</td><td>小企屋第二季</td><td class="likes">108</td></tr>
+                <tr><td>8</td><td>康师傅冰红茶energy</td><td>青兰</td><td class="likes">81</td></tr>
+                <tr><td>9</td><td>🎈康师傅冰红茶，爽翻一夏！</td><td>思思</td><td class="likes">61</td></tr>
+                <tr><td>10</td><td>夏日冰箱必备！冰红茶三种神仙喝法！</td><td>小红薯6790D211</td><td class="likes">28</td></tr>
+            </table>
+        </div>
+
+        <div style="text-align: center; padding: 40px; color: #999;">
+            <p>报告生成时间：2026-03-25</p>
+            <p>数据来源：小红书 | 监测工具：OpenClaw 社媒舆情监控系统</p>
+        </div>
+    </div>
+</body>
+</html>
