@@ -85,9 +85,9 @@
     <div class="status-section">
       <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
         <!-- 执行状态徽章 -->
-        <div class="status-badge status-yellow">
-          <span>⚠️</span>
-          <span>部分数据缺失</span>
+        <div class="status-badge status-green">
+          <span>✅</span>
+          <span>全部数据正常</span>
         </div>
         <!-- 舆情状态徽章 -->
         <div class="status-badge status-yellow">
@@ -96,16 +96,10 @@
         </div>
       </div>
       
-    <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 8px; margin-top: 12px; font-size: 13px; color: #856404;">
-      <strong>⚠️ 数据完整性提示</strong><br>
-      以下平台数据缺失：小红书。<br>
-      本报告基于不完整数据生成，仅供参考。
-    </div>
-  
       <div class="stats-grid">
-        <div class="stat-card"><div class="num">40+</div><div class="label">总帖子数</div></div>
+        <div class="stat-card"><div class="num">60+</div><div class="label">总帖子数</div></div>
         <div class="stat-card"><div class="num">0+</div><div class="label">总互动量</div></div>
-        <div class="stat-card"><div class="num">2</div><div class="label">数据完整平台</div></div>
+        <div class="stat-card"><div class="num">3</div><div class="label">数据完整平台</div></div>
         <div class="stat-card"><div class="num" style="font-size: 18px;">产品测评</div><div class="label">最热话题</div></div>
       </div>
     </div>
@@ -381,6 +375,14 @@
             </tr>
           
             <tr>
+              <td>小红书</td>
+              <td>未知</td>
+              <td>一只活虫，爬进了数百万女性的信任禁区</td>
+              <td>-</td>
+              <td>👍 2973</td>
+            </tr>
+          
+            <tr>
               <td>抖音</td>
               <td>苏菲云熙专卖店</td>
               <td>我说它是夜用王者姨妈巾..苏菲 420 一夜好眠</td>
@@ -444,14 +446,6 @@
               <td>👍 1005</td>
             </tr>
           
-            <tr>
-              <td>微博</td>
-              <td>未知</td>
-              <td>点👍揪 1 个宝喝【奶茶】</td>
-              <td>-</td>
-              <td>👍 478</td>
-            </tr>
-          
         </table>
       </div>
     </div>
@@ -459,7 +453,7 @@
 
     <!-- Footer -->
     <div class="footer">
-      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/26 11:14:48</p>
+      <p>本报告由 OpenClaw 自动生成 · 数据截止时间：2026/3/26 11:37:35</p>
       <p>基于小红书、微博、抖音公开数据生成</p>
     </div>
   </div>
@@ -495,7 +489,7 @@
       yAxis: { type: 'value' },
       series: [{
         data: [
-          { value: 0, itemStyle: { color: '#ff2442' } },
+          { value: 20, itemStyle: { color: '#ff2442' } },
           { value: 20, itemStyle: { color: '#e6162d' } },
           { value: 20, itemStyle: { color: '#000000' } }
         ],
