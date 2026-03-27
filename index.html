@@ -2,7 +2,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>趣多多 舆情监测报告</title>
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
     :root { --primary-color: #4f46e5; --secondary-color: #818cf8; --bg-color: #f3f4f6; --card-bg: #ffffff; --text-main: #1f2937; --text-muted: #6b7280; --border-color: #e5e7eb; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,24 +40,8 @@
     tr:last-child td { border-bottom: none; }
     tr:hover td { background-color: #f9fafb; }
     .footer { text-align: center; color: var(--text-muted); font-size: 13px; padding: 32px 20px; margin-top: 20px; border-top: 1px solid var(--border-color); }
-    
-    /* 响应式优化 */
-    @media (max-width: 768px) { 
-      .container { padding: 12px; }
-      .header { padding: 24px 20px; border-radius: 12px; }
-      .header h1 { font-size: 24px; }
-      .overview-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .overview-card { padding: 16px; }
-      .overview-card .value { font-size: 28px; }
-      .section { padding: 16px; border-radius: 12px; }
-      .chart-container { height: 300px; }
-      .card-list { grid-template-columns: 1fr; }
-      th, td { padding: 12px; }
-    }
-    @media (max-width: 480px) {
-      .overview-grid { grid-template-columns: 1fr; }
-      .header .meta { flex-direction: column; gap: 4px; }
-    }
+    @media (max-width: 768px) { .container { padding: 12px; } .header { padding: 24px 20px; border-radius: 12px; } .header h1 { font-size: 24px; } .overview-grid { grid-template-columns: 1fr 1fr; gap: 12px; } .overview-card { padding: 16px; } .overview-card .value { font-size: 28px; } .section { padding: 16px; border-radius: 12px; } .chart-container { height: 300px; } .card-list { grid-template-columns: 1fr; } th, td { padding: 12px; } }
+    @media (max-width: 480px) { .overview-grid { grid-template-columns: 1fr; } .header .meta { flex-direction: column; gap: 4px; } }
   </style>
 </head>
 <body>
@@ -66,7 +49,7 @@
     <div class="degraded-banner" id="degraded-banner">⚠️ 本报告基于降级分析生成，部分 AI 洞察可能缺失。请参考原始数据进行人工审查。</div>
     <div class="header">
       <h1>趣多多 舆情监测报告</h1>
-      <div class="meta">监测周期：2026.03.20 - 2026.03.27 | 生成时间：2026-03-27 13:15</div>
+      <div class="meta">监测周期：2026.03.20 - 2026.03.27 | 生成时间：2026-03-27 14:15</div>
       <div class="status-badge">🟡 趣多多三平台声量充足，抖音爆款传播强，但代可可脂健康质疑和口味下降负面舆情需重点关注</div>
     </div>
     <div class="overview-grid" id="overview-grid"></div>
@@ -82,122 +65,82 @@
     <div class="section"><h2>👤 用户画像</h2><div id="persona-section"></div></div>
     <div class="section"><h2>🎯 行动建议</h2><div id="actions-section"></div></div>
     <div class="section"><h2>🏆 Top 10 热门帖子</h2><div id="top-posts-section"></div></div>
-    <div class="footer">由 OpenClaw 社媒舆情监控系统自动生成 | 2026-03-27 13:15</div>
+    <div class="footer">由 OpenClaw 社媒舆情监控系统自动生成 | 2026-03-27 14:15</div>
   </div>
-  <script>window.REPORT_DATA = {"reportMeta":{"brand":"趣多多","dateRange":"2026.03.20 - 2026.03.27","generatedAt":"2026-03-27 13:15","status":"🟡","summary":"趣多多三平台声量充足，抖音爆款传播强，但代可可脂健康质疑和口味下降负面舆情需重点关注"},"overview":{"totalPosts":71,"totalInteractions":15668,"platformCount":3,"hotTopic":"口味变化讨论","sentimentLabel":"正面主导"},"platforms":{"stats":{"xiaohongshu":{"count":28,"total_likes":3342,"total_comments":0,"total_collects":0,"avg_likes":119,"avg_comments":0,"avg_collects":0,"engagement_rate":0},"weibo":{"count":18,"total_likes":378,"total_comments":254,"total_reposts":760,"avg_likes":21,"avg_comments":14,"avg_reposts":42,"engagement_rate":0},"douyin":{"count":25,"total_likes":11948,"total_comments":0,"total_shares":0,"total_plays":0,"avg_likes":478,"avg_comments":0,"avg_plays":0,"engagement_rate":0,"like_play_ratio":0}},"efficiency":{"best_engagement":"douyin","best_volume":"xiaohongshu","best_viral":"douyin","cross_platform_score":75,"ranking":[{"platform":"douyin","score":85,"reason":"爆款传播力强，单帖最高1.1万赞"},{"platform":"xiaohongshu","score":78,"reason":"用户讨论深度好，内容多样化"},{"platform":"weibo","score":62,"reason":"传播广度好但互动率一般，有负面舆情"}]}},"analysis":{"status":"🟡","summary":"趣多多三平台声量充足，抖音爆款传播强，但代可可脂健康质疑和口味下降负面舆情需重点关注","sentiment":{"positive":65,"neutral":25,"negative":10},"hotKeywords":{"攻略类":["在家实现趣多多自由","新品品尝","全家福缤纷桶","商品券"],"体验类":["软曲奇","巧克力控","香到封神","四种口味","大块厚实"],"负面类":["代可可脂","偷工减料","变难吃","健康骗局","最难吃"]},"topicClusters":[{"topic":"健康成分质疑","keywords":["代可可脂","健康","孩子","骗局"],"sentiment":"negative","volume":"中","heat":"rising"},{"topic":"口味变化讨论","keywords":["变难吃","软曲奇","学生时代","最难吃"],"sentiment":"negative","volume":"高","heat":"rising"},{"topic":"新品/爆款内容","keywords":["新品","缤纷桶","萌娃","1.1万赞"],"sentiment":"positive","volume":"高","heat":"stable"},{"topic":"用户自发创作","keywords":["emoji同款","在家实现","自由","攻略"],"sentiment":"positive","volume":"中","heat":"stable"}],"positiveInsights":[{"title":"抖音爆款内容传播力极强","evidence":"单条视频1.1万赞，抖音总点赞11948，平均478赞远超其他平台","impact":"高"},{"title":"小红书用户自发创作活跃","evidence":"28条帖子平均119赞，美食攻略类内容互动深度好","impact":"中"},{"title":"品牌联名带来关注度","evidence":"郭麒麟-趣多多内容获71赞64评论182转发，传播效果好","impact":"中"}],"negativeInsights":[{"title":"代可可脂健康质疑","evidence":"微博用户直指'用代可可脂骗孩子健康'，涉及食品安全敏感话题","severity":"高","recommendation":"立即发布成分说明，强调符合国家标准，考虑推出健康线产品"},{"title":"软曲奇口味投诉集中","evidence":"多条反馈'四种口味软曲奇最难吃'，产品线口碑分化","severity":"中","recommendation":"调研软曲奇用户满意度，考虑配方优化或下架低口碑口味"},{"title":"怀旧用户群体流失风险","evidence":"#学生时代最喜欢的趣多多怎么变这么难吃#话题显示老用户失望","severity":"中","recommendation":"发起怀旧营销活动，推出经典复刻版，重建老用户情感连接"},{"title":"偷工减料指控","evidence":"小红书出现'趣多多偷工减料'负面帖子","severity":"中","recommendation":"监控该帖传播情况，必要时官方回应澄清"}],"riskWarnings":{"high":[{"level":"high","title":"代可可脂健康质疑","desc":"可能引发媒体关注和监管注意","posts":["https://weibo.com/6307445914/QxxwvCenE"],"action":"立即公关回应，发布成分说明"}],"medium":[{"level":"medium","title":"口味下降投诉持续发酵","desc":"可能影响复购率","posts":["https://weibo.com/7658758625/QwyEtwSze"],"action":"启动产品调研"},{"level":"medium","title":"偷工减料指控","desc":"若扩散将损害品牌信任","posts":["https://www.xiaohongshu.com/search_result/69c26dd8000000001a035326"],"action":"监控传播，必要时回应"}],"low":[{"level":"low","title":"个别负面体验","desc":"属正常舆情波动","posts":[],"action":"持续监控"}]},"competitorAnalysis":{"mentionedCompetitors":["奥利奥"],"competitorAdvantages":["奥利奥商品券联动促销","奥利奥品牌认知度更高"],"ourDifferentiation":"趣多多以巧克力豆颗粒为特色，软曲奇产品线差异化，但需强化健康形象"},"userPersona":{"demographics":"18-35岁年轻群体为主，女性占比高，学生及年轻白领，集中小红书抖音平台","coreNeeds":["零食分享社交需求","猎奇新品体验","怀旧情感寄托","便捷解馋"],"painPoints":["担心成分健康性","口味不如从前","价格敏感度提高"]},"actionItems":[{"priority":"高","title":"代可可脂成分公关回应","tactic":"发布官方成分说明视频，邀请营养师解读，强调符合国标安全","expectedResult":"降低健康质疑声量，恢复消费者信任","timeline":"本周","department":"公关部"},{"priority":"高","title":"软曲奇产品线评估","tactic":"启动用户口味调研，收集软曲奇具体投诉点，评估配方调整可行性","expectedResult":"明确产品改进方向或优化产品组合","timeline":"本月","department":"产品研发部"},{"priority":"中","title":"怀旧用户召回计划","tactic":"推出'经典复刻版'限量包装，发起#学生时代的趣多多#话题营销","expectedResult":"重建老用户情感连接，提升品牌好感度","timeline":"本月","department":"市场部"},{"priority":"中","title":"抖音爆款内容复制","tactic":"分析1.1万赞视频成功要素，与同类创作者合作批量生产","expectedResult":"提升抖音平台声量和转化","timeline":"本月","department":"内容运营部"},{"priority":"低","title":"小红书KOC合作扩大","tactic":"邀请美食类KOC进行新品测评，产出攻略类内容","expectedResult":"维持小红书平台活跃度和正面声量","timeline":"本月","department":"内容运营部"}]},"topPosts":[{"platform":"抖音","title":"挑眉瑶 #古灵精怪小宝贝 #瑶一瑶的快乐大合集 #女儿 #可爱到爆炸💥 #萌娃","author":"俊瑜趣多多","likes":11000,"comments":0,"url":"https://www.douyin.com/video/7617138293976698162"},{"platform":"小红书","title":"emoji同款软曲奇🍪 在家实现趣多多自由～","author":"赵哈哈","likes":1151,"comments":0,"url":"https://www.xiaohongshu.com/search_result/699fc245000000001a0305bd"},{"platform":"小红书","title":"十多年保持新鲜感的秘诀：想方设法玩对方！","author":"趣多多大仙","likes":818,"comments":0,"url":"https://www.xiaohongshu.com/search_result/6825ce4b000000002301d0d7"},{"platform":"小红书","title":"🍪 趣多多新品我先替你们尝了！","author":"Ha吉咪.*🔆","likes":809,"comments":0,"url":"https://www.xiaohongshu.com/search_result/69c28d990000000021004f70"},{"platform":"抖音","title":"#正能量短剧","author":"趣多多","likes":629,"comments":0,"url":"https://www.douyin.com/video/7616925288655608000"},{"platform":"小红书","title":"和小狗合影｜好卑微的趣多多","author":"无用的趣多多","likes":259,"comments":0,"url":"https://www.xiaohongshu.com/search_result/68a7b1d1000000001c013639"},{"platform":"微博","title":"🧱抽三个人吃趣多多（可折5） 大家都开心一点","author":"窗上小雪Q","likes":179,"comments":14,"url":"https://weibo.com/7997618621/QwfbVsXf8"},{"platform":"小红书","title":"巧克力饼干合订版🍪","author":"鈩洲铑教授","likes":156,"comments":0,"url":"https://www.xiaohongshu.com/search_result/68108e0d000000002001da4f"},{"platform":"微博","title":""郭麒麟-趣多多"~饼干最爱趣多多","author":"谁是奇妙降林","likes":71,"comments":64,"url":"https://weibo.com/7190945568/QxZ8xgI89"},{"platform":"微博","title":"……宝宝你是一块趣多多🍪","author":"年糕喵子","likes":52,"comments":9,"url":"https://weibo.com/2534828530/QtbbDpcQ5"}]};</script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <script>
-    (function() {
-      var D = window.REPORT_DATA;
-      if (!D) return;
-      var reportMeta = D.reportMeta;
-      var overview = D.overview;
-      var platforms = D.platforms;
-      var analysis = D.analysis;
-      var pNames = { xiaohongshu: '小红书', weibo: '微博', douyin: '抖音' };
-      if (D.error || (reportMeta && reportMeta.summary && reportMeta.summary.indexOf('降级') >= 0)) { document.getElementById('degraded-banner').style.display = 'block'; }
-      function fmt(n) { if (n >= 100000000) return (n / 100000000).toFixed(1) + '亿'; if (n >= 10000) return (n / 10000).toFixed(1) + '万'; return String(n); }
-      var grid = document.getElementById('overview-grid');
-      var overviewItems = [{ value: overview.totalPosts, label: '监测帖子数' }, { value: fmt(overview.totalInteractions), label: '总互动量' }, { value: overview.platformCount, label: '覆盖平台' }, { value: overview.hotTopic, label: '最热话题' }];
-      for (var i = 0; i < overviewItems.length; i++) { var card = document.createElement('div'); card.className = 'overview-card'; card.innerHTML = '<div class="value">' + overviewItems[i].value + '</div><div class="label">' + overviewItems[i].label + '</div>'; grid.appendChild(card); }
-      var isMobile = window.innerWidth < 480;
-      var sChart = echarts.init(document.getElementById('sentiment-chart'));
-      sChart.setOption({ tooltip: { trigger: 'item' }, color: ['#52c41a', '#faad14', '#ff4d4f'], series: [{ type: 'pie', radius: isMobile ? ['30%', '50%'] : ['40%', '70%'], center: ['50%', '50%'], label: { formatter: '{b}: {d}%' }, data: [{ value: analysis.sentiment.positive, name: '正面' }, { value: analysis.sentiment.neutral, name: '中性' }, { value: analysis.sentiment.negative, name: '负面' }] }] });
-      var pChart = echarts.init(document.getElementById('platform-chart'));
-      var pKeys = Object.keys(platforms.stats);
-      var maxCount = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].count || 0; })) || 1;
-      var maxAvgLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].avg_likes || 0; })) || 1;
-      var maxTotalLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].total_likes || 0; })) || 1;
-      var maxTotalComments = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].total_comments || 0; })) || 1;
-      var maxRate = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].engagement_rate || 0; })) || 0.01;
-      pChart.setOption({
-        tooltip: { trigger: 'item' },
-        legend: { bottom: 0, data: pKeys.map(function(k) { return pNames[k] || k; }) },
-        radar: {
-          indicator: [
-            { name: '帖子声量 (篇)', max: maxCount * 1.1 },
-            { name: '爆文潜力 (均赞)', max: maxAvgLikes * 1.1 },
-            { name: '总曝光 (总赞)', max: maxTotalLikes * 1.1 },
-            { name: '用户讨论 (总评)', max: maxTotalComments * 1.1 },
-            { name: '互动粘性 (互动率)', max: maxRate * 1.1 }
-          ],
-          shape: 'polygon',
-          splitNumber: 4,
-          axisName: { 
-            color: '#666',
-            formatter: function(value) { return value.split(' ').join('\n'); }
-          },
-          radius: isMobile ? '50%' : '65%',
-          center: ['50%', '50%']
-        },
-        series: [{
-          name: '平台综合能力',
-          type: 'radar',
-          symbol: 'circle',
-          symbolSize: 6,
-          areaStyle: { opacity: 0.15 },
-          data: pKeys.map(function(k) {
-            return {
-              value: [
-                platforms.stats[k].count || 0,
-                platforms.stats[k].avg_likes || 0,
-                platforms.stats[k].total_likes || 0,
-                platforms.stats[k].total_comments || 0,
-                platforms.stats[k].engagement_rate || 0
-              ],
-              name: pNames[k] || k
-            };
-          })
-        }]
-      });
-      var effEl = document.getElementById('efficiency-section');
-      var eff = platforms.efficiency || {};
-      var effHtml = '<div class="table-container"><table><tr><th>排名</th><th>平台</th><th>评分</th><th>说明</th></tr>';
-      var ranking = eff.ranking || [];
-      for (var ri = 0; ri < ranking.length; ri++) { var r = ranking[ri]; effHtml += '<tr><td>' + (ri + 1) + '</td><td>' + (pNames[r.platform] || r.platform) + '</td><td><strong>' + r.score + '</strong></td><td>' + r.reason + '</td></tr>'; }
-      effHtml += '</table></div><p style="margin-top:12px;color:#888;">综合评分：<strong>' + (eff.cross_platform_score || '-') + '</strong>/100 | 最佳互动：' + (pNames[eff.best_engagement] || '-') + ' | 最佳传播：' + (pNames[eff.best_viral] || '-') + '</p>';
-      effEl.innerHTML = effHtml;
-      var kwEl = document.getElementById('keywords-section');
-      var kwColors = { '攻略类': '#52c41a', '体验类': '#1890ff', '负面类': '#ff4d4f' };
-      var kwHtml = '';
-      var kwEntries = Object.keys(analysis.hotKeywords || {});
-      for (var ki = 0; ki < kwEntries.length; ki++) { var cat = kwEntries[ki]; var words = analysis.hotKeywords[cat] || []; kwHtml += '<div style="margin-bottom:12px;"><strong>' + cat + '：</strong>'; for (var wi = 0; wi < words.length; wi++) { kwHtml += '<span class="tag" style="background:' + (kwColors[cat] || '#f0f0f0') + ';color:#fff;">' + words[wi] + '</span>'; } kwHtml += '</div>'; }
-      kwEl.innerHTML = kwHtml || '<p style="color:#aaa;">暂无关键词数据</p>';
-      var topicEl = document.getElementById('topics-section');
-      var topics = analysis.topicClusters || [];
-      var heatIcon = { rising: '📈', stable: '➡️', declining: '📉' };
-      var sentColors = { positive: '#52c41a', neutral: '#faad14', negative: '#ff4d4f' };
-      if (topics.length) { var tHtml = '<div class="table-container"><table><tr><th>话题</th><th>关键词</th><th>情感</th><th>声量</th><th>趋势</th></tr>'; for (var ti = 0; ti < topics.length; ti++) { var t = topics[ti]; tHtml += '<tr><td><strong>' + t.topic + '</strong></td><td>' + (t.keywords || []).join('、') + '</td><td><span style="color:' + (sentColors[t.sentiment] || '#333') + '">' + t.sentiment + '</span></td><td>' + t.volume + '</td><td>' + (heatIcon[t.heat] || t.heat) + '</td></tr>'; } tHtml += '</table></div>'; topicEl.innerHTML = tHtml; } else { topicEl.innerHTML = '<p style="color:#aaa;">暂无话题数据</p>'; }
-      function renderInsights(containerId, items, type) { var el = document.getElementById(containerId); if (!items || !items.length) { el.innerHTML = '<p style="color:#aaa;">暂无数据</p>'; return; } var html = ''; for (var ii = 0; ii < items.length; ii++) { var item = items[ii]; var badge = (type === 'positive') ? '<span class="tag" style="background:#52c41a;color:#fff;">影响: ' + item.impact + '</span>' : '<span class="tag" style="background:#ff4d4f;color:#fff;">严重: ' + item.severity + '</span>'; html += '<div class="insight-card ' + type + '"><h4>' + item.title + ' ' + badge + '</h4><p>' + item.evidence + '</p>'; if (item.recommendation) { html += '<p style="margin-top:8px;color:#666;">💡 建议：' + item.recommendation + '</p>'; } html += '</div>'; } el.innerHTML = html; }
-      renderInsights('positive-insights', analysis.positiveInsights, 'positive');
-      renderInsights('negative-insights', analysis.negativeInsights, 'negative');
-      var riskEl = document.getElementById('risk-section');
-      var warnings = analysis.riskWarnings || {};
-      var levelNames = { high: '🔴 高风险', medium: '🟡 中风险', low: '🔵 低风险' };
-      var riskLevels = ['high', 'medium', 'low'];
-      var riskHtml = '';
-      for (var rli = 0; rli < riskLevels.length; rli++) { var level = riskLevels[rli]; var riskItems = warnings[level] || []; for (var rji = 0; rji < riskItems.length; rji++) { var w = riskItems[rji]; riskHtml += '<div class="insight-card warning-' + level + '"><h4>' + levelNames[level] + '：' + w.title + '</h4><p>' + w.desc + '</p>'; if (w.action) riskHtml += '<p style="margin-top:8px;">🛠️ 行动：' + w.action + '</p>'; riskHtml += '</div>'; } }
-      riskEl.innerHTML = riskHtml || '<p style="color:#52c41a;">✅ 当前无风险预警</p>';
-      var compEl = document.getElementById('competitor-section');
-      var comp = analysis.competitorAnalysis || {};
-      var compHtml = '';
-      if ((comp.mentionedCompetitors || []).length) { compHtml += '<p><strong>被提及竞品：</strong>' + comp.mentionedCompetitors.join('、') + '</p>'; if ((comp.competitorAdvantages || []).length) { compHtml += '<p><strong>竞品优势：</strong>' + comp.competitorAdvantages.join('、') + '</p>'; } if (comp.ourDifferentiation) { compHtml += '<p><strong>我们的差异化：</strong>' + comp.ourDifferentiation + '</p>'; } } else { compHtml = '<p style="color:#aaa;">未检测到竞品相关讨论</p>'; }
-      compEl.innerHTML = compHtml;
-      var personaEl = document.getElementById('persona-section');
-      var persona = analysis.userPersona || {};
-      var pHtml = '';
-      if (persona.demographics) pHtml += '<p><strong>人群特征：</strong>' + persona.demographics + '</p>';
-      if ((persona.coreNeeds || []).length) pHtml += '<p><strong>核心需求：</strong>' + persona.coreNeeds.join('、') + '</p>';
-      if ((persona.painPoints || []).length) pHtml += '<p><strong>痛点：</strong>' + persona.painPoints.join('、') + '</p>';
-      personaEl.innerHTML = pHtml || '<p style="color:#aaa;">暂无用户画像数据</p>';
-      var actEl = document.getElementById('actions-section');
-      var actions = analysis.actionItems || [];
-      var priTag = { '高': 'high', '中': 'medium', '低': 'low' };
-      if (actions.length) { var aHtml = '<div class="table-container"><table><tr><th>优先级</th><th>行动</th><th>策略</th><th>预期效果</th><th>时间线</th><th>部门</th></tr>'; for (var ai = 0; ai < actions.length; ai++) { var a = actions[ai]; aHtml += '<tr><td><span class="tag ' + (priTag[a.priority] || '') + '">' + a.priority + '</span></td><td><strong>' + a.title + '</strong></td><td>' + a.tactic + '</td><td>' + a.expectedResult + '</td><td>' + a.timeline + '</td><td>' + a.department + '</td></tr>'; } aHtml += '</table></div>'; actEl.innerHTML = aHtml; } else { actEl.innerHTML = '<p style="color:#aaa;">暂无行动建议</p>'; }
-      var tpEl = document.getElementById('top-posts-section');
-      var topPosts = D.topPosts || [];
-      if (topPosts.length) { var tpHtml = '<div class="table-container"><table><tr><th>#</th><th>平台</th><th>标题/内容</th><th>作者</th><th>点赞</th><th>评论</th><th>链接</th></tr>'; for (var tpi = 0; tpi < topPosts.length; tpi++) { var tp = topPosts[tpi]; tpHtml += '<tr><td>' + (tpi + 1) + '</td><td>' + tp.platform + '</td><td>' + tp.title + '</td><td>' + (tp.author || '-') + '</td><td>' + fmt(tp.likes) + '</td><td>' + fmt(tp.comments) + '</td><td>' + (tp.url ? '<a href="' + tp.url + '" target="_blank">查看</a>' : '-') + '</td></tr>'; } tpHtml += '</table></div>'; tpEl.innerHTML = tpHtml; } else { tpEl.innerHTML = '<p style="color:#aaa;">暂无帖子数据</p>'; }
-      window.addEventListener('resize', function() { sChart.resize(); pChart.resize(); });
-    })();
+var REPORT_DATA = {"reportMeta":{"brand":"趣多多","dateRange":"2026.03.20 - 2026.03.27","generatedAt":"2026-03-27 14:15","status":"🟡","summary":"趣多多三平台声量充足，抖音爆款传播强，但代可可脂健康质疑和口味下降负面舆情需重点关注"},"overview":{"totalPosts":71,"totalInteractions":15668,"platformCount":3,"hotTopic":"口味变化讨论","sentimentLabel":"正面主导"},"platforms":{"stats":{"xiaohongshu":{"count":28,"total_likes":3342,"avg_likes":119},"weibo":{"count":18,"total_likes":378,"total_comments":254,"total_reposts":760,"avg_likes":21},"douyin":{"count":25,"total_likes":11948,"avg_likes":478}},"efficiency":{"best_engagement":"douyin","best_volume":"xiaohongshu","best_viral":"douyin","cross_platform_score":75,"ranking":[{"platform":"douyin","score":85,"reason":"爆款传播力强，单帖最高1.1万赞"},{"platform":"xiaohongshu","score":78,"reason":"用户讨论深度好，内容多样化"},{"platform":"weibo","score":62,"reason":"传播广度好但互动率一般，有负面舆情"}]}},"analysis":{"status":"🟡","summary":"趣多多三平台声量充足，抖音爆款传播强，但代可可脂健康质疑和口味下降负面舆情需重点关注","sentiment":{"positive":65,"neutral":25,"negative":10},"hotKeywords":{"攻略类":["在家实现趣多多自由","新品品尝","全家福缤纷桶","商品券"],"体验类":["软曲奇","巧克力控","香到封神","四种口味","大块厚实"],"负面类":["代可可脂","偷工减料","变难吃","健康骗局","最难吃"]},"topicClusters":[{"topic":"健康成分质疑","keywords":["代可可脂","健康","孩子","骗局"],"sentiment":"negative","volume":"中","heat":"rising"},{"topic":"口味变化讨论","keywords":["变难吃","软曲奇","学生时代","最难吃"],"sentiment":"negative","volume":"高","heat":"rising"},{"topic":"新品爆款内容","keywords":["新品","缤纷桶","萌娃","1.1万赞"],"sentiment":"positive","volume":"高","heat":"stable"},{"topic":"用户自发创作","keywords":["emoji同款","在家实现","自由","攻略"],"sentiment":"positive","volume":"中","heat":"stable"}],"positiveInsights":[{"title":"抖音爆款内容传播力极强","evidence":"单条视频1.1万赞，抖音总点赞11948，平均478赞远超其他平台","impact":"高"},{"title":"小红书用户自发创作活跃","evidence":"28条帖子平均119赞，美食攻略类内容互动深度好","impact":"中"},{"title":"品牌联名带来关注度","evidence":"郭麒麟-趣多多内容获71赞64评论182转发，传播效果好","impact":"中"}],"negativeInsights":[{"title":"代可可脂健康质疑","evidence":"微博用户直指用代可可脂骗孩子健康，涉及食品安全敏感话题","severity":"高","recommendation":"立即发布成分说明，强调符合国家标准，考虑推出健康线产品"},{"title":"软曲奇口味投诉集中","evidence":"多条反馈四种口味软曲奇最难吃，产品线口碑分化","severity":"中","recommendation":"调研软曲奇用户满意度，考虑配方优化或下架低口碑口味"},{"title":"怀旧用户群体流失风险","evidence":"学生时代最喜欢的趣多多怎么变这么难吃话题显示老用户失望","severity":"中","recommendation":"发起怀旧营销活动，推出经典复刻版，重建老用户情感连接"},{"title":"偷工减料指控","evidence":"小红书出现趣多多偷工减料负面帖子","severity":"中","recommendation":"监控该帖传播情况，必要时官方回应澄清"}],"riskWarnings":{"high":[{"level":"high","title":"代可可脂健康质疑","desc":"可能引发媒体关注和监管注意","action":"立即公关回应，发布成分说明"}],"medium":[{"level":"medium","title":"口味下降投诉持续发酵","desc":"可能影响复购率","action":"启动产品调研"},{"level":"medium","title":"偷工减料指控","desc":"若扩散将损害品牌信任","action":"监控传播，必要时回应"}],"low":[{"level":"low","title":"个别负面体验","desc":"属正常舆情波动","action":"持续监控"}]},"competitorAnalysis":{"mentionedCompetitors":["奥利奥"],"competitorAdvantages":["奥利奥商品券联动促销","奥利奥品牌认知度更高"],"ourDifferentiation":"趣多多以巧克力豆颗粒为特色，软曲奇产品线差异化，但需强化健康形象"},"userPersona":{"demographics":"18-35岁年轻群体为主，女性占比高，学生及年轻白领，集中小红书抖音平台","coreNeeds":["零食分享社交需求","猎奇新品体验","怀旧情感寄托","便捷解馋"],"painPoints":["担心成分健康性","口味不如从前","价格敏感度提高"]},"actionItems":[{"priority":"高","title":"代可可脂成分公关回应","tactic":"发布官方成分说明视频，邀请营养师解读，强调符合国标安全","expectedResult":"降低健康质疑声量，恢复消费者信任","timeline":"本周","department":"公关部"},{"priority":"高","title":"软曲奇产品线评估","tactic":"启动用户口味调研，收集软曲奇具体投诉点，评估配方调整可行性","expectedResult":"明确产品改进方向或优化产品组合","timeline":"本月","department":"产品研发部"},{"priority":"中","title":"怀旧用户召回计划","tactic":"推出经典复刻版限量包装，发起学生时代的趣多多话题营销","expectedResult":"重建老用户情感连接，提升品牌好感度","timeline":"本月","department":"市场部"},{"priority":"中","title":"抖音爆款内容复制","tactic":"分析1.1万赞视频成功要素，与同类创作者合作批量生产","expectedResult":"提升抖音平台声量和转化","timeline":"本月","department":"内容运营部"},{"priority":"低","title":"小红书KOC合作扩大","tactic":"邀请美食类KOC进行新品测评，产出攻略类内容","expectedResult":"维持小红书平台活跃度和正面声量","timeline":"本月","department":"内容运营部"}]},"topPosts":[{"platform":"抖音","title":"挑眉瑶 #古灵精怪小宝贝 #瑶一瑶的快乐大合集 #女儿 #可爱到爆炸 #萌娃","author":"俊瑜趣多多","likes":11000,"comments":0,"url":"https://www.douyin.com/video/7617138293976698162"},{"platform":"小红书","title":"emoji同款软曲奇 在家实现趣多多自由","author":"赵哈哈","likes":1151,"comments":0,"url":"https://www.xiaohongshu.com/search_result/699fc245000000001a0305bd"},{"platform":"小红书","title":"十多年保持新鲜感的秘诀：想方设法玩对方！","author":"趣多多大仙","likes":818,"comments":0,"url":"https://www.xiaohongshu.com/search_result/6825ce4b000000002301d0d7"},{"platform":"小红书","title":"趣多多新品我先替你们尝了！","author":"Ha吉咪","likes":809,"comments":0,"url":"https://www.xiaohongshu.com/search_result/69c28d990000000021004f70"},{"platform":"抖音","title":"#正能量短剧","author":"趣多多","likes":629,"comments":0,"url":"https://www.douyin.com/video/7616925288655608000"},{"platform":"小红书","title":"和小狗合影｜好卑微的趣多多","author":"无用的趣多多","likes":259,"comments":0,"url":"https://www.xiaohongshu.com/search_result/68a7b1d1000000001c013639"},{"platform":"微博","title":"抽三个人吃趣多多（可折5） 大家都开心一点","author":"窗上小雪Q","likes":179,"comments":14,"url":"https://weibo.com/7997618621/QwfbVsXf8"},{"platform":"小红书","title":"巧克力饼干合订版","author":"鈩洲铑教授","likes":156,"comments":0,"url":"https://www.xiaohongshu.com/search_result/68108e0d000000002001da4f"},{"platform":"微博","title":"郭麒麟-趣多多~饼干最爱趣多多","author":"谁是奇妙降林","likes":71,"comments":64,"url":"https://weibo.com/7190945568/QxZ8xgI89"},{"platform":"微博","title":"宝宝你是一块趣多多","author":"年糕喵子","likes":52,"comments":9,"url":"https://weibo.com/2534828530/QtbbDpcQ5"}]};
+(function() {
+  var D = REPORT_DATA;
+  if (!D) return;
+  var overview = D.overview;
+  var platforms = D.platforms;
+  var analysis = D.analysis;
+  var pNames = { xiaohongshu: '小红书', weibo: '微博', douyin: '抖音' };
+  function fmt(n) { if (n >= 100000000) return (n / 100000000).toFixed(1) + '亿'; if (n >= 10000) return (n / 10000).toFixed(1) + '万'; return String(n); }
+  var grid = document.getElementById('overview-grid');
+  var overviewItems = [{ value: overview.totalPosts, label: '监测帖子数' }, { value: fmt(overview.totalInteractions), label: '总互动量' }, { value: overview.platformCount, label: '覆盖平台' }, { value: overview.hotTopic, label: '最热话题' }];
+  for (var i = 0; i < overviewItems.length; i++) { var card = document.createElement('div'); card.className = 'overview-card'; card.innerHTML = '<div class="value">' + overviewItems[i].value + '</div><div class="label">' + overviewItems[i].label + '</div>'; grid.appendChild(card); }
+  var isMobile = window.innerWidth < 480;
+  var sChart = echarts.init(document.getElementById('sentiment-chart'));
+  sChart.setOption({ tooltip: { trigger: 'item' }, color: ['#52c41a', '#faad14', '#ff4d4f'], series: [{ type: 'pie', radius: isMobile ? ['30%', '50%'] : ['40%', '70%'], center: ['50%', '50%'], label: { formatter: '{b}: {d}%' }, data: [{ value: analysis.sentiment.positive, name: '正面' }, { value: analysis.sentiment.neutral, name: '中性' }, { value: analysis.sentiment.negative, name: '负面' }] }] });
+  var pChart = echarts.init(document.getElementById('platform-chart'));
+  var pKeys = Object.keys(platforms.stats);
+  var maxCount = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].count || 0; })) || 1;
+  var maxAvgLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].avg_likes || 0; })) || 1;
+  var maxTotalLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].total_likes || 0; })) || 1;
+  pChart.setOption({
+    tooltip: { trigger: 'item' }, legend: { bottom: 0, data: pKeys.map(function(k) { return pNames[k] || k; }) },
+    radar: { indicator: [{ name: '帖子声量', max: maxCount * 1.1 }, { name: '爆文潜力', max: maxAvgLikes * 1.1 }, { name: '总曝光', max: maxTotalLikes * 1.1 }], shape: 'polygon', radius: isMobile ? '50%' : '65%' },
+    series: [{ name: '平台综合能力', type: 'radar', data: pKeys.map(function(k) { return { value: [platforms.stats[k].count || 0, platforms.stats[k].avg_likes || 0, platforms.stats[k].total_likes || 0], name: pNames[k] || k }; }) }]
+  });
+  var effEl = document.getElementById('efficiency-section');
+  var eff = platforms.efficiency || {};
+  var effHtml = '<div class="table-container"><table><tr><th>排名</th><th>平台</th><th>评分</th><th>说明</th></tr>';
+  var ranking = eff.ranking || [];
+  for (var ri = 0; ri < ranking.length; ri++) { var r = ranking[ri]; effHtml += '<tr><td>' + (ri + 1) + '</td><td>' + (pNames[r.platform] || r.platform) + '</td><td><strong>' + r.score + '</strong></td><td>' + r.reason + '</td></tr>'; }
+  effHtml += '</table></div><p style="margin-top:12px;color:#888;">综合评分：<strong>' + (eff.cross_platform_score || '-') + '</strong>/100 | 最佳互动：' + (pNames[eff.best_engagement] || '-') + '</p>';
+  effEl.innerHTML = effHtml;
+  var kwEl = document.getElementById('keywords-section');
+  var kwColors = { '攻略类': '#52c41a', '体验类': '#1890ff', '负面类': '#ff4d4f' };
+  var kwHtml = '';
+  var kwEntries = Object.keys(analysis.hotKeywords || {});
+  for (var ki = 0; ki < kwEntries.length; ki++) { var cat = kwEntries[ki]; var words = analysis.hotKeywords[cat] || []; kwHtml += '<div style="margin-bottom:12px;"><strong>' + cat + '：</strong>'; for (var wi = 0; wi < words.length; wi++) { kwHtml += '<span class="tag" style="background:' + (kwColors[cat] || '#f0f0f0') + ';color:#fff;">' + words[wi] + '</span>'; } kwHtml += '</div>'; }
+  kwEl.innerHTML = kwHtml || '<p style="color:#aaa;">暂无关键词数据</p>';
+  var topicEl = document.getElementById('topics-section');
+  var topics = analysis.topicClusters || [];
+  var heatIcon = { rising: '📈', stable: '➡️', declining: '📉' };
+  var sentColors = { positive: '#52c41a', neutral: '#faad14', negative: '#ff4d4f' };
+  if (topics.length) { var tHtml = '<div class="table-container"><table><tr><th>话题</th><th>关键词</th><th>情感</th><th>声量</th><th>趋势</th></tr>'; for (var ti = 0; ti < topics.length; ti++) { var t = topics[ti]; tHtml += '<tr><td><strong>' + t.topic + '</strong></td><td>' + (t.keywords || []).join('、') + '</td><td><span style="color:' + (sentColors[t.sentiment] || '#333') + '">' + t.sentiment + '</span></td><td>' + t.volume + '</td><td>' + (heatIcon[t.heat] || t.heat) + '</td></tr>'; } tHtml += '</table></div>'; topicEl.innerHTML = tHtml; } else { topicEl.innerHTML = '<p style="color:#aaa;">暂无话题数据</p>'; }
+  function renderInsights(containerId, items, type) { var el = document.getElementById(containerId); if (!items || !items.length) { el.innerHTML = '<p style="color:#aaa;">暂无数据</p>'; return; } var html = ''; for (var ii = 0; ii < items.length; ii++) { var item = items[ii]; var badge = (type === 'positive') ? '<span class="tag" style="background:#52c41a;color:#fff;">影响: ' + item.impact + '</span>' : '<span class="tag" style="background:#ff4d4f;color:#fff;">严重: ' + item.severity + '</span>'; html += '<div class="insight-card ' + type + '"><h4>' + item.title + ' ' + badge + '</h4><p>' + item.evidence + '</p>'; if (item.recommendation) { html += '<p style="margin-top:8px;color:#666;">建议：' + item.recommendation + '</p>'; } html += '</div>'; } el.innerHTML = html; }
+  renderInsights('positive-insights', analysis.positiveInsights, 'positive');
+  renderInsights('negative-insights', analysis.negativeInsights, 'negative');
+  var riskEl = document.getElementById('risk-section');
+  var warnings = analysis.riskWarnings || {};
+  var levelNames = { high: '🔴 高风险', medium: '🟡 中风险', low: '🔵 低风险' };
+  var riskLevels = ['high', 'medium', 'low'];
+  var riskHtml = '';
+  for (var rli = 0; rli < riskLevels.length; rli++) { var level = riskLevels[rli]; var riskItems = warnings[level] || []; for (var rji = 0; rji < riskItems.length; rji++) { var w = riskItems[rji]; riskHtml += '<div class="insight-card warning-' + level + '"><h4>' + levelNames[level] + '：' + w.title + '</h4><p>' + w.desc + '</p>'; if (w.action) riskHtml += '<p style="margin-top:8px;">行动：' + w.action + '</p>'; riskHtml += '</div>'; } }
+  riskEl.innerHTML = riskHtml || '<p style="color:#52c41a;">当前无风险预警</p>';
+  var compEl = document.getElementById('competitor-section');
+  var comp = analysis.competitorAnalysis || {};
+  var compHtml = '';
+  if ((comp.mentionedCompetitors || []).length) { compHtml += '<p><strong>被提及竞品：</strong>' + comp.mentionedCompetitors.join('、') + '</p>'; if ((comp.competitorAdvantages || []).length) { compHtml += '<p><strong>竞品优势：</strong>' + comp.competitorAdvantages.join('、') + '</p>'; } if (comp.ourDifferentiation) { compHtml += '<p><strong>我们的差异化：</strong>' + comp.ourDifferentiation + '</p>'; } } else { compHtml = '<p style="color:#aaa;">未检测到竞品相关讨论</p>'; }
+  compEl.innerHTML = compHtml;
+  var personaEl = document.getElementById('persona-section');
+  var persona = analysis.userPersona || {};
+  var pHtml = '';
+  if (persona.demographics) pHtml += '<p><strong>人群特征：</strong>' + persona.demographics + '</p>';
+  if ((persona.coreNeeds || []).length) pHtml += '<p><strong>核心需求：</strong>' + persona.coreNeeds.join('、') + '</p>';
+  if ((persona.painPoints || []).length) pHtml += '<p><strong>痛点：</strong>' + persona.painPoints.join('、') + '</p>';
+  personaEl.innerHTML = pHtml || '<p style="color:#aaa;">暂无用户画像数据</p>';
+  var actEl = document.getElementById('actions-section');
+  var actions = analysis.actionItems || [];
+  if (actions.length) { var aHtml = '<div class="table-container"><table><tr><th>优先级</th><th>行动</th><th>策略</th><th>预期效果</th><th>时间线</th><th>部门</th></tr>'; for (var ai = 0; ai < actions.length; ai++) { var a = actions[ai]; aHtml += '<tr><td><span class="tag">' + a.priority + '</span></td><td><strong>' + a.title + '</strong></td><td>' + a.tactic + '</td><td>' + a.expectedResult + '</td><td>' + a.timeline + '</td><td>' + a.department + '</td></tr>'; } aHtml += '</table></div>'; actEl.innerHTML = aHtml; } else { actEl.innerHTML = '<p style="color:#aaa;">暂无行动建议</p>'; }
+  var tpEl = document.getElementById('top-posts-section');
+  var topPosts = D.topPosts || [];
+  if (topPosts.length) { var tpHtml = '<div class="table-container"><table><tr><th>#</th><th>平台</th><th>标题/内容</th><th>作者</th><th>点赞</th><th>评论</th><th>链接</th></tr>'; for (var tpi = 0; tpi < topPosts.length; tpi++) { var tp = topPosts[tpi]; tpHtml += '<tr><td>' + (tpi + 1) + '</td><td>' + tp.platform + '</td><td>' + tp.title + '</td><td>' + (tp.author || '-') + '</td><td>' + fmt(tp.likes) + '</td><td>' + fmt(tp.comments) + '</td><td>' + (tp.url ? '<a href="' + tp.url + '" target="_blank">查看</a>' : '-') + '</td></tr>'; } tpHtml += '</table></div>'; tpEl.innerHTML = tpHtml; } else { tpEl.innerHTML = '<p style="color:#aaa;">暂无帖子数据</p>'; }
+  window.addEventListener('resize', function() { sChart.resize(); pChart.resize(); });
+})();
   </script>
-
 </body></html>
