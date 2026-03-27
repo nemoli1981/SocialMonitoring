@@ -1,50 +1,73 @@
 <html lang="zh-CN"><head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>星巴克 舆情监测报告</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>喜茶 舆情监测报告</title>
   <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
   <style>
+    :root { --primary-color: #4f46e5; --secondary-color: #818cf8; --bg-color: #f3f4f6; --card-bg: #ffffff; --text-main: #1f2937; --text-muted: #6b7280; --border-color: #e5e7eb; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; background: #f5f7fa; color: #333; line-height: 1.6; }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 40px 30px; border-radius: 12px; margin-bottom: 24px; }
-    .header h1 { font-size: 28px; margin-bottom: 8px; }
-    .header .meta { opacity: 0.85; font-size: 14px; }
-    .status-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 16px; border-radius: 20px; font-size: 16px; margin-top: 12px; }
-    .degraded-banner { background: #fffbe6; border: 1px solid #faad14; color: #ad6800; padding: 12px 20px; border-radius: 8px; margin-bottom: 24px; display: none; }
-    .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .overview-card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
-    .overview-card .value { font-size: 32px; font-weight: 700; color: #667eea; }
-    .overview-card .label { font-size: 14px; color: #888; margin-top: 4px; }
-    .section { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 24px; margin-bottom: 24px; }
-    .section h2 { font-size: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #667eea; }
-    .chart-container { width: 100%; height: 350px; }
-    .card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-    .insight-card { padding: 16px; border-radius: 8px; border-left: 4px solid; }
-    .insight-card.positive { border-color: #52c41a; background: #f6ffed; }
-    .insight-card.negative { border-color: #ff4d4f; background: #fff2f0; }
-    .insight-card.warning-high { border-color: #ff4d4f; background: #fff2f0; }
-    .insight-card.warning-medium { border-color: #faad14; background: #fffbe6; }
-    .insight-card.warning-low { border-color: #1890ff; background: #e6f7ff; }
-    .insight-card h4 { margin-bottom: 8px; }
-    .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; margin: 2px; background: #f0f0f0; }
-    .tag.high { background: #ff4d4f; color: #fff; }
-    .tag.medium { background: #faad14; color: #fff; }
-    .tag.low { background: #1890ff; color: #fff; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
-    th { background: #fafafa; font-weight: 600; }
-    .footer { text-align: center; color: #aaa; font-size: 12px; padding: 20px; }
-    @media (max-width: 768px) { .header h1 { font-size: 22px; } .overview-card .value { font-size: 24px; } .chart-container { height: 280px; } .card-list { grid-template-columns: 1fr; } }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--bg-color); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .header { background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: #fff; padding: 32px 24px; border-radius: 16px; margin-bottom: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); position: relative; overflow: hidden; }
+    .header::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg=='); opacity: 0.5; pointer-events: none; }
+    .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.025em; position: relative; z-index: 1; }
+    .header .meta { opacity: 0.9; font-size: 14px; position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px; }
+    .status-badge { display: inline-flex; align-items: center; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 9999px; font-size: 15px; font-weight: 500; margin-top: 16px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); position: relative; z-index: 1; }
+    .degraded-banner { background: #fffbeb; border-left: 4px solid var(--warning); color: #92400e; padding: 16px; border-radius: 8px; margin-bottom: 24px; display: none; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); font-size: 14px; }
+    .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .overview-card { background: var(--card-bg); padding: 24px; border-radius: 16px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid var(--border-color); }
+    .overview-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .overview-card .value { font-size: 36px; font-weight: 800; color: var(--primary-color); line-height: 1.2; letter-spacing: -0.025em; }
+    .overview-card .label { font-size: 14px; color: var(--text-muted); margin-top: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .section { background: var(--card-bg); border-radius: 16px; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1); padding: 24px; margin-bottom: 24px; border: 1px solid var(--border-color); }
+    .section h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f3f4f6; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .chart-container { width: 100%; height: 400px; }
+    .card-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+    .insight-card { padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); border-left-width: 4px; background: #fff; transition: box-shadow 0.2s; }
+    .insight-card:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .insight-card.positive { border-left-color: var(--success); }
+    .insight-card.negative { border-left-color: var(--danger); }
+    .insight-card.warning-high { border-left-color: var(--danger); background: #fef2f2; }
+    .insight-card.warning-medium { border-left-color: var(--warning); background: #fffbeb; }
+    .insight-card.warning-low { border-left-color: #3b82f6; background: #eff6ff; }
+    .insight-card h4 { margin-bottom: 12px; font-size: 16px; font-weight: 600; color: var(--text-main); }
+    .insight-card p { font-size: 14px; color: #4b5563; }
+    .tag { display: inline-flex; align-items: center; padding: 4px 12px; border-radius: 9999px; font-size: 13px; font-weight: 500; margin: 4px; background: #f3f4f6; color: #374151; transition: all 0.2s; }
+    .tag:hover { filter: brightness(0.95); }
+    .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; border: 1px solid var(--border-color); }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+    th { background: #f9fafb; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background-color: #f9fafb; }
+    .footer { text-align: center; color: var(--text-muted); font-size: 13px; padding: 32px 20px; margin-top: 20px; border-top: 1px solid var(--border-color); }
+    
+    /* 响应式优化 */
+    @media (max-width: 768px) { 
+      .container { padding: 12px; }
+      .header { padding: 24px 20px; border-radius: 12px; }
+      .header h1 { font-size: 24px; }
+      .overview-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .overview-card { padding: 16px; }
+      .overview-card .value { font-size: 28px; }
+      .section { padding: 16px; border-radius: 12px; }
+      .chart-container { height: 300px; }
+      .card-list { grid-template-columns: 1fr; }
+      th, td { padding: 12px; }
+    }
+    @media (max-width: 480px) {
+      .overview-grid { grid-template-columns: 1fr; }
+      .header .meta { flex-direction: column; gap: 4px; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="degraded-banner" id="degraded-banner">⚠️ 本报告基于降级分析生成，部分 AI 洞察可能缺失。请参考原始数据进行人工审查。</div>
     <div class="header">
-      <h1>星巴克 舆情监测报告</h1>
-      <div class="meta">监测周期：2026.03.20 - 2026.03.27 | 生成时间：2026/3/27 11:47:47</div>
-      <div class="status-badge">🟡 星巴克舆情整体中性偏负面，微博平台争议较多，抖音头部内容关注商业动态，小红书以产品体验为主</div>
+      <h1>喜茶 舆情监测报告</h1>
+      <div class="meta">监测周期：2026.03.20 - 2026.03.27 | 生成时间：2026/3/27 12:41:04</div>
+      <div class="status-badge">🟡 喜茶舆情整体中性偏正面，新品讨论热度高，但存在产品口味争议和粉丝维权关联风险</div>
     </div>
     <div class="overview-grid" id="overview-grid"></div>
     <div class="section"><h2>📊 情感分布</h2><div class="chart-container" id="sentiment-chart"></div></div>
@@ -59,9 +82,9 @@
     <div class="section"><h2>👤 用户画像</h2><div id="persona-section"></div></div>
     <div class="section"><h2>🎯 行动建议</h2><div id="actions-section"></div></div>
     <div class="section"><h2>🏆 Top 10 热门帖子</h2><div id="top-posts-section"></div></div>
-    <div class="footer">由 OpenClaw 社媒舆情监控系统自动生成 | 2026/3/27 11:47:47</div>
+    <div class="footer">由 OpenClaw 社媒舆情监控系统自动生成 | 2026/3/27 12:41:04</div>
   </div>
-  <script>window.REPORT_DATA = {"reportMeta":{"brand":"星巴克","dateRange":"2026.03.20 - 2026.03.27","generatedAt":"2026/3/27 11:47:47","status":"🟡","summary":"星巴克舆情整体中性偏负面，微博平台争议较多，抖音头部内容关注商业动态，小红书以产品体验为主"},"overview":{"totalPosts":62,"totalInteractions":0,"platformCount":3,"hotTopic":"瑞幸竞争对比","sentimentLabel":"中性平稳"},"execution":{"status":"success","successPlatforms":["xiaohongshu","weibo","douyin"],"failedPlatforms":[]},"platforms":{"stats":{"xiaohongshu":{"count":26,"total_likes":2073,"total_comments":0,"total_collects":0,"avg_likes":80,"avg_comments":0,"avg_collects":0,"engagement_rate":0.997,"top_post_url":"https://www.xiaohongshu.com/search_result/69b3ae3b000000001a023825"},"weibo":{"count":20,"total_likes":10502,"total_comments":441,"total_reposts":359,"avg_likes":525,"avg_comments":22,"avg_reposts":18,"engagement_rate":1.076,"top_post_url":"https://weibo.com/5997605338/QxHGp8GsB"},"douyin":{"count":16,"total_likes":252885,"total_comments":0,"total_shares":0,"total_plays":0,"avg_likes":15805,"avg_comments":0,"avg_plays":0,"engagement_rate":0,"like_play_ratio":0,"top_post_url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"}},"efficiency":{"best_engagement":"weibo","best_volume":"xiaohongshu","best_viral":"douyin","cross_platform_score":58,"ranking":[{"platform":"weibo","score":72,"reason":"互动率最高，用户讨论活跃，评论转发数据丰富"},{"platform":"xiaohongshu","score":55,"reason":"帖子数量最多但互动深度一般，评论收藏数据缺失"},{"platform":"douyin","score":48,"reason":"头部效应明显，爆款内容传播力强但播放量数据缺失"}]},"counts":{"xiaohongshu":26,"weibo":20,"douyin":16},"totalLikes":0,"totalComments":0},"analysis":{"sentiment":{"positive":35,"neutral":40,"negative":25},"hotKeywords":{"攻略类":["点单攻略","价目表","隐藏喝法","早餐测评","十次卡"],"体验类":["瑰夏风味","馥芮白","茉莉","杯子","玫瑰星巴克","兼职"],"负面类":["营销垃圾","难喝","卖身","打不过就跑","离职伙伴","喂了狗"]},"topicClusters":[{"topic":"瑞幸竞争对比","keywords":["瑞幸","罗永浩","营销","9.9 元","代言"],"sentiment":"negative","volume":"高","heat":"rising"},{"topic":"商业动态关注","keywords":["卖身","40 亿美元","8000 家门店","中国"],"sentiment":"neutral","volume":"高","heat":"stable"},{"topic":"产品体验分享","keywords":["瑰夏","馥芮白","茉莉","杯子","早餐"],"sentiment":"positive","volume":"中","heat":"stable"},{"topic":"员工相关话题","keywords":["兼职","离职伙伴","打工","内部员工"],"sentiment":"neutral","volume":"低","heat":"stable"},{"topic":"价格争议","keywords":["44 元","13.9 元","贵","性价比"],"sentiment":"negative","volume":"中","heat":"rising"}],"positiveInsights":[{"title":"产品创新受关注","evidence":"瑰夏风味之旅帖子获 1024 点赞，春季新品、联名款杯子有稳定讨论度","impact":"中"},{"title":"场景价值认可","evidence":"用户自发分享在星巴克办公、社交体验，品牌第三空间定位仍有吸引力","impact":"中"},{"title":"周边产品有市场","evidence":"星杯、限定款杯子内容有点赞收藏，联名合作受关注","impact":"低"}],"negativeInsights":[{"title":"竞品营销压力大","evidence":"多条微博对比瑞幸罗永浩代言，认为星巴克营销落后","severity":"高","recommendation":"审视营销策略，考虑更具话题性的品牌传播方式"},{"title":"价格敏感度高","evidence":"抖音热门视频质疑 44 元定价，9.9 元时代对比强烈","severity":"高","recommendation":"优化价格策略，增加性价比产品线或促销活动"},{"title":"员工关系舆情风险","evidence":"微博出现'离职伙伴待遇'、'兼职招募'等敏感内容","severity":"中","recommendation":"加强内部沟通，规范雇主品牌传播"},{"title":"产品口味争议","evidence":"茉莉产品被吐槽'茉莉牙膏味'，部分用户认为难喝","severity":"中","recommendation":"收集产品反馈，优化新品研发流程"}],"riskWarnings":{"high":[{"level":"high","title":"竞品对比负面声量上升","desc":"瑞幸罗永浩代言事件引发多平台对比讨论，星巴克被指营销落后","posts":["https://weibo.com/5171989977/QxLrGv3J2","https://weibo.com/5236032763/QxrTWvTgK"],"action":"监测竞品动态，准备应对话术，考虑品牌传播策略调整"}],"medium":[{"level":"medium","title":"商业变动猜测传播","desc":"抖音头部视频讨论'星巴克卖身'、'退出中国'等话题，可能影响消费者信心","posts":["https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"],"action":"关注商业媒体报道，必要时进行官方澄清"}],"low":[{"level":"low","title":"产品口味个别负面反馈","desc":"茉莉系列产品口味评价两极，有用户表达不满","posts":[],"action":"收集用户反馈，评估是否需要产品调整"}]},"competitorAnalysis":{"mentionedCompetitors":["瑞幸","麦当劳"],"competitorAdvantages":["罗永浩代言话题性强","9.9 元价格优势","营销玩法更新颖"],"ourDifferentiation":"第三空间体验、品牌历史积淀、产品线丰富度、全球供应链"},"userPersona":{"demographics":"一二线城市白领、大学生、咖啡爱好者，年龄 20-40 岁为主","coreNeeds":["便捷咖啡获取","社交/办公空间","品牌认同感","产品品质保证"],"painPoints":["价格偏高","新品创新不足","营销缺乏吸引力","性价比不如竞品"]},"actionItems":[{"priority":"高","title":"营销策略优化","tactic":"分析瑞幸成功案例，制定更具话题性的品牌传播计划，考虑 KOL/明星合作","expectedResult":"提升品牌声量和正面讨论比例","timeline":"本月","department":"市场部"},{"priority":"高","title":"价格策略审视","tactic":"推出更多性价比产品组合，优化会员权益，增加促销活动频次","expectedResult":"缓解价格敏感用户流失，提升复购率","timeline":"本月","department":"市场/运营部"},{"priority":"中","title":"产品创新加速","tactic":"基于用户反馈优化新品研发流程，增加区域性限定产品测试","expectedResult":"提升新品成功率，减少负面口碑","timeline":"本月","department":"产品研发部"},{"priority":"中","title":"雇主品牌建设","tactic":"规范员工相关传播内容，加强内部沟通，展示正面员工故事","expectedResult":"降低员工相关舆情风险","timeline":"本周","department":"人力资源部"},{"priority":"低","title":"小红书运营强化","tactic":"鼓励用户生成内容，增加攻略类、体验类优质内容曝光","expectedResult":"提升小红书平台互动率和正面声量","timeline":"本月","department":"数字营销部"}]},"topPosts":[{"platform":"抖音","platformKey":"douyin","title":"星巴克中国\"卖身\"，9.9的时代要来了吗？","author":"小Lin说","likes":148000,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"抖音","platformKey":"douyin","title":"40亿美元卖掉中国8000家门店，星巴克打不过就要跑了？","author":"饭统戴老板","likes":75000,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"抖音","platformKey":"douyin","title":"星巴克无法征服的国家是哪？意大利人为啥看不上？天天喝3杯浓缩却活到90岁？揭秘意式液体长寿术","author":"画画的Lorenzo🎨","likes":24000,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"微博","platformKey":"weibo","title":"我是觉得高铁上都能买到难喝的星巴克现磨咖啡和不知道放了多久的哈根达斯冰淇淋，那就没道理买不到卫生巾。和卫生巾这样的生活必","author":"推拿熊","likes":8534,"comments":39,"url":"https://weibo.com/5997605338/QxHGp8GsB"},{"platform":"抖音","platformKey":"douyin","title":"一杯星巴克44，咋还那么多人喝呢？","author":"邪乎君","likes":2576,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"抖音","platformKey":"douyin","title":"那些你不知道的第n种星巴克隐藏喝法…","author":"丝丝爱测评","likes":2256,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"小红书","platformKey":"xiaohongshu","title":"在上海用45分钟 度过一场瑰夏风味之旅！","author":"Vikin","likes":1024,"comments":0,"url":"https://www.xiaohongshu.com/search_result/69b3ae3b000000001a023825"},{"platform":"微博","platformKey":"weibo","title":"不在现场你说什么说？郝熠然的1800杯星巴克喂了狗是吧","author":"dophinechen","likes":645,"comments":88,"url":"https://weibo.com/1230244114/QxSYXu0YA"},{"platform":"抖音","platformKey":"douyin","title":"亚朵联名星巴克 2.6亿会员背后的中产消费闭环","author":"捕梦人","likes":397,"comments":0,"url":"https://www.douyin.com/search/%E6%98%9F%E5%B7%B4%E5%85%8B"},{"platform":"小红书","platformKey":"xiaohongshu","title":"开工第一杯喝什么！星巴克掉秤点单攻略🔥","author":"短短（快乐测评版）","likes":358,"comments":0,"url":"https://www.xiaohongshu.com/search_result/699d7016000000001a0239ae"}],"error":null};</script>
+  <script>window.REPORT_DATA = {"reportMeta":{"brand":"喜茶","dateRange":"2026.03.20 - 2026.03.27","generatedAt":"2026/3/27 12:41:04","status":"🟡","summary":"喜茶舆情整体中性偏正面，新品讨论热度高，但存在产品口味争议和粉丝维权关联风险"},"overview":{"totalPosts":0,"totalInteractions":0,"platformCount":3,"hotTopic":"新品推广 - 金韵酸木瓜枇杷","sentimentLabel":"中性平稳"},"execution":{"status":"success","successPlatforms":["xiaohongshu","weibo","douyin"],"failedPlatforms":[]},"platforms":{"stats":{"xiaohongshu":{"count":26,"total_likes":2759,"total_comments":0,"total_collects":0,"avg_likes":106,"avg_comments":0,"avg_collects":0,"engagement_rate":1.001,"top_post_url":"https://www.xiaohongshu.com/search_result/69bfd304000000002200c539?xsec_token=ABX_6Nw4MlymeKgAKkdQE1rLZB92oxMbqnbQJgAbxBhTk=&xsec_source="},"weibo":{"count":18,"total_likes":34553,"total_comments":6426,"total_reposts":5823,"avg_likes":1920,"avg_comments":357,"avg_reposts":324,"engagement_rate":1.354,"top_post_url":"https://weibo.com/detail/5281046020490588"},"douyin":{"count":18,"total_likes":422710,"total_comments":0,"total_shares":0,"total_plays":422710,"avg_likes":23484,"avg_comments":0,"avg_plays":23484,"engagement_rate":1,"like_play_ratio":1,"top_post_url":"https://www.douyin.com/search/喜茶"}},"efficiency":{"best_engagement":"weibo","best_volume":"xiaohongshu","best_viral":"douyin","cross_platform_score":76,"ranking":[{"platform":"weibo","score":82,"reason":"互动率最高，用户讨论深度好，转发传播力强"},{"platform":"xiaohongshu","score":72,"reason":"内容最丰富，但互动数据偏低"},{"platform":"douyin","score":71,"reason":"播放量大但互动转化偏低，数据可能异常"}]},"counts":{"xiaohongshu":0,"weibo":0,"douyin":0},"totalLikes":0,"totalComments":0},"analysis":{"sentiment":{"positive":45,"neutral":35,"negative":20},"hotKeywords":{"攻略类":["买一送一","隐藏喝法","新品测评","从夯到拉","减脂红黑榜"],"体验类":["金韵酸木瓜枇杷","黑糖波波","苦巧碎银子","三倍厚抹","茶特调"],"负面类":["太坑了","难喝","劝退","拉完了","还我经典"]},"topicClusters":[{"topic":"新品推广 - 金韵酸木瓜枇杷","keywords":["金韵乌龙","酸木瓜","枇杷","买一送一","低 GI"],"sentiment":"positive","volume":"高","heat":"rising"},{"topic":"产品测评与排名","keywords":["从夯到拉","测评","排名","红黑榜","实力排行"],"sentiment":"neutral","volume":"高","heat":"stable"},{"topic":"口味争议","keywords":["难喝","拉完了","劝退","咸咸的","赔我钱"],"sentiment":"negative","volume":"中","heat":"rising"},{"topic":"明星/KOL 合作","keywords":["aespa","智敏","周杰伦","鹿晗","周边"],"sentiment":"positive","volume":"中","heat":"stable"},{"topic":"门店体验","keywords":["Lab 店","店铺设计","店长 vlog","沉浸式"],"sentiment":"positive","volume":"低","heat":"stable"}],"positiveInsights":[{"title":"新品营销策略有效","evidence":"金韵酸木瓜枇杷新品在微博获得高互动，买一送一活动引发讨论，低 GI 概念吸引健康意识用户","impact":"高"},{"title":"KOL/明星合作带来流量","evidence":"aespa 智敏安利帖在小红书获 1406 赞，鹿晗相关微博获 3.3 万赞（虽为粉丝维权但带品牌曝光）","impact":"高"},{"title":"内容营销矩阵完善","evidence":"抖音店长 vlog 获 25 万播放，各类测评视频形成内容生态，用户自发创作'隐藏喝法'等内容","impact":"中"}],"negativeInsights":[{"title":"产品口味稳定性受质疑","evidence":"多条负面反馈提及'难喝'、'拉完了'、'咸咸的'，三倍厚抹茶被指'难喝到希望赔钱'","severity":"中","recommendation":"加强品控管理，收集具体负面反馈进行产品优化，考虑推出'不满意重做'政策"},{"title":"经典产品下架引发不满","evidence":"用户发文'喜茶还我经典年度最爱🤬'、'此生不会再买喜茶'，显示产品迭代可能伤害忠实用户","severity":"中","recommendation":"建立经典产品保留机制，下架前进行用户调研，提供替代方案"},{"title":"促销活动期间体验下降","evidence":"买一送一活动期间出现'太坑了'、'劝退'等负面评价，可能因客流激增导致服务质量下降","severity":"低","recommendation":"促销期间增加人手，优化出餐流程，加强员工培训"}],"riskWarnings":{"high":[],"medium":[{"level":"medium","title":"产品口味争议可能发酵","desc":"多条负面测评视频和帖子提及产品难喝，若持续积累可能形成负面口碑","posts":["https://www.xiaohongshu.com/search_result/6675d942000000001c027fb0?xsec_token=ABUKpxEAtaBPqT-pl6Eop4uNXYEYfEyyoLXsbUobdsA5E=&xsec_source=","https://weibo.com/detail/5280789878539407","https://weibo.com/detail/5281045752579229"],"action":"监测负面评价趋势，主动联系差评用户了解具体问题，考虑产品改进或公关回应"}],"low":[{"level":"low","title":"经典产品下架引发忠实用户不满","desc":"部分忠实用户对经典产品下架表达强烈不满，可能影响品牌忠诚度","posts":["https://www.xiaohongshu.com/search_result/6989f266000000002800858e?xsec_token=AB1k48W8AhUOZuj9I2Qvi3CwqGPduRWWh2CbFHYOJ61_E=&xsec_source=","https://www.xiaohongshu.com/search_result/6904500a000000000303446b?xsec_token=ABI2jqUiUNVASu0vZoPHN8zWQGXXJFGwoMII9CRsWXupc=&xsec_source="],"action":"收集用户最希望回归的经典产品，考虑限时返场或推出升级版"}]},"competitorAnalysis":{"mentionedCompetitors":["奈雪","瑞幸","煲珠公"],"competitorAdvantages":["瑞幸抹茶产品被指比喜茶好喝","奈雪有免单活动"],"ourDifferentiation":"喜茶以茶特调创新和 Lab 店体验为差异化优势，强调原料品质（如金韵乌龙岩韵概念）"},"userPersona":{"demographics":"18-35 岁年轻群体为主，女性占比高，关注健康（低 GI）、追求新鲜感、乐于分享","coreNeeds":["好喝且稳定的产品","健康低负担","社交分享价值","性价比（买一送一）"],"painPoints":["产品口味不稳定","经典产品下架","促销期间体验差","部分新品不如预期"]},"actionItems":[{"priority":"高","title":"产品品控专项优化","tactic":"针对负面反馈集中的产品（三倍厚抹、海盐厚抹等）进行配方调整，建立口味稳定性检测机制","expectedResult":"降低负面评价比例 15%，提升复购率","timeline":"本周","department":"产品研发部"},{"priority":"高","title":"经典产品回归计划","tactic":"发起'你最想念的喜茶'投票，Top3 经典产品限时返场，同步收集用户反馈","expectedResult":"挽回流失用户，提升品牌好感度","timeline":"本周","department":"市场部"},{"priority":"中","title":"负面评价主动响应机制","tactic":"在小红书、微博等平台主动联系发表负面评价的用户，了解具体问题并提供补偿/重做","expectedResult":"将部分负面评价转化为正面体验，展示品牌态度","timeline":"本周","department":"客服部"},{"priority":"中","title":"促销活动体验优化","tactic":"买一送一等活动期间增加临时人手，优化出餐流程，设置用户等待预期","expectedResult":"减少促销期间负面评价","timeline":"本月","department":"运营部"},{"priority":"低","title":"健康概念深化营销","tactic":"围绕低 GI、减脂等健康概念推出系列内容，与健身/健康 KOL 合作","expectedResult":"吸引健康意识用户群体","timeline":"本月","department":"市场部"}]},"topPosts":[],"error":null};</script>
   <script>
     (function() {
       var D = window.REPORT_DATA;
@@ -80,7 +103,46 @@
       sChart.setOption({ tooltip: { trigger: 'item' }, color: ['#52c41a', '#faad14', '#ff4d4f'], series: [{ type: 'pie', radius: ['40%', '70%'], label: { formatter: '{b}: {d}%' }, data: [{ value: analysis.sentiment.positive, name: '正面' }, { value: analysis.sentiment.neutral, name: '中性' }, { value: analysis.sentiment.negative, name: '负面' }] }] });
       var pChart = echarts.init(document.getElementById('platform-chart'));
       var pKeys = Object.keys(platforms.stats);
-      pChart.setOption({ tooltip: {}, legend: { bottom: 0 }, xAxis: { type: 'category', data: pKeys.map(function(k) { return pNames[k] || k; }) }, yAxis: [{ type: 'value', name: '数量' }, { type: 'value', name: '互动率', axisLabel: { formatter: function(v) { return (v * 100).toFixed(1) + '%'; } } }], series: [{ name: '帖子数', type: 'bar', data: pKeys.map(function(k) { return platforms.stats[k].count || 0; }) }, { name: '平均点赞', type: 'bar', data: pKeys.map(function(k) { return platforms.stats[k].avg_likes || 0; }) }, { name: '互动率', type: 'line', yAxisIndex: 1, data: pKeys.map(function(k) { return platforms.stats[k].engagement_rate || 0; }) }] });
+      var maxCount = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].count || 0; })) || 1;
+      var maxAvgLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].avg_likes || 0; })) || 1;
+      var maxTotalLikes = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].total_likes || 0; })) || 1;
+      var maxTotalComments = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].total_comments || 0; })) || 1;
+      var maxRate = Math.max.apply(null, pKeys.map(function(k) { return platforms.stats[k].engagement_rate || 0; })) || 0.01;
+      pChart.setOption({
+        tooltip: { trigger: 'item' },
+        legend: { bottom: 0, data: pKeys.map(function(k) { return pNames[k] || k; }) },
+        radar: {
+          indicator: [
+            { name: '帖子声量 (篇)', max: maxCount * 1.1 },
+            { name: '爆文潜力 (均赞)', max: maxAvgLikes * 1.1 },
+            { name: '总曝光 (总赞)', max: maxTotalLikes * 1.1 },
+            { name: '用户讨论 (总评)', max: maxTotalComments * 1.1 },
+            { name: '互动粘性 (互动率)', max: maxRate * 1.1 }
+          ],
+          shape: 'polygon',
+          splitNumber: 4,
+          axisName: { color: '#666' }
+        },
+        series: [{
+          name: '平台综合能力',
+          type: 'radar',
+          symbol: 'circle',
+          symbolSize: 6,
+          areaStyle: { opacity: 0.15 },
+          data: pKeys.map(function(k) {
+            return {
+              value: [
+                platforms.stats[k].count || 0,
+                platforms.stats[k].avg_likes || 0,
+                platforms.stats[k].total_likes || 0,
+                platforms.stats[k].total_comments || 0,
+                platforms.stats[k].engagement_rate || 0
+              ],
+              name: pNames[k] || k
+            };
+          })
+        }]
+      });
       var effEl = document.getElementById('efficiency-section');
       var eff = platforms.efficiency || {};
       var effHtml = '<table><tr><th>排名</th><th>平台</th><th>评分</th><th>说明</th></tr>';
