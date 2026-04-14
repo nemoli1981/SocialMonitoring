@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>社媒舆情日报 | 苏菲卫生巾 | 2026-04-08 ~ 2026-04-14</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:#f5f7fa;color:#333}
+.header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:40px 20px;text-align:center}
+.header h1{font-size:28px;margin-bottom:8px}
+.header .meta{opacity:0.9;font-size:14px}
+.brand-tabs{background:#fff;border-bottom:1px solid #eee;display:flex;overflow-x:auto}
+.brand-tab{padding:14px 24px;cursor:pointer;border:none;background:none;font-size:15px;white-space:nowrap;border-bottom:3px solid transparent}
+.brand-tab.active{border-bottom-color:#667eea;color:#667eea;font-weight:600}
+.content{max-width:1200px;margin:0 auto;padding:24px 16px}
+.section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.section h2{font-size:18px;margin-bottom:16px;color:#333;border-left:4px solid #667eea;padding-left:12px}
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.metric-card{background:#fff;border-radius:10px;padding:20px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+.metric-card .value{font-size:28px;font-weight:700;color:#667eea}
+.metric-card .label{font-size:13px;color:#888;margin-top:6px}
+.status-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:14px;font-weight:600}
+.status-good{background:#d4edda;color:#155724}.status-warn{background:#fff3cd;color:#856404}.status-bad{background:#f8d7da;color:#721c24}
+.sentiment-bar{display:flex;height:28px;border-radius:14px;overflow:hidden;margin:16px 0}
+.sentiment-pos{background:#28a745}.sentiment-neg{background:#dc3545}.sentiment-neu{background:#6c757d}
+.sentiment-legend{display:flex;gap:20px;justify-content:center;margin-top:10px;font-size:13px}
+.sentiment-legend span{display:flex;align-items:center;gap:6px}
+.sentiment-legend .dot{width:10px;height:10px;border-radius:50%}
+.chart-container{height:320px}
+.keyword-tag{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;margin:3px}
+.kw-positive{background:#d4edda;color:#155724}.kw-negative{background:#f8d7da;color:#721c24}
+.insight-card{border:1px solid #eee;border-radius:8px;padding:14px;margin-bottom:12px}
+.insight-card .insight-title{font-weight:600;margin-bottom:6px;font-size:14px}
+.insight-card .insight-evidence{font-size:13px;color:#666;line-height:1.5}
+.insight-card .badge-pos{background:#d4edda;color:#155724;font-size:12px;padding:2px 8px;border-radius:10px;display:inline-block;margin-left:6px}
+.insight-card .badge-neg{background:#f8d7da;color:#721c24;font-size:12px;padding:2px 8px;border-radius:10px;display:inline-block;margin-left:6px}
+.risk-item{padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:14px}
+.risk-high{background:#f8d7da;border-left:4px solid #dc3545}.risk-med{background:#fff3cd;border-left:4px solid #ffc107}.risk-low{background:#e8f4f8;border-left:4px solid #17a2b8}
+.action-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0}
+.action-item:last-child{border-bottom:none}
+.action-priority{font-size:12px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;height:fit-content}
+.priority-h{background:#f8d7da;color:#721c24}.priority-m{background:#fff3cd;color:#856404}.priority-l{background:#e8f4f8;color:#0c5460}
+.action-body{flex:1}.action-title{font-weight:600;font-size:14px}.action-meta{font-size:12px;color:#888;margin-top:3px}.action-tactic{font-size:13px;color:#555;margin-top:4px}
+.brand-section{display:none}.brand-section.active{display:block}
+.footer{text-align:center;padding:24px;color:#aaa;font-size:12px}
+h3{font-size:14px;margin:12px 0 8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>社媒舆情日报</h1>
+  <div class="meta">苏菲卫生巾 &nbsp;|&nbsp; 2026-04-08 ~ 2026-04-14 &nbsp;|&nbsp; 2026-04-14 17:26</div>
+</div>
+
+<div class="brand-tabs">
+  <button class="brand-tab active" onclick="switchBrand('sofira')">苏菲</button>
+  <button class="brand-tab" onclick="switchBrand('hushubao')">护舒宝</button>
+  <button class="brand-tab" onclick="switchBrand('gaojiesi')">高洁丝</button>
+</div>
+
+<div class="content">
+
+  <!-- Cross-brand -->
+  <div class="section">
+    <h2>跨品牌舆情对比</h2>
+    <div class="overview-grid">
+      <div class="metric-card"><div class="value" style="color:#3b82f6">护舒宝</div><div class="label">声量冠军</div></div>
+      <div class="metric-card"><div class="value" style="color:#22c55e">高洁丝</div><div class="label">情感最佳</div></div>
+      <div class="metric-card"><div class="value" style="color:#dc3545">苏菲</div><div class="label">风险品牌</div></div>
+      <div class="metric-card"><div class="value" style="color:#22c55e">高洁丝</div><div class="label">机会品牌</div></div>
+    </div>
+    <p style="font-size:14px;color:#555;line-height:1.6;margin-top:8px">护舒宝因陈都灵大使视频带来最高互动量，高洁丝全面正向零负面表现最佳；苏菲因活虫虫卵事件成唯一高风险品牌，急需危机公关；高洁丝可借苏菲舆情危机扩大市场份额</p>
+  </div>
+
+  <!-- 苏菲 -->
+  <div id="brand-sofira" class="brand-section active">
+    <div class="section">
+      <h2>苏菲卫生椒 | <span class="status-badge status-bad">负面预警</span></h2>
+      <p style="color:#666;font-size:14px;margin-bottom:16px">苏菲深陷活虫/虫卵质量风波，品牌形象受损严重，需紧急处理产品安全问题</p>
+      <div class="overview-grid">
+        <div class="metric-card"><div class="value">36%</div><div class="label">正面</div></div>
+        <div class="metric-card"><div class="value">27%</div><div class="label">中性</div></div>
+        <div class="metric-card"><div class="value">37%</div><div class="label">负面</div></div>
+        <div class="metric-card"><div class="value">9条</div><div class="label">总帖子数</div></div>
+      </div>
+      <h3>情感分布</h3>
+      <div class="sentiment-bar"><div class="sentiment-pos" style="width:36%"></div><div class="sentiment-neu" style="width:27%"></div><div class="sentiment-neg" style="width:37%"></div></div>
+      <div class="sentiment-legend">
+        <span><span class="dot" style="background:#28a745"></span>正面 36%</span>
+        <span><span class="dot" style="background:#6c757d"></span>中性 27%</span>
+        <span><span class="dot" style="background:#dc3545"></span>负面 37%</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>热门关键词</h2>
+      <h4 style="font-size:13px;color:#28a745;margin:8px 0 4px">正面类</h4>
+      <span class="keyword-tag kw-positive">本命</span>
+      <span class="keyword-tag kw-positive">王曼昱campaign</span>
+      <span class="keyword-tag kw-positive">测评对比</span>
+      <span class="keyword-tag kw-positive">促销囤货攻略</span>
+      <span class="keyword-tag kw-positive">38节礼盒</span>
+      <h4 style="font-size:13px;color:#dc3545;margin:12px 0 4px">负面类</h4>
+      <span class="keyword-tag kw-negative">活虫</span>
+      <span class="keyword-tag kw-negative">虫卵</span>
+      <span class="keyword-tag kw-negative">恶心</span>
+      <span class="keyword-tag kw-negative">避雷</span>
+      <span class="keyword-tag kw-negative">三包都有问题</span>
+    </div>
+
+    <div class="section">
+      <h2>风险预警</h2>
+      <div class="risk-item risk-high">活虫/虫卵事件已形成舆论规模，可能持续发酵</div>
+      <div class="risk-item risk-high">多平台负面内容形成扩散链</div>
+      <div class="risk-item risk-med">产品质量投诉累计多起，需系统性排查</div>
+      <div class="risk-item risk-med">竞争对手在测评中可能被对比提及</div>
+      <div class="risk-item risk-low">单条负面视频播放量较低，暂未大规模扩散</div>
+    </div>
+
+    <div class="section">
+      <h2>负面洞察</h2>
+      <div class="insight-card">
+        <div class="insight-title">活虫事件引发大规模负面传播 <span class="badge-neg">高</span></div>
+        <div class="insight-evidence">微博获赞2345，评论876，转发1234；小红书虫卵事件获赞1203，评论445</div>
+        <div style="font-size:12px;color:#888;margin-top:6px">建议：立即启动产品溯源调查，公开回应消费者，必要时启动召回</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">避雷帖扩散造成信任危机 <span class="badge-neg">高</span></div>
+        <div class="insight-evidence">避雷帖获赞876，评论321；抖音负面视频虽播放量低但需关注</div>
+        <div style="font-size:12px;color:#888;margin-top:6px">建议：加强电商渠道产品质量管控，建立快速响应机制</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>正面洞察</h2>
+      <div class="insight-card">
+        <div class="insight-title">王曼昱妇女节Campaign获得高赞好评 <span class="badge-pos">高</span></div>
+        <div class="insight-evidence">微博获赞5678，评论1234，转发3456，小红书获赞234</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">品牌种草内容表现稳定 <span class="badge-pos">中</span></div>
+        <div class="insight-evidence">苏菲本命笔记获赞523，收藏234</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>行动建议</h2>
+      <div class="action-item">
+        <span class="action-priority priority-h">高</span>
+        <div class="action-body">
+          <div class="action-title">紧急处理活虫事件舆情</div>
+          <div class="action-meta">公关+质量部门 | 本周</div>
+          <div class="action-tactic">启动产品溯源，官方声明回应，必要时配合监管部门调查 → 遏制负面舆论扩散，重建消费者信任</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-h">高</span>
+        <div class="action-body">
+          <div class="action-title">全面排查供应链质量</div>
+          <div class="action-meta">供应链+品质管理 | 本周</div>
+          <div class="action-tactic">对电商渠道产品进行专项抽检，加强仓储物流管理 → 杜绝类似问题再次发生</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-m">中</span>
+        <div class="action-body">
+          <div class="action-title">强化王曼昱代言Campaign</div>
+          <div class="action-meta">市场部 | 本月</div>
+          <div class="action-tactic">加大正面内容投放，将代言与品质承诺结合传播 → 对冲负面舆情影响</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-m">中</span>
+        <div class="action-body">
+          <div class="action-title">建立快速舆情响应机制</div>
+          <div class="action-meta">公关部 | 本月</div>
+          <div class="action-tactic">针对小红书/微博负面内容建立24小时监测和响应流程 → 及时发现和处理潜在危机</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 护舒宝 -->
+  <div id="brand-hushubao" class="brand-section">
+    <div class="section">
+      <h2>护舒宝 | <span class="status-badge status-warn">中性偏正</span></h2>
+      <p style="color:#666;font-size:14px;margin-bottom:16px">护舒宝品牌大使陈都灵带来极高曝光，正面声势强劲，但个别产品异物投诉需关注</p>
+      <div class="overview-grid">
+        <div class="metric-card"><div class="value">50%</div><div class="label">正面</div></div>
+        <div class="metric-card"><div class="value">17%</div><div class="label">中性</div></div>
+        <div class="metric-card"><div class="value">33%</div><div class="label">负面</div></div>
+        <div class="metric-card"><div class="value">6条</div><div class="label">总帖子数</div></div>
+      </div>
+      <div class="sentiment-bar"><div class="sentiment-pos" style="width:50%"></div><div class="sentiment-neu" style="width:17%"></div><div class="sentiment-neg" style="width:33%"></div></div>
+      <div class="sentiment-legend">
+        <span><span class="dot" style="background:#28a745"></span>正面 50%</span>
+        <span><span class="dot" style="background:#6c757d"></span>中性 17%</span>
+        <span><span class="dot" style="background:#dc3545"></span>负面 33%</span>
+      </div>
+    </div>
+    <div class="section">
+      <h2>热门关键词</h2>
+      <h4 style="font-size:13px;color:#28a745;margin:8px 0 4px">正面类</h4>
+      <span class="keyword-tag kw-positive">液体卫生巾真的绝</span>
+      <span class="keyword-tag kw-positive">高品质高标准</span>
+      <span class="keyword-tag kw-positive">并肩同行</span>
+      <span class="keyword-tag kw-positive">陈都灵共创视频</span>
+      <h4 style="font-size:13px;color:#dc3545;margin:12px 0 4px">负面类</h4>
+      <span class="keyword-tag kw-negative">有异物</span>
+      <span class="keyword-tag kw-negative">毒卫生巾</span>
+    </div>
+    <div class="section">
+      <h2>风险预警</h2>
+      <div class="risk-item risk-med">个别产品异物投诉需持续关注</div>
+      <div class="risk-item risk-med">竞品对比测评中可能被提及</div>
+      <div class="risk-item risk-low">负面内容量和互动量均较低</div>
+    </div>
+    <div class="section">
+      <h2>洞察</h2>
+      <div class="insight-card">
+        <div class="insight-title">陈都灵品牌大使视频爆发式传播 <span class="badge-pos">高</span></div>
+        <div class="insight-evidence">微博获赞41368，评论69800，转发83652，曝光量级极高</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">品牌理念共创内容表现稳定 <span class="badge-pos">中</span></div>
+        <div class="insight-evidence">高品质高标准内容获赞547，评论951，转发24905</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">个别产品异物投诉 <span class="badge-neg">中</span></div>
+        <div class="insight-evidence">小红书避雷帖获赞234，评论89</div>
+        <div style="font-size:12px;color:#888;margin-top:6px">建议：关注个案处理，确保客服妥善解决，防止个别投诉发酵</div>
+      </div>
+    </div>
+    <div class="section">
+      <h2>行动建议</h2>
+      <div class="action-item">
+        <span class="action-priority priority-h">高</span>
+        <div class="action-body">
+          <div class="action-title">乘势加强陈都灵合作</div>
+          <div class="action-meta">市场部 | 本周</div>
+          <div class="action-tactic">延续品牌大使合作产出更多共创内容 → 维持高曝光态势</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-m">中</span>
+        <div class="action-body">
+          <div class="action-title">液体卫生巾产品力传播</div>
+          <div class="action-meta">市场部 | 本月</div>
+          <div class="action-tactic">加大液体卫生巾技术优势的内容投放 → 强化技术领先认知</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-m">中</span>
+        <div class="action-body">
+          <div class="action-title">产品质量监控</div>
+          <div class="action-meta">品质管理 | 本月</div>
+          <div class="action-tactic">加强个别投诉产品批次追溯 → 防止个案扩大化</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 高洁丝 -->
+  <div id="brand-gaojiesi" class="brand-section">
+    <div class="section">
+      <h2>高洁丝 | <span class="status-badge status-good">全面正向</span></h2>
+      <p style="color:#666;font-size:14px;margin-bottom:16px">高洁丝凭借田曦薇直播带货和粉丝实测内容全面正向，舆情健康度最高</p>
+      <div class="overview-grid">
+        <div class="metric-card"><div class="value" style="color:#22c55e">100%</div><div class="label">正面</div></div>
+        <div class="metric-card"><div class="value">0%</div><div class="label">负面</div></div>
+        <div class="metric-card"><div class="value">6条</div><div class="label">总帖子数</div></div>
+        <div class="metric-card"><div class="value">10.9万</div><div class="label">抖音最高播放</div></div>
+      </div>
+      <div class="sentiment-bar"><div class="sentiment-pos" style="width:100%"></div></div>
+      <div class="sentiment-legend"><span><span class="dot" style="background:#28a745"></span>正面 100%</span></div>
+    </div>
+    <div class="section">
+      <h2>热门关键词</h2>
+      <h4 style="font-size:13px;color:#28a745;margin:8px 0 4px">正面类</h4>
+      <span class="keyword-tag kw-positive">田曦薇直播推荐</span>
+      <span class="keyword-tag kw-positive">蔓越莓最好用</span>
+      <span class="keyword-tag kw-positive">笑容绝了</span>
+      <span class="keyword-tag kw-positive">萌</span>
+      <span class="keyword-tag kw-positive">粉丝实测文档</span>
+    </div>
+    <div class="section">
+      <h2>正面洞察</h2>
+      <div class="insight-card">
+        <div class="insight-title">田曦薇直播引爆购买热潮 <span class="badge-pos">高</span></div>
+        <div class="insight-evidence">小红书获赞1893，评论445，收藏678；微博转发12741</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">品牌大使形象内容高度正面 <span class="badge-pos">高</span></div>
+        <div class="insight-evidence">田曦薇笑容绝了获赞956，评论234；萌宝宝获赞49</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-title">粉丝实测内容破圈传播 <span class="badge-pos">高</span></div>
+        <div class="insight-evidence">抖音实测文档视频播放109000，表现突出</div>
+      </div>
+    </div>
+    <div class="section">
+      <h2>行动建议</h2>
+      <div class="action-item">
+        <span class="action-priority priority-h">高</span>
+        <div class="action-body">
+          <div class="action-title">深化田曦薇合作</div>
+          <div class="action-meta">市场部 | 本周</div>
+          <div class="action-tactic">策划更多直播专场和内容共创 → 延续高热度</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-h">高</span>
+        <div class="action-body">
+          <div class="action-title">复制粉丝实测模式</div>
+          <div class="action-meta">品牌部 | 本月</div>
+          <div class="action-tactic">发起更多KOC实测征集活动 → 沉淀真实口碑内容</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <span class="action-priority priority-m">中</span>
+        <div class="action-body">
+          <div class="action-title">蔓越莓产品线推广</div>
+          <div class="action-meta">产品部 | 本月</div>
+          <div class="action-tactic">借势实测好评内容加大投放 → 提升产品线认知</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图表 -->
+  <div class="section">
+    <h2>三品牌舆情对比图表</h2>
+    <div id="compare-chart" class="chart-container"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  由 Hermes Agent 自动生成 &nbsp;|&nbsp; 苏菲卫生巾 社媒舆情日报 &nbsp;|&nbsp; 2026-04-14 17:26
+</div>
+
+<script>
+function switchBrand(name){
+  document.querySelectorAll('.brand-section').forEach(function(s){s.classList.remove('active')});
+  document.querySelectorAll('.brand-tab').forEach(function(t){t.classList.remove('active')});
+  document.getElementById('brand-'+name).classList.add('active');
+  var tabs=document.querySelectorAll('.brand-tab');
+  var idx={'sofira':0,'hushubao':1,'gaojiesi':2}[name];
+  if(tabs[idx])tabs[idx].classList.add('active');
+}
+
+var chartDom=document.getElementById('compare-chart');
+var myChart=echarts.init(chartDom);
+var option={
+  tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+  legend:{data:['苏菲','护舒宝','高洁丝'],top:0},
+  grid:{left:'3%',right:'4%',bottom:'3%',top:'50px',containLabel:true},
+  xAxis:{type:'category',data:['正面率','中性率','负面率','综合得分']},
+  yAxis:{type:'value',max:100},
+  series:[
+    {name:'苏菲',type:'bar',data:[36,27,37,36],itemStyle:{color:'#f97316'},label:{show:true,position:'top',formatter:'{c}%'}},
+    {name:'护舒宝',type:'bar',data:[50,17,33,50],itemStyle:{color:'#3b82f6'},label:{show:true,position:'top',formatter:'{c}%'}},
+    {name:'高洁丝',type:'bar',data:[100,0,0,100],itemStyle:{color:'#22c55e'},label:{show:true,position:'top',formatter:'{c}%'}}
+  ]
+};
+myChart.setOption(option);
+window.addEventListener('resize',function(){myChart.resize()});
+</script>
+
+</body>
+</html>
